@@ -1,0 +1,7 @@
+{
+  "name": "sextant",
+  "version": "0.1.0",
+  "description": "AI-assisted SPEC-driven development — write requirements first, audit implementations against them, graduate the winner.",
+  "keywords": ["spec-driven", "ears", "requirements", "audit", "ai", "claude-code"],
+  "license": "MIT"
+}
