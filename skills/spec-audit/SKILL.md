@@ -224,5 +224,6 @@ Common axes the skill should handle:
 - **EARS conformance** — flag requirements that don't follow any EARS pattern.
 - **Cross-requirement contradictions** — pairs of requirements that conflict.
 - **Coverage of a sub-system** — when the user names a category prefix or section, audit only that scope.
+- **Concept questions** — when the user asks `/sextant:spec-audit what does X mean?` (or `where is X used?`, `does X do anything?`), narrow to the concept and produce: (a) the definition with spec line references, (b) implementation pointers from a grep across the impl tree, (c) an explicit **orphaned-tracking** check — is the concept plumbed through state / overrides / hooks but never reaching any render surface (or output, API, side effect)? When the answer to (c) is "yes, fully tracked, no render surface" — that's load-bearing context for a removal decision. Don't recommend the removal; surface the finding and let the user decide.
 
 When axis-focused audits are ideal use cases for delegation to a subagent: pass the spec path, the axis prompt, and a word budget, and let the subagent return findings while the main agent works on something else. This keeps the full spec text out of the main agent's context.
