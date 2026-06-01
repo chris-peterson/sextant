@@ -18,8 +18,9 @@ A sextant is the precision nautical instrument used to fix position against exte
 
 1. **Install the plugin.**
 
-   ```text
-   /plugin install sextant
+   ```bash
+   claude plugin marketplace add chris-peterson/claude-marketplace
+   claude plugin install sextant@chris-peterson
    ```
 
 2. **Write or locate a `SPEC.md`** in your project — or scaffold one from scratch with `/sextant:spec-req init`. Sextant looks in `spec/<version>/`, a justfile `spec` variable, `CURRENT_SPEC_VERSION`, and the repo root.
