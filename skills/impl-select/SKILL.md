@@ -38,7 +38,7 @@ flowchart TD
     subgraph "Step 5: Verify"
         FixPaths --> Build["Build + test from new root"]
         Build --> Install["Smoke-test install path"]
-        Install --> Audit["/sextant:spec-audit gate"]
+        Install --> Audit["/sextant:spec-sync gate"]
         Audit --> Pass{"All pass?"}
         Pass -->|No| Diagnose["Diagnose; do NOT paper over"]
         Pass -->|Yes| Done(["Graduated"])
@@ -109,8 +109,8 @@ Run the full verification chain. **Do not paper over a failure** — if somethin
 
 1. `npm install && npm run build && npm test` (or stack equivalent) — must pass from the new root.
 2. Smoke-test the install path: `just install` (or the documented install command). Verify the installed binary still works (`tack --help`, `tool --version`, etc.).
-3. Run `/sextant:spec-audit` on the flattened tree. The audit should match what it produced before graduation; any regressions are graduation-induced and must be fixed before declaring done.
-4. Report the audit summary back to the user as the final gate.
+3. Run `/sextant:spec-sync` on the flattened tree. Its coverage analysis should match what it produced before graduation; any regressions are graduation-induced and must be fixed before declaring done.
+4. Report the analysis summary back to the user as the final gate.
 
 ### Step 6: Inform the recipe
 
@@ -126,11 +126,11 @@ If graduation surfaced friction your spec-driven recipe didn't anticipate (e.g. 
 
 - **Guessing the candidate** — if the active implementation isn't unambiguous from justfile / CI / bin shims, ask the user. Don't pick the largest or newest implementation by inspection.
 - **Doing graduation in pieces** — half-graduated trees are confusing. Flatten in one commit (or PR), with all references rewritten and verification passing.
-- **Skipping the audit gate** — `/sextant:spec-audit` is the final check. A graduated tree that doesn't match the spec has drifted during the rewrite.
+- **Skipping the audit gate** — `/sextant:spec-sync` is the final check. A graduated tree that doesn't match the spec has drifted during the rewrite.
 - **Reframing prior implementations as failures** — they did their job by surfacing spec problems. Use neutral or positive language ("retired", "exploratory") rather than "losers" or "deprecated."
 - **Versioning the spec just because you graduated** — graduation is about implementation indirection, not spec stability. Only version the spec if there's actually a v2 worth of changes.
 
 ## Related
 
-- [`/sextant:spec-audit`](../spec-audit/SKILL.md) — invoked as the final gate.
-- [`/sextant:spec-req`](../spec-req/SKILL.md) — useful if the audit surfaces requirements that were added during exploration but never formalized.
+- [`/sextant:spec-sync`](../spec-sync/SKILL.md) — invoked as the final gate.
+- [`/sextant:spec-req`](../spec-req/SKILL.md) — useful if the analysis surfaces requirements that were added during exploration but never formalized.

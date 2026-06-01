@@ -12,8 +12,9 @@ End-user docs: https://chris-peterson.github.io/sextant
 
 ```text
 .claude-plugin/plugin.json   plugin manifest
-skills/spec-req/             /sextant:spec-req — look up, trace, and create spec requirements
-skills/spec-audit/           /sextant:spec-audit — audit implementation coverage against SPEC.md
+skills/spec-req/             /sextant:spec-req — look up, trace, create spec requirements, and bootstrap a new spec (init)
+skills/spec-status/          /sextant:spec-status — refresh STATUS.md to match current coverage (lightweight, automatable ledger writer)
+skills/spec-sync/            /sextant:spec-sync — full-domain coverage + drift analysis of SPEC.md vs code; one-way --to-spec / --to-source reconciliation
 skills/impl-new/             /sextant:impl-new — scaffold a new candidate implementation under implementations/<v>/<slug>/
 skills/impl-select/          /sextant:impl-select — select the winning candidate from implementations/ and graduate it to the repo root
 docs/                        end-user docs site (docsify, GitHub Pages)

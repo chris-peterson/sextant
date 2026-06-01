@@ -1,7 +1,7 @@
 ---
 name: spec-req
-description: Look up, trace, and create spec requirements. Triggers on 'spec-req', requirement IDs (e.g., 'CM-01'), category prefixes (e.g., 'CM'), or 'new requirement'.
-argument-hint: "<XX-NN | XX | new>"
+description: Look up, trace, and create spec requirements, and bootstrap a new SPEC.md. Triggers on 'spec-req', requirement IDs (e.g., 'CM-01'), category prefixes (e.g., 'CM'), 'new requirement', or 'init' / 'bootstrap spec' / 'set up a spec'.
+argument-hint: "<XX-NN | XX | new | init>"
 ---
 
 # Spec Req
@@ -16,6 +16,14 @@ flowchart TD
     Parse{"Parse argument"} -->|"XX-NN"| Single["Single requirement lookup"]
     Parse -->|"XX"| Category["Category lookup"]
     Parse -->|"new"| New["New requirement"]
+    Parse -->|"init"| Init["Bootstrap new spec"]
+
+    subgraph "Bootstrap"
+        Init --> Vision["Gather vision / scope"]
+        Vision --> Location["Choose spec location"]
+        Location --> Scaffold["Write SPEC.md skeleton + STATUS.md stub"]
+        Scaffold --> Handoff["Hand off to 'new' for first requirements"]
+    end
 
     subgraph "Lookup"
         Single --> FindSpec["Locate SPEC.md"]
@@ -39,12 +47,13 @@ flowchart TD
 
 ## Locate the spec
 
-Find the current SPEC.md. Check in order:
+Find the current SPEC.md (the same order every sextant spec skill uses). Check in order:
 
-1. `spec/` directory at the repo root or in common subfolder locations (`vnext/`, `exploration/`, `migration/`)
-2. Justfile `spec` variable pointing to the current version
-3. `CURRENT_SPEC_VERSION` environment variable
-4. `SPEC.md` at the repo root
+1. If a `STATUS.md` exists, read its spec-pointer link first — it names where its own spec lives, which catches non-standard locations (e.g. a lowercase `docs/spec.md`) the generic search would miss.
+2. `spec/` directory at the repo root or in common subfolder locations (`vnext/`, `exploration/`, `migration/`)
+3. Justfile `spec` variable pointing to the current version
+4. `CURRENT_SPEC_VERSION` environment variable
+5. `SPEC.md` (or `docs/spec.md`) at the repo root
 
 If no SPEC.md is found, ask the user where it is.
 
@@ -159,6 +168,93 @@ Captured [XX-NN]: <short description>
   → SPEC.md updated
   → STATUS.md updated (if applicable)
   → N implementations updated (if applicable)
+```
+
+## Mode: Bootstrap a new spec (`sextant:spec-req init`)
+
+Stand up a spec-driven repo from scratch — there's no SPEC.md yet. This is the
+zeroth authoring step: once the skeleton exists, every other mode (and the rest
+of sextant — `spec-sync`, `spec-status`, `impl-new`) operates on it.
+
+### Step 1: Confirm there's no spec already
+
+Run the locate order from the top of this skill. If a spec already exists,
+**stop** and say so — `init` is for fresh repos; use `new` to add requirements
+to an existing spec.
+
+### Step 2: Gather vision and scope (conversational)
+
+Ask for:
+
+- **What the project does** — the one- or two-sentence contract. This becomes
+  the spec's opening line.
+- **Key concepts/nouns** the spec will reference — these seed the Concepts
+  section so requirement text has defined terms to lean on.
+- **Anticipated requirement categories** (config, CLI, rendering, …) — used to
+  seed empty category sections with 2-3 letter mnemonic prefixes. Don't force
+  this; a single starter category is fine, and more get added via `new`.
+- **Whether multiple implementations are expected** — informs the spec
+  location in Step 3.
+
+### Step 3: Choose the spec location
+
+Per the standard locate order:
+
+- **Root `SPEC.md`** — simplest; for a single-implementation repo or an
+  existing project adopting spec-driven in place.
+- **`spec/<version>/SPEC.md`** (e.g. `spec/v1/SPEC.md`) — the versioned layout;
+  pairs with an `implementations/<version>/` tree when you expect to explore
+  multiple candidates. Record the version in the justfile `spec` variable so
+  the other skills resolve it.
+
+Ask which; default to root `SPEC.md` unless the user expects multiple
+implementations.
+
+### Step 4: Scaffold
+
+Write the SPEC.md skeleton — an EARS preamble, a Concepts section, and empty
+categorized requirement sections (no requirements yet):
+
+```markdown
+# <project> — Specification
+
+<one- or two-sentence contract from Step 2>
+
+Requirements use [EARS syntax](https://alistairmavin.com/ears) — each is one of:
+Ubiquitous (`The <system> shall …`), State-Driven (`While …`), Event-Driven
+(`When …`), Optional (`Where …`), or Unwanted Behaviour (`If … then …`).
+
+## Concepts
+
+- **<term>** — <definition>
+
+## Requirements
+
+### <PREFIX> — <category name>
+
+_(none yet — add with `/sextant:spec-req new`)_
+```
+
+Then write a `STATUS.md` stub in the canonical shape that `spec-status`
+maintains (zero requirements so far), and — if the versioned layout was chosen
+— note the `implementations/<version>/` convention, or document that the repo
+starts with a single root implementation.
+
+**Do not invent requirements during `init`.** The skeleton is empty by design;
+requirements come next via `new`.
+
+### Step 5: Hand off
+
+Report what was scaffolded, then flow into `new` for the first real
+requirement:
+
+```text
+Scaffolded:
+  → SPEC.md (EARS preamble, Concepts, N empty category sections)
+  → STATUS.md stub
+  → spec location: <root SPEC.md | spec/v1/SPEC.md, justfile spec=v1>
+
+Next: add your first requirement — /sextant:spec-req new
 ```
 
 ## Multiple implementations

@@ -162,7 +162,7 @@ test:
 
 ### `STATUS.md`
 
-Seed with every non-FUT requirement ID from SPEC.md, each marked `unmet`. The user (and `/sextant:spec-audit`) will flip entries to `covered` / `partial` as implementation progresses.
+Seed with every non-FUT requirement ID from SPEC.md, each marked `unmet`. The user (and `/sextant:spec-status`) will flip entries to `covered` / `partial` as implementation progresses.
 
 ```markdown
 # STATUS — <slug>
@@ -200,14 +200,14 @@ Do not start implementing yourself. The skill's job is to scaffold and frame the
 
 ## Anti-Patterns
 
-- **Scaffolding without a spec** — if SPEC.md doesn't exist or doesn't have requirement IDs, stop and ask the user to draft one first (`/sextant:spec-req new` can help). An implementation without a spec to verify against isn't a candidate, it's just code.
+- **Scaffolding without a spec** — if SPEC.md doesn't exist or doesn't have requirement IDs, stop and ask the user to draft one first (`/sextant:spec-req init` bootstraps a fresh spec; `/sextant:spec-req new` adds requirements). An implementation without a spec to verify against isn't a candidate, it's just code.
 - **Skipping the conversational gather** — slug + "default Python project" is not enough. The plan in Step 4 depends on stack + constraints; jumping straight to scaffolding produces a generic skeleton that gets thrown away the moment the user tries to add their actual stack choices.
 - **Porting from siblings** — if existing implementations have files, do not copy them. The candidate's job is to build from the spec, not to recapitulate prior work. If a sibling solved an interesting problem worth referencing, note it in the plan for the user — don't pre-seed code from it.
-- **Filling STATUS.md with optimistic guesses** — every requirement starts `unmet`. Resist marking entries `covered` based on stack convention ("React will handle accessibility") — let `/sextant:spec-audit` verify after the implementation exists.
+- **Filling STATUS.md with optimistic guesses** — every requirement starts `unmet`. Resist marking entries `covered` based on stack convention ("React will handle accessibility") — let `/sextant:spec-sync` verify after the implementation exists.
 - **Numbering off-by-one** — `1-python` already exists, user asks for `1-rust`. Refuse and propose the next available number, or ask whether to retire `1-python` first.
 
 ## Related
 
 - [`/sextant:spec-req`](../spec-req/SKILL.md) — useful before scaffolding if SPEC.md is missing requirement IDs or needs a new requirement captured first.
-- [`/sextant:spec-audit`](../spec-audit/SKILL.md) — run after the first slice to verify the candidate is on track. The seeded STATUS.md is the input the audit reads against.
+- [`/sextant:spec-sync`](../spec-sync/SKILL.md) — run after the first slice to verify the candidate is on track. The seeded STATUS.md is the input its analysis reads against.
 - [`/sextant:impl-select`](../impl-select/SKILL.md) — the inverse operation. When one candidate has earned the right to be the only one, `impl-select` retires the others and flattens the winner to the repo root.

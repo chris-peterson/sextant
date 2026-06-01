@@ -1,6 +1,7 @@
 - [Home](/)
 - [Skills](/skills)
   - [spec-req](/skills/spec-req)
-  - [spec-audit](/skills/spec-audit)
+  - [spec-status](/skills/spec-status)
+  - [spec-sync](/skills/spec-sync)
   - [impl-new](/skills/impl-new)
   - [impl-select](/skills/impl-select)
