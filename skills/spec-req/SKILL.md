@@ -1,7 +1,7 @@
 ---
 name: spec-req
 description: Look up, trace, and create spec requirements, and bootstrap a new SPEC.md. Triggers on 'spec-req', requirement IDs (e.g., 'CM-01'), category prefixes (e.g., 'CM'), 'new requirement', or 'init' / 'bootstrap spec' / 'set up a spec'.
-argument-hint: "<XX-NN | XX | new | init>"
+argument-hint: "<XX-NN | XX | new | init [from <doc>]>"
 ---
 
 # Spec Req
@@ -19,10 +19,16 @@ flowchart TD
     Parse -->|"init"| Init["Bootstrap new spec"]
 
     subgraph "Bootstrap"
-        Init --> Vision["Gather vision / scope"]
+        Init --> HasDoc{"from doc?"}
+        HasDoc -->|"no"| Vision["Gather vision / scope"]
+        HasDoc -->|"yes"| ReadDoc["Read source document"]
+        ReadDoc --> Vision
         Vision --> Location["Choose spec location"]
         Location --> Scaffold["Write SPEC.md skeleton + STATUS.md stub"]
-        Scaffold --> Handoff["Hand off to 'new' for first requirements"]
+        Scaffold --> FromDoc{"from doc?"}
+        FromDoc -->|"yes"| Populate["Extract EARS requirements into SPEC.md"]
+        FromDoc -->|"no"| Handoff["Hand off to 'new' for first requirements"]
+        Populate --> Handoff
     end
 
     subgraph "Lookup"
@@ -33,8 +39,8 @@ flowchart TD
     end
 
     subgraph "Trace"
-        Table --> Trace["Search implementations"]
-        Trace --> Gaps["Report gaps both directions"]
+        Table --> Search["Search implementations"]
+        Search --> Gaps["Report gaps both directions"]
     end
 
     subgraph "Create"
@@ -170,11 +176,22 @@ Captured [XX-NN]: <short description>
   → N implementations updated (if applicable)
 ```
 
-## Mode: Bootstrap a new spec (`sextant:spec-req init`)
+## Mode: Bootstrap a new spec (`sextant:spec-req init [from <doc>]`)
 
 Stand up a spec-driven repo from scratch — there's no SPEC.md yet. This is the
 zeroth authoring step: once the skeleton exists, every other mode (and the rest
 of sextant — `spec-sync`, `spec-status`, `impl-new`) operates on it.
+
+Two variants:
+
+- **`init`** (no source) — gather vision conversationally and scaffold an empty
+  skeleton; requirements come next via `new`.
+- **`init from <doc>`** — treat `<doc>` (a path or URL to a PRD, design doc,
+  README, RFC, …) as a **requirements source**: derive vision and concepts from
+  it, then extract its requirements into SPEC.md as EARS statements. The result
+  is a populated spec, not an empty skeleton.
+
+The steps below are shared; the `from <doc>` additions are called out inline.
 
 ### Step 1: Confirm there's no spec already
 
@@ -182,9 +199,16 @@ Run the locate order from the top of this skill. If a spec already exists,
 **stop** and say so — `init` is for fresh repos; use `new` to add requirements
 to an existing spec.
 
-### Step 2: Gather vision and scope (conversational)
+### Step 2: Gather vision and scope
 
-Ask for:
+**With `from <doc>`:** read the source first (Read for a path, WebFetch for a
+URL), then derive the vision, key concepts, and candidate requirement
+categories from its content instead of asking. Confirm the derived contract and
+category set with the user in one pass rather than interviewing field by field —
+they can correct the draft. Keep the document open; Step 4b extracts
+requirements from it.
+
+**Without a source — ask for:**
 
 - **What the project does** — the one- or two-sentence contract. This becomes
   the spec's opening line.
@@ -240,13 +264,53 @@ maintains (zero requirements so far), and — if the versioned layout was chosen
 — note the `implementations/<version>/` convention, or document that the repo
 starts with a single root implementation.
 
-**Do not invent requirements during `init`.** The skeleton is empty by design;
-requirements come next via `new`.
+**Without a source: do not invent requirements during `init`.** The skeleton is
+empty by design; requirements come next via `new`. (This restriction is lifted
+for `from <doc>`, where the document *is* the requirements source — see below.)
+
+### Step 4b: Populate from the source document (`from <doc>` only)
+
+When a source document was passed, the category sections are not left empty —
+extract the document's requirements into them:
+
+1. **Extract candidate requirements** from the document read in Step 2. Capture
+   every distinct behavior, constraint, or rule it states — favor coverage; the
+   user prunes in confirmation.
+2. **Classify and number** each candidate into the categories from Step 2 (the
+   same classification logic as `new` Step 1: match an existing category or mint
+   a 2-3 letter mnemonic, assign the next number per category).
+3. **Draft each in [EARS syntax](https://alistairmavin.com/ears)** — pick the
+   pattern that fits the requirement's activation (Ubiquitous, State-Driven,
+   Event-Driven, Optional, Unwanted Behaviour), exactly as in `new` Step 1.
+4. **Present the full extracted set for confirmation** as a table grouped by
+   category, so the user can correct wording, drop noise, or re-bucket before
+   anything lands:
+
+```text
+Extracted N requirements from <doc>:
+
+### CM — Configuration
+  [CM-01] When the CLI starts, the system shall load config from <path>.
+  [CM-02] If a required key is missing, then the system shall exit non-zero.
+
+### RN — Rendering
+  [RN-01] The system shall render output as <format>.
+
+Confirm, edit, or drop any before I write them.
+```
+
+5. **Bulk-write the confirmed set** into SPEC.md under their category sections,
+   sorted by ID, replacing the `_(none yet …)_` placeholders. Seed STATUS.md
+   accordingly (every requirement starts uncovered, since no implementation
+   exists yet). Note in your summary that these requirements are *derived from*
+   the document and should be reviewed against it — extraction is a draft, not
+   an authority.
 
 ### Step 5: Hand off
 
-Report what was scaffolded, then flow into `new` for the first real
-requirement:
+Report what was scaffolded.
+
+**Without a source** — flow into `new` for the first real requirement:
 
 ```text
 Scaffolded:
@@ -255,6 +319,18 @@ Scaffolded:
   → spec location: <root SPEC.md | spec/v1/SPEC.md, justfile spec=v1>
 
 Next: add your first requirement — /sextant:spec-req new
+```
+
+**With `from <doc>`** — report the populated spec:
+
+```text
+Scaffolded from <doc>:
+  → SPEC.md (EARS preamble, Concepts, N requirements across M categories)
+  → STATUS.md (N requirements, all uncovered)
+  → spec location: <root SPEC.md | spec/v1/SPEC.md, justfile spec=v1>
+
+Review the extracted requirements against the source, then start an
+implementation — /sextant:impl-new — or refine with /sextant:spec-req new.
 ```
 
 ## Multiple implementations

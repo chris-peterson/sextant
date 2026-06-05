@@ -19,6 +19,9 @@
   `--to-source` surfaces the implementation gap list for a dev session.
 - `/sextant:spec-req init` — bootstrap a fresh `SPEC.md` + `STATUS.md` stub
   conversationally, replacing the need for a separate bootstrap skill.
+  `init from <doc>` takes a PRD, design doc, or README (path or URL) as a
+  requirements source and extracts its requirements into `SPEC.md` as EARS
+  statements, rather than scaffolding an empty skeleton.
 
 ### Other
 
