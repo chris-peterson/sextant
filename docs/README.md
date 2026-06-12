@@ -1,8 +1,27 @@
-# <img src="favicon.svg" alt="sextant" width="64" height="64" style="vertical-align: middle"> sextant
+<style>
+.hero{position:relative;aspect-ratio:1200/520;border-radius:14px;overflow:hidden;margin:0 0 2rem;background:#15161e url(hero.svg) center/cover no-repeat}
+.hero__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,14,19,.97) 0%,rgba(13,14,19,.9) 30%,rgba(13,14,19,.4) 52%,rgba(13,14,19,0) 70%),linear-gradient(0deg,rgba(13,14,19,.7),rgba(13,14,19,0) 38%)}
+.hero__body{position:absolute;left:0;bottom:0;padding:clamp(1.1rem,3.5vw,2.6rem);max-width:min(560px,74%)}
+.hero__title{font-family:Georgia,'Iowan Old Style','Times New Roman',serif;font-weight:600;font-size:clamp(2.2rem,6vw,3.8rem);line-height:.95;margin:0;color:#f8f8f2;text-shadow:0 2px 16px rgba(13,14,19,.95),0 1px 2px rgba(13,14,19,.9)}
+.hero__tag{font-size:clamp(1rem,2.4vw,1.4rem);color:#8be9fd;font-weight:600;margin:.55rem 0 .35rem;text-shadow:0 1px 10px rgba(13,14,19,.85)}
+.hero__sub{color:#c9ccd8;font-size:clamp(.82rem,1.5vw,1rem);line-height:1.5;margin:0 0 1.05rem}
+.hero__cta a{display:inline-block;margin:0 .55rem .4rem 0;padding:.5rem .95rem;border-radius:8px;font-size:.92rem;text-decoration:none;transition:transform .12s ease}
+.hero__cta a:hover{transform:translateY(-1px)}
+.hero__cta .primary{background:#8be9fd;color:#15161e;font-weight:700}
+.hero__cta .ghost{border:1px solid #6272a4;color:#f8f8f2}
+</style>
 
-AI-assisted SPEC-driven development — write requirements first, audit implementations against them, graduate the winner.
+<div class="hero">
+  <div class="hero__scrim"></div>
+  <div class="hero__body">
+    <h1 class="hero__title">sextant</h1>
+    <p class="hero__tag">"Best-effort" SPEC-driven development</p>
+    <p class="hero__sub">Write requirements first, measure how well the code covers them, and keep the spec honest as both change.</p>
+    <p class="hero__cta"><a class="primary" href="#/?id=quickstart">Quickstart</a><a class="ghost" href="https://github.com/chris-peterson/sextant">GitHub</a></p>
+  </div>
+</div>
 
-A sextant is the precision nautical instrument used to fix position against external references. Here, the external reference is your `SPEC.md`, and the position is your implementation's coverage of it.
+A sextant is the precision nautical instrument for fixing your position against fixed references — it doesn't plot the voyage in advance, it tells you where you are right now. Here the reference is your `SPEC.md` and the position is your code's coverage of it: take a fix whenever you need to know how far you've drifted from course.
 
 ## Interface
 
@@ -35,17 +54,18 @@ A sextant is the precision nautical instrument used to fix position against exte
 
 4. **Iterate.** As you discover new requirements during implementation, capture them with `/sextant:spec-req new`. When one implementation has clearly won out of the exploration tree, run `/sextant:impl-select` to flatten the repo.
 
-## Why spec-driven
+## Why "best-effort"
 
-Spec-driven development inverts the usual order: you write requirements in [EARS syntax](https://alistairmavin.com/ears) first, then build candidate implementations against them, then promote the one that wins. The spec is the contract; the implementations are instrumented experiments that surface gaps and ambiguities in the contract.
+Heavyweight, dogmatic spec-first tools age like milk: great at the demo, stale soon after. The spec is treated as a gate — complete and correct before any code, generated once, then frozen — and nothing in the workflow keeps it true once the code moves on, so it decays into documentation that no longer matches the code.
 
-Sextant gives you the operations that loop benefits from:
+Sextant treats the spec as a living reference rather than a gate:
 
-- **Author** — `spec-req` bootstraps a new spec (`init`), then connects requirement IDs to the code that satisfies them as you trace and add more.
-- **Reconcile** — `spec-sync` measures coverage and flags drift in both directions, then applies one-way syncs on request.
-- **Track** — `spec-status` keeps `STATUS.md` current; small enough to wire into `/ship-it` and hooks.
-- **Scaffold** — `impl-new` frames a candidate against the spec with intentional stack and constraint choices.
-- **Select** — `impl-select` ends the exploration phase cleanly by graduating the winner.
+- **Partial coverage is a state, not a failure.** `spec-status` and `spec-sync` measure the gap between spec and code instead of demanding you close it before proceeding.
+- **Drift is surfaced, not forbidden.** `spec-sync` flags divergence in both directions — requirements with no code, code with no requirement — so the spec earns its keep by staying honest.
+- **Requirements have identity.** Requirements are written in [EARS syntax](https://alistairmavin.com/ears) with stable IDs you can trace to the code that satisfies them.
+- **Implementations compete.** `impl-new` scaffolds candidates against one spec; `impl-select` graduates the winner.
+
+If you want to go from an idea to a first implementation, a forward generator like [spec-kit](https://github.com/github/spec-kit) is built for that. Sextant is for the other side of the loop: keeping a spec and a codebase reconciled over time, and baking off candidate implementations against the spec.
 
 ## Reference
 

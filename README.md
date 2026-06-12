@@ -1,6 +1,6 @@
 # sextant
 
-AI-assisted SPEC-driven development.
+AI-assisted, "best-effort" SPEC-driven development.
 
 A Claude Code plugin that writes requirements first, audits implementations against them, and graduates the winning candidate from the spec-driven exploration tree to **the** implementation at the repo root.
 

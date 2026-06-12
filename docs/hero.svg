@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" role="img" aria-label="Abstract sextant geometry: the angle between a star and the horizon, read on the arc.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#15161e"/>
+      <stop offset="0.69" stop-color="#1c1e29"/>
+      <stop offset="0.691" stop-color="#121219"/>
+      <stop offset="1" stop-color="#0d0e13"/>
+    </linearGradient>
+    <radialGradient id="starGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f8f8f2" stop-opacity="0.95"/>
+      <stop offset="0.16" stop-color="#bd93f9" stop-opacity="0.6"/>
+      <stop offset="0.45" stop-color="#8be9fd" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#8be9fd" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="0.5" cy="0.5" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.38"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#bg)"/>
+
+  <!-- celestial glow behind the target -->
+  <rect x="40" y="-180" width="520" height="520" fill="url(#starGlow)"/>
+
+  <!-- a few fixed stars -->
+  <g fill="#f8f8f2">
+    <circle cx="120" cy="60" r="1.3" opacity="0.6"/>
+    <circle cx="540" cy="70" r="1" opacity="0.45"/>
+    <circle cx="700" cy="120" r="1.2" opacity="0.5"/>
+    <circle cx="980" cy="80" r="1.4" opacity="0.65"/>
+    <circle cx="1100" cy="150" r="1" opacity="0.45"/>
+    <circle cx="430" cy="170" r="0.9" opacity="0.4"/>
+    <circle cx="840" cy="60" r="1" opacity="0.5"/>
+  </g>
+
+  <!-- horizon: the fixed reference -->
+  <g filter="url(#glow)">
+    <line x1="0" y1="360" x2="1200" y2="360" stroke="#8be9fd" stroke-width="1.5" opacity="0.7"/>
+  </g>
+  <line x1="0" y1="361.5" x2="1200" y2="361.5" stroke="#6272a4" stroke-width="1" opacity="0.45"/>
+
+  <!-- sight line to the horizon (along the reference) -->
+  <line x1="880" y1="360" x2="120" y2="360" stroke="#8be9fd" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- sight line to the target -->
+  <g filter="url(#glow)">
+    <line x1="880" y1="360" x2="300" y2="80" stroke="#8be9fd" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+  </g>
+
+  <!-- the measured angle: sextant limb with degree scale -->
+  <path d="M690,360 A190,190 0 0 1 730.3,243 L750.8,259 A164,164 0 0 0 716,360 Z"
+        fill="#8be9fd" fill-opacity="0.06" stroke="#8be9fd" stroke-width="1.4" opacity="0.9"/>
+  <g stroke="#8be9fd" stroke-width="1.1" opacity="0.85">
+    <line x1="692" y1="360" x2="714" y2="360" transform="rotate(3,880,360)"/>
+    <line x1="694" y1="360" x2="714" y2="360" transform="rotate(8,880,360)"/>
+    <line x1="692" y1="360" x2="714" y2="360" transform="rotate(13,880,360)"/>
+    <line x1="694" y1="360" x2="714" y2="360" transform="rotate(18,880,360)"/>
+    <line x1="692" y1="360" x2="714" y2="360" transform="rotate(23,880,360)"/>
+    <line x1="694" y1="360" x2="714" y2="360" transform="rotate(28,880,360)"/>
+    <line x1="692" y1="360" x2="714" y2="360" transform="rotate(33,880,360)"/>
+    <line x1="692" y1="360" x2="714" y2="360" transform="rotate(38,880,360)"/>
+  </g>
+
+  <!-- index arm aligned to the target -->
+  <g filter="url(#glow)">
+    <line x1="880" y1="360" x2="686.4" y2="266.5" stroke="#f1fa8c" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+  <circle cx="880" cy="360" r="6" fill="#15161e" stroke="#f1fa8c" stroke-width="2"/>
+  <circle cx="686.4" cy="266.5" r="3.6" fill="#f1fa8c"/>
+
+  <!-- angle symbol -->
+  <text x="766" y="340" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="28" fill="#f8f8f2" opacity="0.9">&#952;</text>
+
+  <!-- the target star -->
+  <g filter="url(#glowStrong)">
+    <path d="M300,56 L307,74 L325,80 L307,86 L300,104 L293,86 L275,80 L293,74 Z" fill="#f8f8f2"/>
+    <circle cx="300" cy="80" r="4.5" fill="#fff"/>
+  </g>
+
+  <rect width="1200" height="520" fill="url(#vignette)"/>
+  <rect width="1200" height="520" fill="#fff" filter="url(#grain)" opacity="0.04"/>
+</svg>
