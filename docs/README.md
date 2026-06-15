@@ -71,3 +71,4 @@ If you want to go from an idea to a first implementation, a forward generator li
 
 - **Skills** — see the sidebar for per-skill pages (sourced directly from each skill's `SKILL.md`)
 - **EARS syntax** — https://alistairmavin.com/ears
+- **[Sextant²](/meta)** — sextant's own spec, rendered live (dogfooding)

@@ -3,10 +3,14 @@ name: Deploy docs
 on:
   push:
     branches: [main]
-    paths:
-      - 'docs/**'
-      - 'skills/**'
-      - 'scripts/copy-skill-docs.sh'
+    paths-ignore:
+      - '.claude-plugin/**'
+      - '.github/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
+      - 'justfile'
+      - '.gitignore'
   workflow_dispatch:
 
 permissions:

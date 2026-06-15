@@ -18,6 +18,8 @@ skills/spec-sync/            /sextant:spec-sync — full-domain coverage + drift
 skills/impl-new/             /sextant:impl-new — scaffold a new candidate implementation under implementations/<v>/<slug>/
 skills/impl-select/          /sextant:impl-select — select the winning candidate from implementations/ and graduate it to the repo root
 docs/                        end-user docs site (docsify, GitHub Pages)
+SPEC.md                      sextant's own behavior spec — it dogfoods itself (rendered on the docs site as "Sextant²")
+STATUS.md                    coverage ledger for SPEC.md, maintained by /sextant:spec-status
 ```
 
 ## Try the plugin locally

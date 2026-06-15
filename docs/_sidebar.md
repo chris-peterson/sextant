@@ -5,3 +5,4 @@
   - [spec-sync](/skills/spec-sync)
   - [impl-new](/skills/impl-new)
   - [impl-select](/skills/impl-select)
+- [Sextant²](/meta)
