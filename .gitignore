@@ -2,3 +2,5 @@
 docs/skills/
 docs/SPEC.md
 docs/STATUS.md
+docs/suite.json
+__pycache__

@@ -23,6 +23,12 @@
 
 A sextant is the precision nautical instrument for fixing your position against fixed references — it doesn't plot the voyage in advance, it tells you where you are right now. Here the reference is your `SPEC.md` and the position is your code's coverage of it: take a fix whenever you need to know how far you've drifted from course.
 
+## In action
+
+You shipped a change and want to know whether the code still matches the contract. `/sextant:spec-sync` takes the fix — coverage in both directions, and any drift between what the spec says and what the code does:
+
+<div class="cw-session" data-cw-session="session"></div>
+
 ## Interface
 
 | Surface | What it does |
@@ -32,6 +38,10 @@ A sextant is the precision nautical instrument for fixing your position against 
 | [`/sextant:spec-sync`](/skills/spec-sync) | Full-domain analysis of `SPEC.md` against the code — coverage, bidirectional drift, requirement quality — and one-way reconciliation (`--to-spec` / `--to-source`) |
 | [`/sextant:impl-new`](/skills/impl-new) | Scaffold a new candidate implementation — gather stack + constraints, read `SPEC.md`, propose a plan, and on sign-off create `implementations/<v>/<slug>/` with a justfile stub and seeded `STATUS.md` |
 | [`/sextant:impl-select`](/skills/impl-select) | Select the winning candidate from `implementations/<version>/<n>-<name>/` and flatten it to **the** implementation at the repo root |
+
+The two skills you reach for most — reconciling code against the spec, and giving a new requirement a stable identity — in motion:
+
+<div class="cw-session" data-cw-session="examples"></div>
 
 ## Quickstart
 

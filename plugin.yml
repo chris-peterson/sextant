@@ -1,0 +1,49 @@
+# Canonical descriptor for the sextant plugin — edit here, never plugin.json.
+# Projects into .claude-plugin/plugin.json (via scripts/gen-plugin-json.py) and
+# the marketplace SPA (the suite: block).
+
+name: sextant
+version: 0.2.0
+description: AI-assisted SPEC-driven development — write requirements first, audit implementations against them, graduate the winner.
+license: MIT
+keywords: [spec-driven, ears, requirements, audit, ai, claude-code]
+
+# → marketplace.json entry
+marketplace:
+  category: development
+  homepage: https://chris-peterson.github.io/sextant/#/
+
+# → marketplace SPA; keys mirror the SPA's PLUGINS object.
+suite:
+  ac: "--build"
+  group: learn as you go
+  # The plugin's docs site renders the live session preview, so the hub hands
+  # its drill-in off to the spoke rather than showing the in-hub detail view.
+  spoke: true
+  gloss: Fixes your position against a fixed reference — your spec.
+  pitch: "Keeps requirements in source control, synced with the code either direction — so the spec, not the chat, is the source of truth."
+  what: "Keeps a plain-language spec — what the code must do — under source control, and reconciles it with the code in either direction. The spec stays the durable source of truth — enough to rebuild an implementation from, not just describe one."
+  cmds:
+    - ["/sextant:spec-sync", "Reconcile code and spec, either direction"]
+    - ["/sextant:spec-req", "Look up, trace, or draft requirements"]
+    - ["/sextant:spec-status", "Refresh the coverage ledger"]
+    - ["/sextant:impl-new · :impl-select", "Scaffold candidate implementations, graduate the winner (one-way)"]
+  # Skill-anchored previews of the two flagship skills, shown live on the docs
+  # site; the session: below is the at-a-glance flow the hub also reads.
+  examples:
+    - label: "/sextant:spec-sync"
+      ac: "--build"
+      frames:
+        - { t: you, text: "/sextant:spec-sync" }
+        - { t: claude, text: "Read SPEC.md and the implementation. I'll check every requirement against the code in both directions and report coverage, drift, and any orphaned behavior." }
+        - { t: status, text: "10 of 12 covered; auth TTL drifted — spec says 15m, code does 60m" }
+    - label: "/sextant:spec-req"
+      ac: "--cyan"
+      frames:
+        - { t: you, text: "/sextant:spec-req new" }
+        - { t: claude, text: "Walk me through the behavior and I'll draft it as an EARS requirement with a stable ID, then trace whether any current code already satisfies it." }
+        - { t: status, text: "drafts AUTH-04 in EARS syntax and links the code that covers it" }
+  session:
+    - { t: claude, text: "Auth changes shipped." }
+    - { t: thought, text: "did this drift from the spec?" }
+    - { t: cmd, cmd: "/sextant:spec-sync", out: "10 of 12 requirements covered; the auth TTL drifted — spec says 15m, the code does 60m." }

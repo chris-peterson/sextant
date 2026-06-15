@@ -19,3 +19,6 @@ for skill in skills/*/SKILL.md; do
 done
 
 cp SPEC.md STATUS.md docs/
+
+# Render the suite: block to docs/suite.json for the live session preview.
+python3 scripts/gen-suite-json.py
