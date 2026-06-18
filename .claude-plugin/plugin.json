@@ -1,6 +1,6 @@
 {
   "name": "sextant",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "AI-assisted SPEC-driven development \u2014 write requirements first, audit implementations against them, graduate the winner.",
   "license": "MIT",
   "keywords": [

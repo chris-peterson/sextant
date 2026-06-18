@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.0
+
+First official release of sextant on the chris-peterson marketplace. This release packages the plugin for distribution and documents it — including against its own spec.
+
+### Packaging
+
+- `plugin.yml` is now the canonical descriptor. It projects into `.claude-plugin/plugin.json` and the marketplace SPA, and presents sextant as a spoke whose marketplace drill-in hands off to the live docs site.
+
+### Docs
+
+- **Sextant²** — sextant's own behavior is written as a `SPEC.md` and tracked in a `STATUS.md` coverage ledger, both rendered live on the docs site. The plugin dogfoods its own `/sextant:` commands.
+- **Why Sextant?** — a new page placing sextant among spec-driven-development tools (Kiro, Spec-kit, Tessl) on Böckeler's spec-first / spec-anchored / spec-as-source spectrum. Sextant runs the loop backward: it audits how far code has drifted from the spec rather than generating code from it.
+- Docs reframed around "best-effort" spec-driven development, with hero art.
+
 ## 0.2.0
 
 ### Breaking Changes
