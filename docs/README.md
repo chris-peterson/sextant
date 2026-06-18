@@ -75,7 +75,7 @@ Sextant treats the spec as a living reference rather than a gate:
 - **Requirements have identity.** Requirements are written in [EARS syntax](https://alistairmavin.com/ears) with stable IDs you can trace to the code that satisfies them.
 - **Implementations compete.** `impl-new` scaffolds candidates against one spec; `impl-select` graduates the winner.
 
-If you want to go from an idea to a first implementation, a forward generator like [spec-kit](https://github.com/github/spec-kit) is built for that. Sextant is for the other side of the loop: keeping a spec and a codebase reconciled over time, and baking off candidate implementations against the spec.
+If you want to go from an idea to a first implementation, a forward, spec-first tool like [spec-kit](https://github.com/github/spec-kit) is built for that. Sextant is for the other side of the loop: keeping a spec and a codebase reconciled over time, and baking off candidate implementations against the spec. See [Why Sextant?](/comparison) for where sextant sits among SDD tools.
 
 ## Reference
 
