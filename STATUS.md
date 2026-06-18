@@ -3,9 +3,9 @@
 Tracking status of the requirements declared in [`SPEC.md`](SPEC.md).
 Maintained by `/sextant:spec-status`.
 
-**Last audit:** 2026-06-15
+**Last audit:** 2026-06-17
 **Spec version:** root SPEC.md (unversioned)
-**Plugin version:** 0.2.0
+**Plugin version:** 0.3.0
 **Coverage:** 45 Covered, 0 Partial, 0 Missing/Contradicts
 
 The implementation is the five skill prompts under `skills/`. These requirements
