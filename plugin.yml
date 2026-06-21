@@ -4,7 +4,7 @@
 
 name: sextant
 version: 0.3.0
-description: AI-assisted SPEC-driven development — write requirements first, audit implementations against them, graduate the winner.
+description: AI-assisted, best-effort SPEC-driven development — write requirements first, reconcile them with the code either direction, graduate the winner.
 license: MIT
 keywords: [spec-driven, ears, requirements, audit, ai, claude-code]
 
@@ -15,17 +15,13 @@ marketplace:
 
 # → marketplace SPA; keys mirror the SPA's PLUGINS object.
 suite:
-  ac: "--build"
-  group: learn as you go
-  # The plugin's docs site renders the live session preview, so the hub hands
-  # its drill-in off to the spoke rather than showing the in-hub detail view.
-  spoke: true
-  gloss: Fixes your position against a fixed reference — your spec.
+  group: record
+  gloss: Your position against a fixed reference — your spec.
   pitch: "Keeps requirements in source control, synced with the code either direction — so the spec, not the chat, is the source of truth."
-  what: "Keeps a plain-language spec — what the code must do — under source control, and reconciles it with the code in either direction. The spec stays the durable source of truth — enough to rebuild an implementation from, not just describe one."
+  what: "Keeps a plain-language spec — what the code must do — under source control, and reconciles it with the code in either direction. Durable enough to rebuild an implementation from, not just describe one."
   cmds:
     - ["/sextant:spec-sync", "Reconcile code and spec, either direction"]
-    - ["/sextant:spec-req", "Look up, trace, or draft requirements"]
+    - ["/sextant:spec-req", "Look up, trace, or draft requirements, or bootstrap a spec"]
     - ["/sextant:spec-status", "Refresh the coverage ledger"]
     - ["/sextant:impl-new · :impl-select", "Scaffold candidate implementations, graduate the winner (one-way)"]
   # Skill-anchored previews of the two flagship skills, shown live on the docs

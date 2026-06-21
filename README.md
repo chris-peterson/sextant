@@ -2,7 +2,7 @@
 
 AI-assisted, "best-effort" SPEC-driven development.
 
-A Claude Code plugin that writes requirements first, audits implementations against them, and graduates the winning candidate from the spec-driven exploration tree to **the** implementation at the repo root.
+A Claude Code plugin that writes requirements first, reconciles them with the code either direction, and graduates the winning candidate from the spec-driven exploration tree to **the** implementation at the repo root.
 
 A sextant is the precision nautical instrument used to fix position against external references — here, the external reference is `SPEC.md`, and the position is the implementation's coverage of it.
 
