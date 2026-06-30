@@ -1,5 +1,6 @@
 ---
 name: impl-new
+disable-model-invocation: true
 description: Scaffold a new candidate implementation in the spec-driven `implementations/<version>/<n>-<name>/` tree, to stress-test the spec against a fresh stack.
 argument-hint: "<slug>"
 ---

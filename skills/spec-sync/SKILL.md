@@ -1,5 +1,6 @@
 ---
 name: spec-sync
+disable-model-invocation: true
 description: Reconcile SPEC.md and the source — full-domain coverage + drift analysis, applied as one-way syncs.
 argument-hint: "[--to-spec | --to-source]"
 ---

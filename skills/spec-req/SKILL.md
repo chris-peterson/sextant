@@ -1,5 +1,6 @@
 ---
 name: spec-req
+disable-model-invocation: true
 description: Look up, trace, and create spec requirements, and bootstrap a new SPEC.md.
 argument-hint: "<XX-NN | XX | new | init [from <doc>]>"
 ---

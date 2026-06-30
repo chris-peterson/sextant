@@ -1,5 +1,6 @@
 ---
 name: impl-select
+disable-model-invocation: true
 description: Graduate the winning candidate from the spec-driven `implementations/<version>/<n>-<name>/` tree to the sole implementation at the repo root — a one-way move, only once one candidate has clearly won.
 ---
 
