@@ -1,6 +1,6 @@
 ---
 name: spec-status
-description: Refresh STATUS.md to match current spec coverage. The lightweight, automatable ledger writer in the spec-sync family. Triggers on 'spec-status', 'refresh status', 'update STATUS.md', 'regenerate coverage'.
+description: Refresh STATUS.md to match current spec coverage — the lightweight, hook-safe ledger writer in the spec-sync family.
 ---
 
 # Spec Status

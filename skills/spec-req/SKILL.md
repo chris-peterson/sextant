@@ -1,6 +1,6 @@
 ---
 name: spec-req
-description: Look up, trace, and create spec requirements, and bootstrap a new SPEC.md. Triggers on 'spec-req', requirement IDs (e.g., 'CM-01'), category prefixes (e.g., 'CM'), 'new requirement', or 'init' / 'bootstrap spec' / 'set up a spec'.
+description: Look up, trace, and create spec requirements, and bootstrap a new SPEC.md.
 argument-hint: "<XX-NN | XX | new | init [from <doc>]>"
 ---
 

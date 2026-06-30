@@ -1,6 +1,6 @@
 ---
 name: spec-sync
-description: Reconcile SPEC.md and the source — full-domain coverage + drift analysis, with one-way syncs. Triggers on 'spec-sync', 'spec coverage', 'check the spec', 'audit requirements', 'reconcile spec and code', 'spec drift'.
+description: Reconcile SPEC.md and the source — full-domain coverage + drift analysis, applied as one-way syncs.
 argument-hint: "[--to-spec | --to-source]"
 ---
 

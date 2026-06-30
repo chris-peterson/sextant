@@ -1,6 +1,6 @@
 ---
 name: impl-new
-description: Scaffold a new candidate implementation in the spec-driven `implementations/<version>/<n>-<name>/` tree. Triggers on 'impl-new', 'new implementation', 'add implementation', 'scaffold impl', or 'try another stack'. Gathers stack + constraints conversationally, reads SPEC.md, proposes a plan, and on sign-off creates the directory with a justfile stub and STATUS.md seeded from the spec.
+description: Scaffold a new candidate implementation in the spec-driven `implementations/<version>/<n>-<name>/` tree, to stress-test the spec against a fresh stack.
 argument-hint: "<slug>"
 ---
 

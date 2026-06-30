@@ -1,6 +1,6 @@
 ---
 name: impl-select
-description: Select the winning candidate from the spec-driven `implementations/<version>/<n>-<name>/` tree and graduate it to **the** implementation at the repo root. Triggers on 'impl-select', 'graduate implementation', 'flatten implementations', 'commit to typescript', etc. Use only when one implementation has clearly won and the others are inactive — selection is one-way.
+description: Graduate the winning candidate from the spec-driven `implementations/<version>/<n>-<name>/` tree to the sole implementation at the repo root — a one-way move, only once one candidate has clearly won.
 ---
 
 # Impl Select Skill
