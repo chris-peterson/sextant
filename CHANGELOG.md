@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.2
+
+### Other
+- The spec-workflow skills (`impl-new`, `impl-select`, `spec-req`, `spec-status`, `spec-sync`) are now marked `disable-model-invocation`, dropping their descriptions from every session's always-resident context. Still available via `/`; Claude no longer auto-loads them.
+
 ## 0.3.1
 
 ### Other
