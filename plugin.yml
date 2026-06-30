@@ -3,7 +3,7 @@
 # the marketplace SPA (the suite: block).
 
 name: sextant
-version: 0.3.0
+version: 0.3.1
 description: AI-assisted, best-effort SPEC-driven development — write requirements first, reconcile them with the code either direction, graduate the winner.
 license: MIT
 keywords: [spec-driven, ears, requirements, audit, ai, claude-code]

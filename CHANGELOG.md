@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1
+
+### Other
+- spec-sync's description now frames the skill around reconciliation — full-domain coverage plus drift analysis applied as one-way syncs — with suite metadata aligned to match.
+- Trimmed the `description` frontmatter across the spec-workflow skills (`impl-new`, `impl-select`, `spec-req`, `spec-status`, `spec-sync`) to cut the always-resident context cost. These are `/`-invoked, so the trigger-phrase enumerations are dropped in favor of one what/when sentence each.
+
 ## 0.3.0
 
 First official release of sextant on the chris-peterson marketplace. This release packages the plugin for distribution and documents it — including against its own spec.
