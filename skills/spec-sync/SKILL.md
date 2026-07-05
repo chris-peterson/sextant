@@ -58,19 +58,14 @@ flowchart TD
 
 ## Step 1: Locate spec and implementations
 
-Find the current SPEC.md. Check in order:
-
-1. If a `STATUS.md` exists, read its spec-pointer link first — STATUS.md names
-   where its own spec lives, which catches non-standard locations (e.g. a
-   lowercase `docs/spec.md`) the generic search would miss.
-2. `spec/` directory at the repo root or in common subfolders (`vnext/`,
-   `exploration/`, `migration/`)
-3. Justfile `spec` variable pointing to the current version
-4. `CURRENT_SPEC_VERSION` environment variable
-5. `SPEC.md` (or `docs/spec.md`) at the repo root
+Find the current SPEC.md using the shared discovery order in
+[`references/locate-spec.md`](../../references/locate-spec.md) (that file is the
+source of truth). In brief, first hit wins: STATUS.md spec-pointer → `spec/`
+directory (incl. `vnext/`, `exploration/`, `migration/`) → justfile `spec`
+variable → `CURRENT_SPEC_VERSION` → root `SPEC.md` (or `docs/spec.md`).
 
 `spec-sync` is **always user-invoked and interactive** — it is not wired to
-hooks or called from `/ship-it`. So if no spec is found, say so and point the
+hooks or called from a release workflow like `/ship-it`. So if no spec is found, say so and point the
 user at `spec-req init` rather than no-op'ing silently:
 
 ```text
@@ -89,12 +84,11 @@ Found N requirements across M categories:
   FUT: FUT-01, FUT-02 (deferred — excluded from coverage)
 ```
 
-**Counting rule.** One normative requirement = one distinct `[XX-NN]` ID,
-**including lettered decompositions** (`CL-21a`, `CL-21b`, … each count as
-one). **Exclude** FUT/deferred and retired/struck IDs from the normative count
-— retired IDs are numbering gaps, not coverage. Getting this wrong is the most
-common STATUS.md drift, so the inventory count must be exact before anything
-downstream relies on it.
+**Counting rule.** Count per [`references/counting-rule.md`](../../references/counting-rule.md)
+(the source of truth): one distinct `[XX-NN]` ID = one requirement, lettered
+decompositions (`CL-21a`, …) each count as one, FUT/deferred and retired IDs
+excluded. Getting this wrong is the most common STATUS.md drift, so the
+inventory count must be exact before anything downstream relies on it.
 
 Then locate the implementation(s): the repo root, a versioned
 `implementations/<version>/<impl>/` tree, and any `STATUS.md` files that
@@ -143,15 +137,8 @@ Flag anything the code does that the spec doesn't mention as drift.
 
 Scan every requirement's text (this needs only the spec, not the code):
 
-**EARS conformance.** Requirements should use one of the five
-[EARS patterns](https://alistairmavin.com/ears):
-
-- **Ubiquitous** (no keyword): `The <system> shall <response>`
-- **State-Driven** (`While`): `While <precondition>, the <system> shall …`
-- **Event-Driven** (`When`): `When <trigger>, the <system> shall …`
-- **Optional** (`Where`): `Where <feature is included>, the <system> shall …`
-- **Unwanted Behaviour** (`If…then`): `If <condition>, then the <system> shall …`
-
+**EARS conformance.** Requirements should use one of the five EARS patterns
+(see [`references/ears-patterns.md`](../../references/ears-patterns.md)).
 Flag non-conforming requirements with a suggested rewrite. Advisory, not
 blocking — early drafts may be intentionally informal.
 
@@ -281,10 +268,12 @@ Implementation gaps (spec → code):
           src/cfg.ts:40
 ```
 
-Then hand off to a development session — suggest `/recipe new-feature` (or
-`greenfield` for a fresh implementation) seeded with this list. The user (or a
-dev session) writes and tests the code; `spec-status` then flips the rows to
-Covered on the next ledger refresh.
+Then hand off to a development session seeded with this list — a
+new-feature workflow (or a greenfield one for a fresh implementation). If your
+setup has the recipe plugin, `/recipe new-feature` / `/recipe greenfield` are
+those workflows; otherwise just start a normal dev session with the gap list.
+The user (or a dev session) writes and tests the code; `spec-status` then flips
+the rows to Covered on the next ledger refresh.
 
 ## Boundaries
 

@@ -54,13 +54,12 @@ flowchart TD
 
 ## Locate the spec
 
-Find the current SPEC.md (the same order every sextant spec skill uses). Check in order:
-
-1. If a `STATUS.md` exists, read its spec-pointer link first — it names where its own spec lives, which catches non-standard locations (e.g. a lowercase `docs/spec.md`) the generic search would miss.
-2. `spec/` directory at the repo root or in common subfolder locations (`vnext/`, `exploration/`, `migration/`)
-3. Justfile `spec` variable pointing to the current version
-4. `CURRENT_SPEC_VERSION` environment variable
-5. `SPEC.md` (or `docs/spec.md`) at the repo root
+Find the current SPEC.md using the shared discovery order in
+[`references/locate-spec.md`](../../references/locate-spec.md) (the source of
+truth every sextant skill uses). In brief, first hit wins: STATUS.md
+spec-pointer → `spec/` directory (incl. `vnext/`, `exploration/`, `migration/`)
+→ justfile `spec` variable → `CURRENT_SPEC_VERSION` → root `SPEC.md` (or
+`docs/spec.md`).
 
 If no SPEC.md is found, ask the user where it is.
 
@@ -132,13 +131,7 @@ Read existing categories and their highest requirement numbers from the spec.
 Based on the user's description:
 - **Match to an existing category** if it fits. Use the next available number.
 - **Create a new category** if none fits. Choose a 2-3 letter mnemonic that doesn't collide with existing prefixes.
-- **Draft the requirement text using [EARS syntax](https://alistairmavin.com/ears)** — choose the pattern that fits the requirement's activation:
-  - **Ubiquitous** (no keyword): `The <system> shall <response>` — always-active constraints
-  - **State-Driven**: `While <precondition>, the <system> shall <response>` — behavior depends on system state
-  - **Event-Driven**: `When <trigger>, the <system> shall <response>` — triggered by a discrete event
-  - **Optional**: `Where <feature is included>, the <system> shall <response>` — configurable features
-  - **Unwanted Behaviour**: `If <condition>, then the <system> shall <response>` — error handling and edge cases
-  - Patterns combine: `While <state>, when <trigger>, the <system> shall <response>`
+- **Draft the requirement text in EARS syntax** — choose the pattern that fits the requirement's activation. The five patterns (Ubiquitous, State-Driven, Event-Driven, Optional, Unwanted Behaviour) and how they combine live in [`references/ears-patterns.md`](../../references/ears-patterns.md).
 
 Present for confirmation:
 
@@ -162,8 +155,8 @@ After the user confirms:
 
 **If implementing now:**
 1. Add to SPEC.md in the appropriate category section, sorted by ID
-2. Update STATUS.md with "unmet" for each tracked implementation
-3. Flow to implementations — make the change, update STATUS.md to "covered"
+2. Update STATUS.md with "Missing" for each tracked implementation (the shared Covered/Partial/Missing/Contradicts vocabulary)
+3. Flow to implementations — make the change, update STATUS.md to "Covered"
 
 **If capturing as future:**
 1. Add to SPEC.md under "Future Requirements" as `[FUT-NN] (→ XX) <requirement text>`

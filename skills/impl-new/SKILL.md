@@ -2,7 +2,7 @@
 name: impl-new
 disable-model-invocation: true
 description: Scaffold a new candidate implementation in the spec-driven `implementations/<version>/<n>-<name>/` tree, to stress-test the spec against a fresh stack.
-argument-hint: "<slug>"
+argument-hint: "[slug]"
 ---
 
 # Impl New Skill
@@ -41,19 +41,19 @@ flowchart TD
     subgraph "Step 5: Scaffold"
         Confirm --> Mkdir["Create implementations/<v>/<slug>/"]
         Mkdir --> Justfile["Write justfile stub"]
-        Justfile --> Status["Seed STATUS.md (all unmet)"]
+        Justfile --> Status["Seed STATUS.md (all Missing)"]
         Status --> Handoff(["Hand off to user / greenfield recipe"])
     end
 ```
 
 ## Step 1: Locate the spec-driven tree
 
-Find the active spec and the `implementations/` root. Check in order:
-
-1. Justfile `spec`, `current`, or `CURRENT_SPEC_VERSION` variables — these point at the active spec version.
-2. `spec/<version>/SPEC.md` — versioned spec layout (the canonical spec-driven shape).
-3. `SPEC.md` at the repo root — unversioned, older or simpler projects.
-4. `vnext/`, `exploration/`, `migration/` subfolders — common nested setups inside existing repos.
+Find the active spec using the shared discovery order in
+[`references/locate-spec.md`](../../references/locate-spec.md) (the source of
+truth every sextant skill uses — do not use a bespoke order here). In brief,
+first hit wins: STATUS.md spec-pointer → `spec/` directory (incl. `vnext/`,
+`exploration/`, `migration/`) → justfile `spec` variable → `CURRENT_SPEC_VERSION`
+→ root `SPEC.md` (or `docs/spec.md`).
 
 If no SPEC.md is found, **stop** and ask. Don't scaffold an implementation tree before there's a contract to build against.
 
@@ -71,7 +71,7 @@ The goal is to make the user's choices explicit before scaffolding, so the imple
 
 ### Slug
 
-The skill's positional argument is the slug. If absent, ask. Naming convention: `<n>-<short-name>` where `<n>` is the next sequence number across existing siblings. Examples: `1-python`, `2-js`, `3-hybrid`, `4-rust`.
+The skill's positional argument is the slug. If absent, ask. Naming convention: `<n>-<name>` where `<n>` is the next sequence number across existing siblings and `<name>` is a short, kebab-case label. Examples: `1-python`, `2-js`, `3-hybrid`, `4-rust`.
 
 Validate the slug:
 
@@ -135,7 +135,7 @@ On sign-off, create:
 ```text
 implementations/<v>/<slug>/
 ├── justfile         # build / run / test stubs
-├── STATUS.md        # requirement coverage, all 'unmet' by default
+├── STATUS.md        # requirement coverage, all 'Missing' by default
 └── (other entry-point files per Step 4's plan)
 ```
 
@@ -163,7 +163,10 @@ test:
 
 ### `STATUS.md`
 
-Seed with every non-FUT requirement ID from SPEC.md, each marked `unmet`. The user (and `/sextant:spec-status`) will flip entries to `covered` / `partial` as implementation progresses.
+Seed with every non-FUT requirement ID from SPEC.md, each marked `Missing`
+(nothing is built yet — see the shared status vocabulary below). The user (and
+`/sextant:spec-status`) will flip entries to `Covered` / `Partial` as
+implementation progresses.
 
 ```markdown
 # STATUS — <slug>
@@ -172,17 +175,29 @@ Seed with every non-FUT requirement ID from SPEC.md, each marked `unmet`. The us
 **Stack:** <stack from Step 2>
 **Constraints:** <constraints from Step 2>
 **Out of scope:** <FUT IDs and any user-declared deferrals from Step 2>
+**Last audit:** <today>
+**Coverage:** 0 Covered, 0 Partial, N Missing/Contradicts<, plus K deferred (FUT-…)>
 
 ## Coverage
 
-| ID    | Requirement (abbreviated) | Status | Location |
-|-------|---------------------------|--------|----------|
-| CM-01 | <text>                    | unmet  | —        |
-| CM-02 | <text>                    | unmet  | —        |
-| ...   | ...                       | ...    | ...      |
+| ID    | Requirement (abbreviated) | Status  | Location |
+|-------|---------------------------|---------|----------|
+| CM-01 | <text>                    | Missing | —        |
+| CM-02 | <text>                    | Missing | —        |
+| ...   | ...                       | ...     | ...      |
 ```
 
-Use **abbreviated** requirement text in the table (first ~10-12 words) — full text lives in SPEC.md, the table is for tracking, not for re-reading.
+Use the shared status vocabulary — **Covered / Partial / Missing / Contradicts**
+(capitalized), the same terms `spec-status` and `spec-sync` classify with, so a
+later ledger refresh reads these rows without a vocabulary mismatch. A fresh
+candidate seeds every row `Missing`.
+
+Use **abbreviated** requirement text in the table (first ~10-12 words) — full
+text lives in SPEC.md, the table is for tracking, not for re-reading. This
+per-implementation shape (candidate metadata block + per-requirement table) is a
+first-class variant that `/sextant:spec-status` refreshes in place — it updates
+the `**Last audit:**`/`**Coverage:**` lines and each row's Status/Location while
+preserving the Stack/Constraints/Out-of-scope block.
 
 ### Hand off
 
@@ -191,10 +206,10 @@ Report back to the user:
 ```text
 Scaffolded implementations/<v>/<slug>/:
   → justfile stub (build/run/test)
-  → STATUS.md with N unmet requirements seeded from spec/<v>/SPEC.md
+  → STATUS.md with N Missing requirements seeded from spec/<v>/SPEC.md
 
 Next: start implementing the first slice — the core contract. See your plan, item 3.
-Consider invoking /recipe greenfield for the implementation phase.
+Start a greenfield dev session for the implementation phase (e.g. /recipe greenfield, if you use the recipe plugin).
 ```
 
 Do not start implementing yourself. The skill's job is to scaffold and frame the work; the user (or a fresh greenfield session) drives the build.
@@ -204,7 +219,7 @@ Do not start implementing yourself. The skill's job is to scaffold and frame the
 - **Scaffolding without a spec** — if SPEC.md doesn't exist or doesn't have requirement IDs, stop and ask the user to draft one first (`/sextant:spec-req init` bootstraps a fresh spec; `/sextant:spec-req new` adds requirements). An implementation without a spec to verify against isn't a candidate, it's just code.
 - **Skipping the conversational gather** — slug + "default Python project" is not enough. The plan in Step 4 depends on stack + constraints; jumping straight to scaffolding produces a generic skeleton that gets thrown away the moment the user tries to add their actual stack choices.
 - **Porting from siblings** — if existing implementations have files, do not copy them. The candidate's job is to build from the spec, not to recapitulate prior work. If a sibling solved an interesting problem worth referencing, note it in the plan for the user — don't pre-seed code from it.
-- **Filling STATUS.md with optimistic guesses** — every requirement starts `unmet`. Resist marking entries `covered` based on stack convention ("React will handle accessibility") — let `/sextant:spec-sync` verify after the implementation exists.
+- **Filling STATUS.md with optimistic guesses** — every requirement starts `Missing`. Resist marking entries `Covered` based on stack convention ("React will handle accessibility") — let `/sextant:spec-sync` verify after the implementation exists.
 - **Numbering off-by-one** — `1-python` already exists, user asks for `1-rust`. Refuse and propose the next available number, or ask whether to retire `1-python` first.
 
 ## Related

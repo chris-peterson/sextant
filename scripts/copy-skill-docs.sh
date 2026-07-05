@@ -15,10 +15,19 @@ cd "$(dirname "$0")/.."
 mkdir -p docs/skills
 for skill in skills/*/SKILL.md; do
   name=$(basename "$(dirname "$skill")")
-  awk '/^---$/{fm++; next} fm>=2' "$skill" > "docs/skills/$name.md"
+  # Strip frontmatter, then rewrite repo-relative shared-reference links
+  # (../../references/… — correct when Claude reads the skill in-repo) to
+  # docsify-absolute (/references/…) so they also resolve on the docs site.
+  awk '/^---$/{fm++; next} fm>=2' "$skill" \
+    | sed -E 's#\.\./\.\./references/#/references/#g' \
+    > "docs/skills/$name.md"
 done
 
 cp SPEC.md STATUS.md docs/
+
+# The shared references the skills link to, so those links resolve on the site.
+mkdir -p docs/references
+cp references/*.md docs/references/
 
 # Render the suite: block to docs/suite.json for the live session preview.
 python3 scripts/gen-suite-json.py

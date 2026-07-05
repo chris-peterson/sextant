@@ -11,7 +11,8 @@ match the current spec and code. Where `spec-sync` analyzes the full domain and
 reconciles spec ↔ code, `spec-status` does only the lightweight ledger write —
 it runs the same locate + forward pass, then edits the machine-derived regions
 of STATUS.md in place while leaving human-authored prose untouched. Its small,
-no-op-gated footprint is what makes it safe to wire into hooks and `/ship-it`.
+no-op-gated footprint is what makes it safe to wire into hooks and a release
+workflow (e.g. `/ship-it`, if you use it).
 
 It writes **only** STATUS.md. It never edits code or the spec. A requirement
 whose code contradicts its spec text is a judgment call for the user, so it
@@ -51,18 +52,11 @@ flowchart TD
 
 ## Step 1: Locate the spec — and the no-op gate
 
-Find the current SPEC.md using the same order as `spec-sync`:
-
-1. If a `STATUS.md` already exists, read its spec-pointer link first (the
-   header line, e.g. ``Tracking ... declared in [`docs/spec.md`](docs/spec.md)``).
-   STATUS.md names where its own spec lives, and that pointer catches
-   non-standard locations (e.g. beacon's lowercase `docs/spec.md`) the
-   generic search below would miss.
-2. `spec/` directory at the repo root or in common subfolders (`vnext/`,
-   `exploration/`, `migration/`)
-3. Justfile `spec` variable pointing to the current version
-4. `CURRENT_SPEC_VERSION` environment variable
-5. `SPEC.md` (or `docs/spec.md`) at the repo root
+Find the current SPEC.md using the shared discovery order in
+[`references/locate-spec.md`](../../references/locate-spec.md) (the source of
+truth). In brief, first hit wins: STATUS.md spec-pointer → `spec/` directory
+(incl. `vnext/`, `exploration/`, `migration/`) → justfile `spec` variable →
+`CURRENT_SPEC_VERSION` → root `SPEC.md` (or `docs/spec.md`).
 
 **No-op gate.** If no spec is found, print exactly one line and exit:
 
@@ -129,18 +123,13 @@ the machine regions; leave everything else byte-for-byte.
   spec but not the table; flag (don't delete) a table row whose category no
   longer exists in the spec.
 
-**Counting rule** (this is where STATUS.md files drift most — get it exact):
-
-- One normative requirement = one distinct `[XX-NN]` ID **including lettered
-  decompositions** — `CL-21a`, `CL-21b`, … each count as one. A row labeled
-  `CL-01..37 (+CL-19a)` whose real ID set includes `CL-21a..d` and `CL-36a..d`
-  has a count of 46, not 38.
-- **Exclude** from the normative count: FUT/deferred IDs and retired/struck IDs
-  (removed from the spec, or shown struck-through). Retired IDs belong in the
-  numbering-gap prose ("no PROV-04 … intentional"), never in the count.
-- Enforce the invariant: the `**Coverage:**` header count == the sum of the
-  table's per-row counts == the spec's normative inventory. The drift found in
-  real repos was always one of these three disagreeing.
+**Counting rule** (this is where STATUS.md files drift most — get it exact).
+Count per [`references/counting-rule.md`](../../references/counting-rule.md)
+(the source of truth): one distinct `[XX-NN]` ID = one requirement, lettered
+decompositions each count as one, FUT/deferred and retired IDs excluded. Here
+the invariant is concrete: the `**Coverage:**` header count == the sum of the
+table's per-row counts == the spec's normative inventory. The drift found in
+real repos was always one of these three disagreeing.
 
 **Preserve (human-authored — never rewrite):**
 
@@ -156,6 +145,18 @@ the machine regions; leave everything else byte-for-byte.
 Notes |`. Preserve whichever columns the file already has rather than imposing
 one. Keep requirement text in the Notes/row abbreviated — full text lives in
 the spec.
+
+**Per-implementation files have a different, first-class shape.** A STATUS.md
+seeded by `impl-new` under `implementations/<v>/<impl>/` uses a
+**per-requirement** table (`| ID | Requirement | Status | Location |`) plus a
+candidate metadata block (`**Stack:** / **Constraints:** / **Out of scope:**`)
+instead of the per-category rollup. Refresh it in place: update each row's
+`Status` (Covered/Partial/Missing/Contradicts) and `Location` from the forward
+pass, and update the `**Last audit:**` / `**Coverage:**` lines — but preserve
+the Stack/Constraints/Out-of-scope block untouched (it's the candidate's
+declared scope, human-authored at seed). Do **not** convert a per-impl file to
+the per-category shape, and do not fall back to the "generate from template"
+path for one that already exists — that would clobber the candidate metadata.
 
 This is a refresh, not a rewrite. Use targeted edits against the specific
 fields and rows; do not regenerate the whole file from a template when one

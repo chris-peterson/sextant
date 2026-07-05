@@ -2,6 +2,10 @@
   "name": "sextant",
   "version": "0.3.2",
   "description": "AI-assisted, best-effort SPEC-driven development \u2014 write requirements first, reconcile them with the code either direction, graduate the winner.",
+  "author": {
+    "name": "Chris Peterson"
+  },
+  "repository": "https://github.com/chris-peterson/sextant",
   "license": "MIT",
   "keywords": [
     "spec-driven",

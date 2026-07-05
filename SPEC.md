@@ -79,8 +79,8 @@ Requirements as `[FUT-NN] (→ XX) …`.
 
 - **[IMPL-01]** When scaffolding a candidate, the system shall require an existing SPEC.md and stop if none exists.
 - **[IMPL-02]** When scaffolding a candidate, the system shall gather stack and constraints conversationally and present a plan for sign-off before creating files.
-- **[IMPL-03]** The system shall name candidates `<n>-<short-name>` with the next sequence number, refusing a slug that collides or skips the sequence.
-- **[IMPL-04]** When scaffolding a candidate, the system shall seed its STATUS.md with every non-deferred requirement marked unmet, marking none covered optimistically.
+- **[IMPL-03]** The system shall name candidates `<n>-<name>` (a short, kebab-case label) with the next sequence number, refusing a slug that collides or skips the sequence.
+- **[IMPL-04]** When scaffolding a candidate, the system shall seed its STATUS.md with every non-deferred requirement marked Missing (not yet covered), marking none Covered optimistically.
 - **[IMPL-05]** The system shall not port code from sibling implementations into a new candidate.
 - **[IMPL-06]** Graduation shall be a one-way operation, performed only when a single candidate is the de-facto choice and the others are inactive.
 - **[IMPL-07]** When graduating a candidate, the system shall retire the others, flatten the winner to the repo root, and rewrite every reference to the old implementation paths in one coherent change.

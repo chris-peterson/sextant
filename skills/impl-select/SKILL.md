@@ -2,6 +2,7 @@
 name: impl-select
 disable-model-invocation: true
 description: Graduate the winning candidate from the spec-driven `implementations/<version>/<n>-<name>/` tree to the sole implementation at the repo root — a one-way move, only once one candidate has clearly won.
+argument-hint: "[target]"
 ---
 
 # Impl Select Skill
@@ -27,8 +28,8 @@ flowchart TD
     subgraph "Step 3: Mechanical moves"
         ShowPlan --> Retire["git rm prior implementations"]
         Retire --> Note["Note retirements in HISTORY.md / commit msg"]
-        Note --> Move["git mv chosen impl files to root"]
-        Move --> Cleanup["rm -r empty implementations/ tree"]
+        Note --> Move["git mv chosen impl files (incl. its justfile + STATUS.md) to root"]
+        Move --> Cleanup["rmdir empty implementations/ tree"]
     end
 
     subgraph "Step 4: Rewrite references"
@@ -44,6 +45,8 @@ flowchart TD
         Pass -->|No| Diagnose["Diagnose; do NOT paper over"]
         Pass -->|Yes| Done(["Graduated"])
     end
+
+    Done --> Recipe["Step 6: Capture graduation friction into the recipe"]
 ```
 
 ## When to Use
@@ -90,9 +93,10 @@ In a single coherent commit (or PR):
 
 2. **Move the chosen implementation to root** — use `git mv` to preserve history:
    - `git mv implementations/<v>/<n>-<name>/{src,package.json,package-lock.json,tsconfig.json,.gitignore,...} <root>`
+   - **Move the candidate's own `justfile` and `STATUS.md` too** — they become the root `justfile` and `STATUS.md`. (The root had none while the tree was multi-candidate; the winner's are now the repo's.) `spec-status` keeps refreshing the promoted `STATUS.md` in place afterward.
    - Build artifacts (`dist/`, `node_modules/`, etc.) are gitignored — don't `git mv` them; they'll be regenerated.
 
-3. **Delete the empty tree** — `rmdir implementations/<v>/<n>-<name> implementations/<v> implementations` once everything is moved.
+3. **Delete the empty tree** — `rmdir implementations/<v>/<n>-<name> implementations/<v> implementations` once everything is moved. `rmdir` (empty-only) is deliberate: if it fails, a file was left behind — move it rather than switching to `rm -r`.
 
 ### Step 4: Rewrite references
 
