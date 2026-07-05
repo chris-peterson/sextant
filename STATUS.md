@@ -5,7 +5,7 @@ Maintained by `/sextant:spec-status`.
 
 **Last audit:** 2026-07-05
 **Spec version:** root SPEC.md (unversioned)
-**Plugin version:** 0.3.2
+**Plugin version:** 0.4.0
 **Coverage:** 45 Covered, 0 Partial, 0 Missing/Contradicts
 
 The implementation is the five skill prompts under `skills/`. These requirements

@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.4.0
+
+A best-practices pass over the plugin — correctness fixes to the skill
+workflow, anti-drift refactors, and packaging.
+
+### Fixed
+
+- **impl-new ⇄ spec-status handoff.** `impl-new` seeded a per-candidate `STATUS.md` whose shape `spec-status` couldn't refresh in place (it would no-op the fields it couldn't find or clobber the candidate metadata). `spec-status` now recognizes the per-implementation shape as a first-class variant, and `impl-new` seeds machine-derived anchors so a later ledger refresh reads it cleanly.
+- **impl-new spec-locate order.** It had drifted from the other three skills, dropping the `STATUS.md` spec-pointer step and the `docs/spec.md` fallback — so it could fail to find specs the others locate. Reconciled.
+- **Dogfooding drift.** The plugin's own `STATUS.md` had fallen a version behind because `release.yml` never refreshed it. The release workflow now bumps its version line.
+
+### Changed
+
+- **Single-sourced shared procedures.** The locate order, counting rule, and EARS patterns — previously copy-pasted across skills — now live under `references/` and are linked from each skill, so they can't drift again. The docs build copies them and rewrites the links to resolve on the site.
+- **Unified coverage vocabulary** on Covered/Partial/Missing/Contradicts across all skills (SPEC `IMPL-03`/`IMPL-04` reworded to match; behavior unchanged).
+- **Manifest attribution.** `author` and `repository` now reach `plugin.json`.
+
+### Other
+
+- Polish: added/relaxed `argument-hint`s, fixed `impl-select`'s diagram/prose mismatches, softened dangling `/recipe` and `/ship-it` references for standalone installs, and corrected a stale CI step name.
+
 ## 0.3.2
 
 ### Other
