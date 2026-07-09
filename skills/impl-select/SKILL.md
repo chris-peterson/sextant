@@ -113,7 +113,7 @@ Touch every file from the inventory:
 Run the full verification chain. **Do not paper over a failure** — if something breaks, diagnose and fix the root cause; don't add a fallback or skip the broken step.
 
 1. `npm install && npm run build && npm test` (or stack equivalent) — must pass from the new root.
-2. Smoke-test the install path: `just install` (or the documented install command). Verify the installed binary still works (`tack --help`, `tool --version`, etc.).
+2. Smoke-test the install path: `just install` (or the documented install command). Verify the installed binary still works (`<cli> --help`, `<cli> --version`, etc.).
 3. Run `/sextant:spec-sync` on the flattened tree. Its coverage analysis should match what it produced before graduation; any regressions are graduation-induced and must be fixed before declaring done.
 4. Report the analysis summary back to the user as the final gate.
 
