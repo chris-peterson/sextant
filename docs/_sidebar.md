@@ -1,4 +1,5 @@
 - [Home](/)
+- [SPEC](/spec)
 - [Why Sextant?](/comparison)
 - [Skills](/skills)
   - [spec-req](/skills/spec-req)
