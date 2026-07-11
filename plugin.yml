@@ -28,6 +28,15 @@ suite:
     - ["/sextant:impl-new · :impl-select", "Scaffold candidate implementations, graduate the winner (one-way)"]
   # Skill-anchored previews of the two flagship skills, shown live on the docs
   # site; the session: below is the at-a-glance flow the hub also reads.
+  # >>> shipyard:describe — generated from source by `shipyard gen-describe`; do not edit >>>
+  describe:
+    skills:
+      impl-new: Scaffold a new candidate implementation in the spec-driven `implementations/<version>/<n>-<name>/` tree, to stress-test the spec against a fresh stack.
+      impl-select: Graduate the winning candidate from the spec-driven `implementations/<version>/<n>-<name>/` tree to the sole implementation at the repo root — a one-way move, only once one candidate has clearly won.
+      spec-req: Look up, trace, and create spec requirements, and bootstrap a new SPEC.md.
+      spec-status: Refresh STATUS.md to match current spec coverage — the lightweight, hook-safe ledger writer in the spec-sync family.
+      spec-sync: Reconcile SPEC.md and the source — full-domain coverage + drift analysis, applied as one-way syncs.
+  # <<< shipyard:describe <<<
   examples:
     - label: "/sextant:spec-sync"
       ac: "--build"
