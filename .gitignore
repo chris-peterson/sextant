@@ -1,7 +1,2 @@
 .DS_Store
-docs/skills/
-docs/references/
-docs/spec.md
-docs/STATUS.md
-docs/plugin-docs.json
-__pycache__
+docs/*
