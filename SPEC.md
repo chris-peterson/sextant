@@ -14,7 +14,7 @@ Requirements as `[FUT-NN] (→ XX) …`.
 - **SPEC.md** — the contract. The authoritative, ordered list of requirements the implementation is measured against. This file.
 - **STATUS.md** — the coverage ledger. A machine-refreshable record of how each requirement is classified against the current code; carries human-authored prose (rationale, audit history) that the ledger writer preserves.
 - **Requirement** — one normative statement of observable behavior, identified by `[XX-NN]` and written in EARS syntax.
-- **Category** — a 2–4 letter mnemonic prefix grouping related requirements (`LOC`, `REQ`, …). Categories partition the requirement space.
+- **Category** — a short mnemonic prefix (2–4 characters, at its natural length rather than padded to a fixed width) grouping related requirements (`LOC`, `REQ`, `AUTH`, …). Categories partition the requirement space.
 - **Coverage classification** — the status of a requirement against the code: **Covered**, **Partial**, **Missing**, or **Contradicts**.
 - **Locate order** — the shared, ordered procedure every skill uses to find the active SPEC.md (STATUS.md pointer → `spec/` dir → justfile `spec` var → `CURRENT_SPEC_VERSION` → root `SPEC.md`/`docs/spec.md`).
 - **Drift** — behavior the code exhibits that no requirement captures (code → spec), or a requirement the code no longer satisfies (spec → code).

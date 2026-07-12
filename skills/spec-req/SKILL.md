@@ -130,7 +130,7 @@ Read existing categories and their highest requirement numbers from the spec.
 
 Based on the user's description:
 - **Match to an existing category** if it fits. Use the next available number.
-- **Create a new category** if none fits. Choose a 2-3 letter mnemonic that doesn't collide with existing prefixes.
+- **Create a new category** if none fits. Choose a natural-length mnemonic (2–4 chars) that doesn't collide with existing prefixes — the full word when the category name is already short (`AUTH`, `HOOK`, `REPO`), a short abbreviation otherwise (`REQ`, `DEP`, `DV`). Favor readability over a uniform width; these codes are read far more often than they're typed.
 - **Draft the requirement text in EARS syntax** — choose the pattern that fits the requirement's activation. The five patterns (Ubiquitous, State-Driven, Event-Driven, Optional, Unwanted Behaviour) and how they combine live in [`references/ears-patterns.md`](../../references/ears-patterns.md).
 
 Present for confirmation:
@@ -209,7 +209,7 @@ requirements from it.
 - **Key concepts/nouns** the spec will reference — these seed the Concepts
   section so requirement text has defined terms to lean on.
 - **Anticipated requirement categories** (config, CLI, rendering, …) — used to
-  seed empty category sections with 2-3 letter mnemonic prefixes. Don't force
+  seed empty category sections with natural-length mnemonic prefixes (2–4 chars). Don't force
   this; a single starter category is fine, and more get added via `new`.
 - **Whether multiple implementations are expected** — informs the spec
   location in Step 3.
@@ -272,7 +272,7 @@ extract the document's requirements into them:
    user prunes in confirmation.
 2. **Classify and number** each candidate into the categories from Step 2 (the
    same classification logic as `new` Step 1: match an existing category or mint
-   a 2-3 letter mnemonic, assign the next number per category).
+   a natural-length mnemonic (2–4 chars), assign the next number per category).
 3. **Draft each in [EARS syntax](https://alistairmavin.com/ears)** — pick the
    pattern that fits the requirement's activation (Ubiquitous, State-Driven,
    Event-Driven, Optional, Unwanted Behaviour), exactly as in `new` Step 1.
