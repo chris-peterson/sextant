@@ -3,7 +3,7 @@
 # the marketplace SPA (the suite: block).
 
 name: sextant
-version: 0.4.0
+version: 0.5.0
 description: AI-assisted, best-effort SPEC-driven development — write requirements first, reconcile them with the code either direction, graduate the winner.
 author: Chris Peterson
 repository: https://github.com/chris-peterson/sextant

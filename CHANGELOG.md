@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.0
+
+Build-tooling and docs consolidation, plus a requirement-ID convention refinement.
+
+### Changed
+
+- **Build tooling moved to shipyard.** Generators, the CI check gate, and the release workflow now delegate to shipyard's reusable tooling — `plugin.json`, the suite `describe`, and the docs site are projected from canonical sources and verified in CI.
+- **Requirement-ID convention.** Category prefixes are documented as a natural length (2–4 chars) — the full word when the category name is short, a short abbreviation otherwise — rather than a fixed width, since these codes are read far more often than they're typed.
+
+### Docs
+
+- SPEC surfaced at a stable `/spec` route on the docs site.
+- Docs render data renamed `suite.json` → `plugin-docs.json`.
+- The `impl-select` smoke-test example uses a generic CLI name.
+
 ## 0.4.0
 
 A best-practices pass over the plugin — correctness fixes to the skill
