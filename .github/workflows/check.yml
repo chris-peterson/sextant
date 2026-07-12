@@ -9,6 +9,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   check:
     uses: chris-peterson/shipyard/.github/workflows/check.yml@main
