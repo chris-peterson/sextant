@@ -54,3 +54,7 @@ suite:
     - { t: claude, text: "Auth changes shipped." }
     - { t: thought, text: "did this drift from the spec?" }
     - { t: cmd, cmd: "/sextant:spec-sync", out: "10 of 12 requirements covered; the auth TTL drifted — spec says 15m, the code does 60m." }
+
+docs:
+  code_languages: [bash, yaml, json]
+  mermaid: true
