@@ -199,6 +199,13 @@ first-class variant that `/sextant:spec-status` refreshes in place — it update
 the `**Last audit:**`/`**Coverage:**` lines and each row's Status/Location while
 preserving the Stack/Constraints/Out-of-scope block.
 
+`Location` starts `—` on every seeded row and is filled by the ledger refresh
+as evidence appears. It holds an evidence pointer per
+[`references/evidence-pointer.md`](../../references/evidence-pointer.md) — file
+plus enclosing symbol by default, never a line number. A candidate whose team
+wants a different granularity declares it in the seeded metadata block
+(`**Evidence pointers:** line`), and the refresh honors that.
+
 ### Hand off
 
 Report back to the user:

@@ -112,10 +112,18 @@ For each non-FUT requirement ID:
    verify behavior. Read the actual code; a requirement about "sorting by date"
    may be implemented without ever naming the ID.
 3. **Classify:**
-   - **Covered** — implementation satisfies it. Record file(s) and line(s).
+   - **Covered** — implementation satisfies it. Record an evidence pointer.
    - **Partial** — some aspects implemented, others missing. Note the gap.
    - **Missing** — no evidence of implementation.
    - **Contradicts** — implementation does something different from the spec.
+
+**Evidence pointers.** Record per [`references/evidence-pointer.md`](../../references/evidence-pointer.md)
+(the source of truth): the file plus its enclosing symbol —
+`src/git.ts` (`preflightChecks`) — or a requirement-ID anchor where the code
+names one, rather than a line number that unrelated edits invalidate. A
+STATUS.md declaring `**Evidence pointers:** <granularity>` overrides the
+default. This is the same rule `spec-status` applies, so the shared forward
+pass produces the same pointer whichever skill runs it.
 
 ### Reverse — code → spec drift + orphan check
 
@@ -219,13 +227,13 @@ Present the report above plus a reconciliation plan grouped by direction:
 ```text
 → to-source (spec leads, code missing):  3 items
    [OP-04] retry-with-backoff — no implementation found
-   [CM-05] config validation on startup — partial (src/cfg.ts:40, no error path)
+   [CM-05] config validation on startup — partial (src/cfg.ts, `validate`, no error path)
 
 → to-spec (code leads, spec silent):  2 items
-   src/export.ts:88 — CSV export; no requirement covers it
+   src/export.ts (`toCsv`) — CSV export; no requirement covers it
 
 ⚠ needs decision (contradiction):  1 item
-   [UP-01] "system monospace" — code ships a bundled font (src/ui.css:12)
+   [UP-01] "system monospace" — code ships a bundled font (src/ui.css)
 
 Recommended: run `spec-sync --to-spec` to capture the 2 drift items, then a
 dev session for the 3 to-source gaps. Resolve [UP-01] by hand.
@@ -265,7 +273,7 @@ Implementation gaps (spec → code):
   [OP-04] When a request fails transiently, the system shall retry with
           exponential backoff. → no implementation. Suggested home: src/http.ts
   [CM-05] config validation on startup → partial; missing the error path.
-          src/cfg.ts:40
+          src/cfg.ts (`validate`)
 ```
 
 Then hand off to a development session seeded with this list — a
