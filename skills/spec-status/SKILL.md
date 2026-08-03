@@ -1,6 +1,5 @@
 ---
 name: spec-status
-disable-model-invocation: true
 description: Refresh STATUS.md to match current spec coverage — the lightweight, hook-safe ledger writer in the spec-sync family.
 ---
 
