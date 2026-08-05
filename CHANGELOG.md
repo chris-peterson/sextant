@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.6.0
+
+Coverage evidence stops rotting on unrelated commits, and the two lightweight skills become model-invocable.
+
+### Changed
+
+- **`STATUS.md` records evidence as a pointer that survives unrelated edits.** A Covered requirement's `Location` held `file:line`, and a line number changes when anything above it changes — so following a stale `src/git.ts:62-73` lands you in unrelated code. It also eroded the idempotency `/sextant:spec-status` claims: a refresh after any commit found every shifted row wrong and rewrote it, reporting churn no coverage change caused. The refresh now records the file plus its enclosing symbol, or a requirement-ID anchor where the code names one at the site.
+
+  Granularity is your project's call. `references/evidence-pointer.md` documents the spectrum (line range → symbol → anchor → file → directory) and what each trades; declare your choice with an `**Evidence pointers:**` line in `STATUS.md` and the refresh preserves it instead of converting it back. **The first refresh of an existing ledger rewrites every `Location` at once** — that is reported as a format change, not as drift.
+
+- **`/sextant:spec-req` and `/sextant:spec-status` can be invoked by Claude again.** 0.3.2 marked both `disable-model-invocation` to cut always-resident context; they are lightweight enough to be worth the cost, so Claude can reach for them without you typing the command. `spec-sync`, `impl-new`, and `impl-select` stay slash-only.
+
+### Spec
+
+- **`COV-09`** — evidence is recorded at the granularity the ledger declares, defaulting to file plus enclosing symbol.
+- **`COV-05`** reworded: idempotency covers commits that change no coverage, not only consecutive runs. That is the boundary it was always meant to claim.
+
+### Other
+
+- The docs site's `index.html` is projected from `plugin.yml` via shipyard rather than committed, so the shared docsify template applies without a hand-copied file drifting from it.
+- CI runs shipyard's preview gate, which validates that the source projects cleanly and previews the pending projection. The old check gate failed on any drift between committed artifacts and their source — but that projection happens at release, so between releases the lag is expected. The pre-commit hook that papered over it, and its `just install-hooks` recipe, are gone. `just build` is now `just generate`; `just check` runs `generate --dry-run`.
+- shipyard's reusable workflows and the `scripts/shipyard` wrapper are pinned to its `v1` branch.
+- `SECURITY.md` added, and every workflow declares its `permissions`.
+
 ## 0.5.0
 
 Build-tooling and docs consolidation, plus a requirement-ID convention refinement.
