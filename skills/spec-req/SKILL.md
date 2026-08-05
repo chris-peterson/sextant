@@ -71,10 +71,10 @@ Look up one requirement by its full ID.
 2. **Present a table** with the requirement and its implementation status across all implementations:
 
 ```text
-| ID    | Requirement              | impl-1       | impl-2       |
-|-------|--------------------------|--------------|--------------|
-| CM-01 | Config file loading      | Covered      | Partial      |
-|       |                          | src/cfg.py:45| src/cfg.js:30|
+| ID    | Requirement              | impl-1              | impl-2              |
+|-------|--------------------------|---------------------|---------------------|
+| CM-01 | Config file loading      | Covered             | Partial             |
+|       |                          | src/cfg.py (`load`) | src/cfg.js (`load`) |
 ```
 
 3. **Trace through implementations** to find gaps:
@@ -86,7 +86,7 @@ Look up one requirement by its full ID.
 ```text
 Gaps found:
   → impl-2: missing env var override (CM-01 says "env vars take precedence")
-  → Spec gap: impl-1 supports YAML config (src/cfg.py:62) but spec only mentions JSON
+  → Spec gap: impl-1 supports YAML config (src/cfg.py, `load_yaml`) but spec only mentions JSON
 ```
 
 If no gaps are found, say so — a clean result is useful information.
@@ -102,12 +102,12 @@ Look up all requirements in a category.
 ```text
 ## CM — Configuration (4 requirements)
 
-| ID    | Requirement              | Status  | Location          |
-|-------|--------------------------|---------|-------------------|
-| CM-01 | Config file loading      | Covered | src/cfg.py:45     |
-| CM-02 | Env var overrides        | Partial | src/cfg.py:72     |
-| CM-03 | Validation on startup    | Missing | —                 |
-| CM-04 | Config hot-reload        | FUT     | (deferred)        |
+| ID    | Requirement              | Status  | Location                  |
+|-------|--------------------------|---------|---------------------------|
+| CM-01 | Config file loading      | Covered | src/cfg.py (`load`)       |
+| CM-02 | Env var overrides        | Partial | src/cfg.py (`apply_env`)  |
+| CM-03 | Validation on startup    | Missing | —                         |
+| CM-04 | Config hot-reload        | FUT     | (deferred)                |
 ```
 
 3. **Trace each non-FUT requirement** through implementations, same as single-requirement mode but summarized. Only report gaps — don't repeat "no gaps" for every covered requirement.

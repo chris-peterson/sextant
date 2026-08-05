@@ -16,6 +16,7 @@ Requirements as `[FUT-NN] (→ XX) …`.
 - **Requirement** — one normative statement of observable behavior, identified by `[XX-NN]` and written in EARS syntax.
 - **Category** — a short mnemonic prefix (2–4 characters, at its natural length rather than padded to a fixed width) grouping related requirements (`LOC`, `REQ`, `AUTH`, …). Categories partition the requirement space.
 - **Coverage classification** — the status of a requirement against the code: **Covered**, **Partial**, **Missing**, or **Contradicts**.
+- **Evidence pointer** — where the code satisfies a requirement, recorded in the ledger's `Location`. Its granularity is the project's choice (line range → symbol → anchor → file → directory), defaulting to file plus enclosing symbol so it survives edits it isn't about.
 - **Locate order** — the shared, ordered procedure every skill uses to find the active SPEC.md (STATUS.md pointer → `spec/` dir → justfile `spec` var → `CURRENT_SPEC_VERSION` → root `SPEC.md`/`docs/spec.md`).
 - **Drift** — behavior the code exhibits that no requirement captures (code → spec), or a requirement the code no longer satisfies (spec → code).
 - **Implementation** — code that satisfies the spec. A repo has either one (at the root) or several candidates under `implementations/<version>/<n>-<name>/`.
@@ -59,10 +60,11 @@ Requirements as `[FUT-NN] (→ XX) …`.
 - **[COV-02]** The spec-status skill shall write only STATUS.md and shall never edit code or SPEC.md.
 - **[COV-03]** While a STATUS.md already exists, the system shall edit only its machine-derived regions and preserve human-authored prose and audit history.
 - **[COV-04]** When no STATUS.md exists, the system shall generate one from the canonical template.
-- **[COV-05]** The coverage refresh shall be idempotent — a run that finds no change shall write nothing and report the ledger already accurate.
+- **[COV-05]** The coverage refresh shall be idempotent across commits that change no coverage — such a run shall write nothing and report the ledger already accurate.
 - **[COV-06]** When a refresh changes the ledger, the system shall append a dated audit-history entry and print a one-line change summary.
 - **[COV-07]** If the code contradicts a requirement's spec text, then the system shall record a needs-decision row rather than reconciling it.
 - **[COV-08]** The system shall keep the coverage header count, the sum of per-category counts, and the spec's normative inventory equal.
+- **[COV-09]** When recording evidence for a Covered requirement, the system shall record a pointer at the granularity the ledger declares, defaulting to the file plus its enclosing symbol rather than a line number.
 
 ### REC — Spec/code reconciliation
 

@@ -92,8 +92,16 @@ not a reimplementation. For each non-FUT requirement ID:
 1. Read the requirement text.
 2. Search the implementation for evidence (grep the ID, grep keywords, read
    the relevant source).
-3. Classify: **Covered** (record file:line), **Partial** (note the gap),
-   **Missing**, or **Contradicts** (code does something the spec doesn't say).
+3. Classify: **Covered** (record an evidence pointer), **Partial** (note the
+   gap), **Missing**, or **Contradicts** (code does something the spec doesn't
+   say).
+
+**Evidence pointers** follow [`references/evidence-pointer.md`](../../references/evidence-pointer.md)
+(the source of truth): record the file plus its enclosing symbol —
+`src/git.ts` (`preflightChecks`) — or a requirement-ID anchor where the code
+names one, rather than a line number that any edit above it invalidates. When
+STATUS.md declares `**Evidence pointers:** <granularity>`, record in that form
+instead.
 
 Read the actual code — don't classify from STATUS.md's existing rows. The
 point of this skill is to catch the cases where STATUS.md and the code have
@@ -135,6 +143,9 @@ real repos was always one of these three disagreeing.
 - The intro pointer line and any prose context paragraph below the metadata
   block (the rationale that explains the coverage state).
 - Numbering-gap notes ("no PROV-04, no CMD-10 … are intentional").
+- The `**Evidence pointers:**` line, where the file declares one — it is the
+  project's chosen granularity, not a machine-derived fact. Read it to decide
+  what a `Location` holds; never rewrite it.
 - The entire `## Audit history` section — append to it, never rewrite prior
   entries (see below).
 - The `## How to use this file` boilerplate.
@@ -153,7 +164,14 @@ instead of the per-category rollup. Refresh it in place: update each row's
 `Status` (Covered/Partial/Missing/Contradicts) and `Location` from the forward
 pass, and update the `**Last audit:**` / `**Coverage:**` lines — but preserve
 the Stack/Constraints/Out-of-scope block untouched (it's the candidate's
-declared scope, human-authored at seed). Do **not** convert a per-impl file to
+declared scope, human-authored at seed).
+
+`Location` carries an evidence pointer per
+[`references/evidence-pointer.md`](../../references/evidence-pointer.md), so a
+row still holding a line range from an older ledger **converts** rather than
+being preserved — unless the file declares `**Evidence pointers:** line`, which
+keeps it. A conversion is a format change, not a coverage change; Step 4 reports
+it as such. Do **not** convert a per-impl file to
 the per-category shape, and do not fall back to the "generate from template"
 path for one that already exists — that would clobber the candidate metadata.
 
@@ -203,6 +221,10 @@ Maintained by `/sextant:spec-status`.
 When you implement a new requirement, change the row's status and add an
 evidence pointer. When an audit reveals drift, update the row to **Partial**
 or **Contradicts** with a one-line note.
+
+Evidence pointers are the file plus its enclosing symbol by default. To use a
+different granularity, add `**Evidence pointers:** line` (or `anchor`, `file`,
+`directory`) to the metadata block above.
 ```
 
 Leave the context paragraph and `## Audit history` for the user to grow — a
@@ -238,16 +260,27 @@ status transitions (e.g. "2 Partial → Covered", "1 Covered → Contradicts"),
 and any version/metadata change. If a needs-decision row was added, say so
 (`… 1 needs-decision flagged`).
 
+**Count a pointer-format conversion separately from a coverage change.** The
+first refresh of a ledger that still holds line ranges rewrites every
+`Location`, and a summary that reports only the row count reads as drift the
+code never had. Name it for what it is:
+
+```text
+STATUS.md updated: coverage unchanged; 38 Locations converted to file+symbol
+```
+
 If nothing changed, print:
 
 ```text
 STATUS.md already accurate — no changes
 ```
 
-A second consecutive run must land here: the first run made STATUS.md match
-the code, so the second finds nothing to do and writes nothing. Idempotency is
-a correctness property of this skill — if a no-change run still produces a
-diff, something in Step 3 is rewriting a region it should be preserving.
+A second consecutive run must land here, and so must a run after commits that
+changed no coverage: the first run made STATUS.md match the code, so the next
+finds nothing to do and writes nothing. Idempotency is a correctness property
+of this skill — if a no-change run still produces a diff, something in Step 3
+is rewriting a region it should be preserving, or a `Location` is holding a
+coordinate that unrelated edits move.
 
 ## Boundaries
 
@@ -258,8 +291,11 @@ diff, something in Step 3 is rewriting a region it should be preserving.
 - **Silent on non-spec repos.** The no-op gate prints one line and exits.
 - **Refresh over rewrite.** Targeted edits to machine regions; human prose
   survives untouched.
-- **Idempotent.** Running twice in a row leaves the second run with nothing to
-  write.
+- **Idempotent across unrelated commits**, not only across zero commits.
+  Running twice in a row leaves the second run with nothing to write, and so
+  does a run after commits that changed no coverage — which is why evidence
+  pointers hold a symbol or an anchor rather than a line number that any edit
+  above it shifts.
 
 ## Related
 
