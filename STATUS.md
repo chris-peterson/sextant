@@ -5,7 +5,7 @@ Maintained by `/sextant:spec-status`.
 
 **Last audit:** 2026-08-01
 **Spec version:** root SPEC.md (unversioned)
-**Plugin version:** 0.4.0
+**Plugin version:** 0.6.0
 **Coverage:** 46 Covered, 0 Partial, 0 Missing/Contradicts
 **Evidence pointers:** file
 
