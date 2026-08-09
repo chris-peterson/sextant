@@ -8,35 +8,10 @@ A sextant is the precision nautical instrument used to fix position against exte
 
 End-user docs: https://chris-peterson.github.io/sextant
 
-## Repo layout
-
-```text
-.claude-plugin/plugin.json   plugin manifest
-skills/spec-req/             /sextant:spec-req — look up, trace, create spec requirements, and bootstrap a new spec (init)
-skills/spec-status/          /sextant:spec-status — refresh STATUS.md to match current coverage (lightweight, automatable ledger writer)
-skills/spec-sync/            /sextant:spec-sync — full-domain coverage + drift analysis of SPEC.md vs code; one-way --to-spec / --to-source reconciliation
-skills/impl-new/             /sextant:impl-new — scaffold a new candidate implementation under implementations/<v>/<slug>/
-skills/impl-select/          /sextant:impl-select — select the winning candidate from implementations/ and graduate it to the repo root
-docs/                        end-user docs site (docsify, GitHub Pages)
-SPEC.md                      sextant's own behavior spec — it dogfoods itself (rendered on the docs site as "Sextant²")
-STATUS.md                    coverage ledger for SPEC.md, maintained by /sextant:spec-status
-```
-
-## Try the plugin locally
-
-```bash
-claude --plugin-dir .
-```
-
-Launches Claude Code with the working tree mounted as a plugin.
-
-## Docs
-
-```bash
-just docs
-```
-
-Serves the docsify site at `docs/` locally. Deployed to GitHub Pages on push to `main` via `.github/workflows/deploy-docs.yml`.
+Working on sextant — repo layout, the `just` targets, and the conventions this
+codebase holds itself to — is in [AGENTS.md](./AGENTS.md), the same file the
+agents read. Requirements are in [SPEC.md](./SPEC.md), their coverage in
+[STATUS.md](./STATUS.md).
 
 ## License
 
