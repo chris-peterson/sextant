@@ -33,11 +33,9 @@ You shipped a change and want to know whether the code still matches the contrac
 
 | Surface | What it does |
 |---|---|
-| [`/sextant:spec-req`](/skills/spec-req) | Look up requirements by ID or category, trace them through implementations, draft new ones in EARS syntax, or bootstrap a fresh `SPEC.md` (`spec-req init`) |
+| [`/sextant:spec-req`](/skills/spec-req) | Look up requirements by ID or category, trace them through the code, draft new ones in EARS syntax, or bootstrap a fresh `SPEC.md` (`spec-req init`) |
 | [`/sextant:spec-status`](/skills/spec-status) | Refresh `STATUS.md` to match current coverage — the lightweight, automatable ledger writer (`/ship-it`- and hook-friendly) |
 | [`/sextant:spec-sync`](/skills/spec-sync) | Full-domain analysis of `SPEC.md` against the code — coverage, bidirectional drift, requirement quality — and one-way reconciliation (`--to-spec` / `--to-source`) |
-| [`/sextant:impl-new`](/skills/impl-new) | Scaffold a new candidate implementation — gather stack + constraints, read `SPEC.md`, propose a plan, and on sign-off create `implementations/<v>/<slug>/` with a justfile stub and seeded `STATUS.md` |
-| [`/sextant:impl-select`](/skills/impl-select) | Select the winning candidate from `implementations/<version>/<n>-<name>/` and flatten it to **the** implementation at the repo root |
 
 The two skills you reach for most — reconciling code against the spec, and giving a new requirement a stable identity — in motion:
 
@@ -62,7 +60,7 @@ The two skills you reach for most — reconciling code against the spec, and giv
 
    Produces a full-domain coverage and drift report, and refreshes `STATUS.md`.
 
-4. **Iterate.** As you discover new requirements during implementation, capture them with `/sextant:spec-req new`. When one implementation has clearly won out of the exploration tree, run `/sextant:impl-select` to flatten the repo.
+4. **Iterate.** As you discover new requirements during implementation, capture them with `/sextant:spec-req new`, and keep the ledger current with `/sextant:spec-status`.
 
 ## Why "best-effort"
 
@@ -73,9 +71,8 @@ Sextant treats the spec as a living reference rather than a gate:
 - **Partial coverage is a state, not a failure.** `spec-status` and `spec-sync` measure the gap between spec and code instead of demanding you close it before proceeding.
 - **Drift is surfaced, not forbidden.** `spec-sync` flags divergence in both directions — requirements with no code, code with no requirement — so the spec earns its keep by staying honest.
 - **Requirements have identity.** Requirements are written in [EARS syntax](https://alistairmavin.com/ears) with stable IDs you can trace to the code that satisfies them.
-- **Implementations compete.** `impl-new` scaffolds candidates against one spec; `impl-select` graduates the winner.
 
-If you want to go from an idea to a first implementation, a forward, spec-first tool like [spec-kit](https://github.com/github/spec-kit) is built for that. Sextant is for the other side of the loop: keeping a spec and a codebase reconciled over time, and baking off candidate implementations against the spec. See [Why Sextant?](/comparison) for where sextant sits among SDD tools.
+If you want to go from an idea to a first implementation, a forward, spec-first tool like [spec-kit](https://github.com/github/spec-kit) is built for that. Sextant is for the other side of the loop: keeping a spec and a codebase reconciled over time. See [Why Sextant?](/comparison) for where sextant sits among SDD tools.
 
 ## Reference
 

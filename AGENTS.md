@@ -1,9 +1,8 @@
 # sextant
 
 A Claude Code plugin for AI-assisted, best-effort spec-driven development: it
-writes requirements first, reconciles them with the code in either direction, and
-graduates the winning candidate from an exploration tree to the sole
-implementation at the repo root. What each skill does for a *user* lives on the
+writes requirements first, tracks how the code covers them, and reconciles the
+two in either direction. What each skill does for a *user* lives on the
 docs site (https://chris-peterson.github.io/sextant); this file is for working on
 the plugin itself.
 
@@ -34,8 +33,6 @@ plugin.yml               canonical descriptor — manifest, marketplace entry, d
 skills/spec-req/         look up, trace, author requirements; bootstrap a spec (init)
 skills/spec-status/      refresh STATUS.md — the lightweight, hook-safe ledger writer
 skills/spec-sync/        full-domain coverage + drift analysis; one-way reconciliation
-skills/impl-new/         scaffold a candidate under implementations/<version>/<n>-<name>/
-skills/impl-select/      graduate the winner to the repo root (one-way)
 references/              shared procedures the skills read at runtime
 SPEC.md / STATUS.md      sextant's own requirements and their coverage
 docs/                    docsify site (index.html, _sidebar.md, hero, favicon are source)
@@ -48,8 +45,8 @@ generated file; edit its source and run `just generate`.
 ## Conventions
 
 - **A shared procedure lives in `references/` once.** `locate-spec.md`,
-  `counting-rule.md`, `ears-patterns.md`, and `evidence-pointer.md` are each the
-  single source of truth for their rule. A skill quotes a one-line summary for
+  `counting-rule.md`, `ears-patterns.md`, `evidence-pointer.md`, and
+  `category-prefix.md` are each the single source of truth for their rule. A skill quotes a one-line summary for
   the reader and defers to the reference for the authoritative version — so
   changing a rule is one edit, not five. Adding the rule inline to a skill
   instead is the drift this prevents.
@@ -79,8 +76,10 @@ generated file; edit its source and run `just generate`.
 - **STATUS.md** — the coverage ledger: a machine-refreshable record of how each
   requirement classifies against the current code, carrying human-authored
   rationale and audit history that the writer preserves.
-- **Category** — a 2–4 character mnemonic prefix grouping related requirements
-  (`LOC`, `REQ`, `AUTH`, …), at its natural length rather than padded.
+- **Category** — a prefix grouping related requirements (`LOCATE`, `LOOKUP`,
+  `AUTHORING`, …): more than one character, all caps, one word — the name people
+  say for the thing, whether that's the word or an established initialism (`UX`,
+  `CLI`). The authoritative form is `references/category-prefix.md`.
 - **Coverage classification** — Covered, Partial, Missing, or Contradicts.
 - **Evidence pointer** — where the code satisfies a requirement, recorded in the
   ledger's `Location`.
@@ -88,7 +87,3 @@ generated file; edit its source and run `just generate`.
   SPEC.md; the authoritative version is `references/locate-spec.md`.
 - **Drift** — behavior the code exhibits that no requirement captures, or a
   requirement the code no longer satisfies.
-- **Candidate** — an exploratory implementation built against the spec to
-  stress-test it. An instrumented experiment, not a competitor.
-- **Graduation** — the one-way move that selects a winning candidate, retires the
-  others, and flattens the winner to the repo root.

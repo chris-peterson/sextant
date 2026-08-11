@@ -29,5 +29,3 @@ behavior (this file only defines the search order):
   `spec-req init`. It is always user-invoked and interactive.
 - **spec-req** — ask the user where the spec is (except `init`, which *expects*
   no spec and scaffolds one).
-- **impl-new** — stop and ask; never scaffold an implementation tree before
-  there is a contract to build against.

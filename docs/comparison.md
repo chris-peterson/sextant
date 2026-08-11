@@ -27,15 +27,13 @@ Dimensions follow the article's own comparison axes. Rows for Kiro, Spec-kit, an
 | Partial coverage | gate to pass | gate to pass | regenerate to close | **first-class state** |
 | Drift handling | — | — | regenerate code | **surfaced both directions** |
 | Generates code? | no — generates plans | no — generates plans | yes (owns it) | **no — measures it** |
-| Multiple implementations | single tree | single tree | single tree | **candidate bake-off** |
 | Distribution | VS Code fork | CLI + slash commands | CLI + MCP server | **Claude Code plugin** |
 
 ## What sextant does that the forward tools don't
 
 - **Partial coverage is a state, not a failed gate.** This is a direct answer to the article's *Verschlimmbesserung* concern. A spec generated once and frozen decays as the code moves on; sextant assumes that and measures the gap — Covered, Partial, Missing, or Contradicts — instead of demanding you close it before proceeding.
 - **Bidirectional drift.** Code with no requirement *and* requirements with no code are both surfaced. The forward tools are one-way by construction; reconstructing the spec from code is at most a bootstrap step.
-- **Implementation bake-off.** `impl-new` scaffolds several candidates against one spec; `impl-select` graduates the winner and flattens the tree. The surveyed tools assume a single implementation.
 
 ## When to reach for which
 
-Reach for a forward, spec-first tool like [Spec-kit](https://github.com/github/spec-kit) to get from an idea to a first implementation. Reach for sextant once code exists and you need to keep it and the spec reconciled over time — and to bake off candidate implementations against one spec.
+Reach for a forward, spec-first tool like [Spec-kit](https://github.com/github/spec-kit) to get from an idea to a first implementation. Reach for sextant once code exists and you need to keep it and the spec reconciled over time.

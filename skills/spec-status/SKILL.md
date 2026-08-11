@@ -76,11 +76,7 @@ line in the spec itself).
 
 Then find the STATUS.md to refresh:
 
-- **Single root `STATUS.md`** (the common case once a project has one
-  implementation) — refresh it.
-- **Per-implementation `STATUS.md`** under `implementations/<v>/<impl>/` (the
-  pre-graduation `impl-new` layout) — refresh each one against its own
-  declared scope.
+- **Root `STATUS.md`** — refresh it.
 - **No STATUS.md yet** (a fresh repo just scaffolded by `spec-req init`) —
   generate one from the template in Step 3.
 
@@ -150,30 +146,19 @@ real repos was always one of these three disagreeing.
   entries (see below).
 - The `## How to use this file` boilerplate.
 
-**Match the existing table's shape.** Some STATUS.md files use
-`| Prefix | Covered | Status | Notes |`, others `| Prefix | Count | Status |
-Notes |`. Preserve whichever columns the file already has rather than imposing
-one. Keep requirement text in the Notes/row abbreviated — full text lives in
-the spec.
-
-**Per-implementation files have a different, first-class shape.** A STATUS.md
-seeded by `impl-new` under `implementations/<v>/<impl>/` uses a
-**per-requirement** table (`| ID | Requirement | Status | Location |`) plus a
-candidate metadata block (`**Stack:** / **Constraints:** / **Out of scope:**`)
-instead of the per-category rollup. Refresh it in place: update each row's
-`Status` (Covered/Partial/Missing/Contradicts) and `Location` from the forward
-pass, and update the `**Last audit:**` / `**Coverage:**` lines — but preserve
-the Stack/Constraints/Out-of-scope block untouched (it's the candidate's
-declared scope, human-authored at seed).
+**Match the existing table's shape.** Some STATUS.md files roll up per category
+(`| Prefix | Count | Status | Notes |`, or `| Prefix | Covered | Status |
+Notes |`); others carry a row per requirement (`| ID | Requirement | Status |
+Location |`). Both are first-class. Refresh whichever the file already has
+rather than imposing one, and keep requirement text in the Notes/row
+abbreviated — full text lives in the spec.
 
 `Location` carries an evidence pointer per
 [`references/evidence-pointer.md`](../../references/evidence-pointer.md), so a
 row still holding a line range from an older ledger **converts** rather than
 being preserved — unless the file declares `**Evidence pointers:** line`, which
 keeps it. A conversion is a format change, not a coverage change; Step 4 reports
-it as such. Do **not** convert a per-impl file to
-the per-category shape, and do not fall back to the "generate from template"
-path for one that already exists — that would clobber the candidate metadata.
+it as such.
 
 This is a refresh, not a rewrite. Use targeted edits against the specific
 fields and rows; do not regenerate the whole file from a template when one

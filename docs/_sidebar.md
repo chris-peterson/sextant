@@ -4,6 +4,4 @@
   - [spec-req](/skills/spec-req)
   - [spec-status](/skills/spec-status)
   - [spec-sync](/skills/spec-sync)
-  - [impl-new](/skills/impl-new)
-  - [impl-select](/skills/impl-select)
 - [Sextant²](/meta)

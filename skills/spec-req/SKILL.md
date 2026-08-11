@@ -6,7 +6,7 @@ argument-hint: "<XX-NN | XX | new | init [from <doc>]>"
 
 # Spec Req
 
-Look up requirements by ID or category, trace them through implementations, and surface gaps in both directions. Also handles creating new requirements.
+Look up requirements by ID or category, trace them through the code, and surface gaps in both directions. Also handles creating new requirements.
 
 ```mermaid
 %%{ init: { 'look': 'handDrawn' } }%%
@@ -23,7 +23,8 @@ flowchart TD
         HasDoc -->|"no"| Vision["Gather vision / scope"]
         HasDoc -->|"yes"| ReadDoc["Read source document"]
         ReadDoc --> Vision
-        Vision --> Location["Choose spec location"]
+        Vision --> Sections["Confirm category set"]
+        Sections --> Location["Choose spec location"]
         Location --> Scaffold["Write SPEC.md skeleton + STATUS.md stub"]
         Scaffold --> FromDoc{"from doc?"}
         FromDoc -->|"yes"| Populate["Extract EARS requirements into SPEC.md"]
@@ -39,7 +40,7 @@ flowchart TD
     end
 
     subgraph "Trace"
-        Table --> Search["Search implementations"]
+        Table --> Search["Search the code"]
         Search --> Gaps["Report gaps both directions"]
     end
 
@@ -68,16 +69,15 @@ Look up one requirement by its full ID.
 
 1. **Find the requirement** in SPEC.md. If the ID doesn't exist, say so and suggest nearby IDs in the same category.
 
-2. **Present a table** with the requirement and its implementation status across all implementations:
+2. **Present a table** with the requirement and its status against the code:
 
 ```text
-| ID    | Requirement              | impl-1              | impl-2              |
-|-------|--------------------------|---------------------|---------------------|
-| CM-01 | Config file loading      | Covered             | Partial             |
-|       |                          | src/cfg.py (`load`) | src/cfg.js (`load`) |
+| ID        | Requirement         | Status  | Location            |
+|-----------|---------------------|---------|---------------------|
+| CONFIG-01 | Config file loading | Covered | src/cfg.py (`load`) |
 ```
 
-3. **Trace through implementations** to find gaps:
+3. **Trace it through the code** to find gaps:
    - **Implementation gaps** — the spec says something the code doesn't do. Search for the requirement ID in comments, grep for keywords from the requirement text, and read relevant code to verify behavior.
    - **Spec gaps** — the code around this requirement does something the spec doesn't mention. Look at neighboring code, recent commits touching related files, and STATUS.md notes.
 
@@ -85,8 +85,8 @@ Look up one requirement by its full ID.
 
 ```text
 Gaps found:
-  → impl-2: missing env var override (CM-01 says "env vars take precedence")
-  → Spec gap: impl-1 supports YAML config (src/cfg.py, `load_yaml`) but spec only mentions JSON
+  → missing env var override (CONFIG-01 says "env vars take precedence")
+  → Spec gap: YAML config is supported (src/cfg.py, `load_yaml`) but the spec only mentions JSON
 ```
 
 If no gaps are found, say so — a clean result is useful information.
@@ -100,17 +100,17 @@ Look up all requirements in a category.
 2. **Present a summary table** with implementation status:
 
 ```text
-## CM — Configuration (4 requirements)
+## CONFIG — Configuration
 
-| ID    | Requirement              | Status  | Location                  |
-|-------|--------------------------|---------|---------------------------|
-| CM-01 | Config file loading      | Covered | src/cfg.py (`load`)       |
-| CM-02 | Env var overrides        | Partial | src/cfg.py (`apply_env`)  |
-| CM-03 | Validation on startup    | Missing | —                         |
-| CM-04 | Config hot-reload        | FUT     | (deferred)                |
+| ID        | Requirement           | Status  | Location                 |
+|-----------|-----------------------|---------|--------------------------|
+| CONFIG-01 | Config file loading   | Covered | src/cfg.py (`load`)      |
+| CONFIG-02 | Env var overrides     | Partial | src/cfg.py (`apply_env`) |
+| CONFIG-03 | Validation on startup | Missing | —                        |
+| CONFIG-04 | Config hot-reload     | FUT     | (deferred)               |
 ```
 
-3. **Trace each non-FUT requirement** through implementations, same as single-requirement mode but summarized. Only report gaps — don't repeat "no gaps" for every covered requirement.
+3. **Trace each non-FUT requirement** through the code, same as single-requirement mode but summarized. Only report gaps — don't repeat "no gaps" for every covered requirement.
 
 4. **Category summary** at the bottom:
 
@@ -129,7 +129,7 @@ Read existing categories and their highest requirement numbers from the spec.
 
 Based on the user's description:
 - **Match to an existing category** if it fits. Use the next available number.
-- **Create a new category** if none fits. Choose a natural-length mnemonic (2–4 chars) that doesn't collide with existing prefixes — the full word when the category name is already short (`AUTH`, `HOOK`, `REPO`), a short abbreviation otherwise (`REQ`, `DEP`, `DV`). Favor readability over a uniform width; these codes are read far more often than they're typed.
+- **Create a new category** if none fits. A prefix is more than one character, all caps, and a single word with no punctuation — the name people already say for the thing, usually the whole word (`RENDER`, not `RN`) but the initialism where that's what they say (`UX`, `CI`, `CLI`). The authoritative form and the naming trade-offs are in [`references/category-prefix.md`](../../references/category-prefix.md).
 - **Draft the requirement text in EARS syntax** — choose the pattern that fits the requirement's activation. The five patterns (Ubiquitous, State-Driven, Event-Driven, Optional, Unwanted Behaviour) and how they combine live in [`references/ears-patterns.md`](../../references/ears-patterns.md).
 
 Present for confirmation:
@@ -154,8 +154,8 @@ After the user confirms:
 
 **If implementing now:**
 1. Add to SPEC.md in the appropriate category section, sorted by ID
-2. Update STATUS.md with "Missing" for each tracked implementation (the shared Covered/Partial/Missing/Contradicts vocabulary)
-3. Flow to implementations — make the change, update STATUS.md to "Covered"
+2. Record it in STATUS.md as "Missing" (the shared Covered/Partial/Missing/Contradicts vocabulary)
+3. Flow to the code — make the change, update STATUS.md to "Covered"
 
 **If capturing as future:**
 1. Add to SPEC.md under "Future Requirements" as `[FUT-NN] (→ XX) <requirement text>`
@@ -166,14 +166,13 @@ After the user confirms:
 Captured [XX-NN]: <short description>
   → SPEC.md updated
   → STATUS.md updated (if applicable)
-  → N implementations updated (if applicable)
 ```
 
 ## Mode: Bootstrap a new spec (`sextant:spec-req init [from <doc>]`)
 
 Stand up a spec-driven repo from scratch — there's no SPEC.md yet. This is the
 zeroth authoring step: once the skeleton exists, every other mode (and the rest
-of sextant — `spec-sync`, `spec-status`, `impl-new`) operates on it.
+of sextant — `spec-sync`, `spec-status`) operates on it.
 
 Two variants:
 
@@ -196,9 +195,10 @@ to an existing spec.
 
 **With `from <doc>`:** read the source first (Read for a path, WebFetch for a
 URL), then derive the vision, key concepts, and candidate requirement
-categories from its content instead of asking. Confirm the derived contract and
-category set with the user in one pass rather than interviewing field by field —
-they can correct the draft. Keep the document open; Step 4b extracts
+categories from its content instead of asking. Confirm the derived contract in
+one pass rather than interviewing field by field — they can correct the draft.
+The category set still goes through Step 2b; a set derived from a document is a
+draft, not the user's decision. Keep the document open; Step 4b extracts
 requirements from it.
 
 **Without a source — ask for:**
@@ -208,24 +208,53 @@ requirements from it.
 - **Key concepts/nouns** the spec will reference — these seed the Concepts
   section so requirement text has defined terms to lean on.
 - **Anticipated requirement categories** (config, CLI, rendering, …) — used to
-  seed empty category sections with natural-length mnemonic prefixes (2–4 chars). Don't force
-  this; a single starter category is fine, and more get added via `new`.
-- **Whether multiple implementations are expected** — informs the spec
-  location in Step 3.
+  seed empty category sections. Don't force this; a single starter category is
+  fine, and more get added via `new`.
+- **Whether the spec will be versioned** — informs the spec location in Step 3.
+
+### Step 2b: Walk the user through the category set
+
+The categories are the one decision here that's expensive to revisit: the prefix
+is baked into every ID, and renaming one later re-IDs its requirements and
+stales every ledger row, audit entry, and code anchor that cites them. So
+name them **with** the user before anything is written, rather than scaffolding
+a set they'll correct later.
+
+Draft the set from Step 2 (or, with `from <doc>`, from the document's own
+structure) and walk it section by section — one row each, with the prefix, the
+name, and one line on what belongs in it and what doesn't:
+
+```text
+Proposed sections:
+
+  CONFIG — Configuration     loading, precedence, validation of settings
+  CLI    — Command surface   flags, subcommands, exit codes
+  RENDER — Output rendering  formats and templates the CLI emits
+
+Prefixes are all-caps single words, more than one character
+(references/category-prefix.md). Rename, split, merge, or drop any — and say
+what's missing. Nothing is written until you're happy with this set.
+```
+
+Take the user through it explicitly: ask whether each section is one they'd
+recognize six months from now, and whether any behavior they care about has no
+section to land in. Iterate until they sign off. Apply the naming rule in
+[`references/category-prefix.md`](../../references/category-prefix.md) to
+anything they propose, and say so when a suggested prefix needs adjusting to
+meet it — don't silently rewrite their word.
 
 ### Step 3: Choose the spec location
 
 Per the standard locate order:
 
-- **Root `SPEC.md`** — simplest; for a single-implementation repo or an
-  existing project adopting spec-driven in place.
-- **`spec/<version>/SPEC.md`** (e.g. `spec/v1/SPEC.md`) — the versioned layout;
-  pairs with an `implementations/<version>/` tree when you expect to explore
-  multiple candidates. Record the version in the justfile `spec` variable so
-  the other skills resolve it.
+- **Root `SPEC.md`** — simplest, and the default; for a new project or an
+  existing one adopting spec-driven in place.
+- **`spec/<version>/SPEC.md`** (e.g. `spec/v1/SPEC.md`) — the versioned layout,
+  for a spec expected to go through revisions worth keeping side by side.
+  Record the version in the justfile `spec` variable so the other skills
+  resolve it.
 
-Ask which; default to root `SPEC.md` unless the user expects multiple
-implementations.
+Ask which; default to root `SPEC.md`.
 
 ### Step 4: Scaffold
 
@@ -253,9 +282,7 @@ _(none yet — add with `/sextant:spec-req new`)_
 ```
 
 Then write a `STATUS.md` stub in the canonical shape that `spec-status`
-maintains (zero requirements so far), and — if the versioned layout was chosen
-— note the `implementations/<version>/` convention, or document that the repo
-starts with a single root implementation.
+maintains (zero requirements so far), recording the spec location it tracks.
 
 **Without a source: do not invent requirements during `init`.** The skeleton is
 empty by design; requirements come next via `new`. (This restriction is lifted
@@ -269,9 +296,13 @@ extract the document's requirements into them:
 1. **Extract candidate requirements** from the document read in Step 2. Capture
    every distinct behavior, constraint, or rule it states — favor coverage; the
    user prunes in confirmation.
-2. **Classify and number** each candidate into the categories from Step 2 (the
-   same classification logic as `new` Step 1: match an existing category or mint
-   a natural-length mnemonic (2–4 chars), assign the next number per category).
+2. **Classify and number** each candidate into the categories confirmed in
+   Step 2b (the same classification logic as `new` Step 1: match an existing
+   category or mint a prefix per
+   [`references/category-prefix.md`](../../references/category-prefix.md),
+   assign the next number per category). A candidate that fits no confirmed
+   category is a signal the set is incomplete — take the proposed new section
+   back to the user rather than minting it silently.
 3. **Draft each in [EARS syntax](https://alistairmavin.com/ears)** — pick the
    pattern that fits the requirement's activation (Ubiquitous, State-Driven,
    Event-Driven, Optional, Unwanted Behaviour), exactly as in `new` Step 1.
@@ -282,12 +313,12 @@ extract the document's requirements into them:
 ```text
 Extracted N requirements from <doc>:
 
-### CM — Configuration
-  [CM-01] When the CLI starts, the system shall load config from <path>.
-  [CM-02] If a required key is missing, then the system shall exit non-zero.
+### CONFIG — Configuration
+  [CONFIG-01] When the CLI starts, the system shall load config from <path>.
+  [CONFIG-02] If a required key is missing, then the system shall exit non-zero.
 
-### RN — Rendering
-  [RN-01] The system shall render output as <format>.
+### RENDER — Rendering
+  [RENDER-01] The system shall render output as <format>.
 
 Confirm, edit, or drop any before I write them.
 ```
@@ -322,10 +353,6 @@ Scaffolded from <doc>:
   → STATUS.md (N requirements, all uncovered)
   → spec location: <root SPEC.md | spec/v1/SPEC.md, justfile spec=v1>
 
-Review the extracted requirements against the source, then start an
-implementation — /sextant:impl-new — or refine with /sextant:spec-req new.
+Review the extracted requirements against the source, then refine with
+/sextant:spec-req new or start building against them.
 ```
-
-## Multiple implementations
-
-When multiple implementations exist, always show status per implementation in the table columns rather than a single status. This is where spec-driven development gets its value — disagreements between implementations often reveal spec ambiguities.

@@ -90,17 +90,16 @@ decompositions (`CL-21a`, …) each count as one, FUT/deferred and retired IDs
 excluded. Getting this wrong is the most common STATUS.md drift, so the
 inventory count must be exact before anything downstream relies on it.
 
-Then locate the implementation(s): the repo root, a versioned
-`implementations/<version>/<impl>/` tree, and any `STATUS.md` files that
-already track coverage. A pre-existing STATUS.md is a starting point, not the
-answer — the analysis verifies whether it's accurate.
+Then locate the implementation at the repo root, along with any `STATUS.md`
+that already tracks coverage. A pre-existing STATUS.md is a starting point, not
+the answer — the analysis verifies whether it's accurate.
 
 ## Step 2: Full-domain analysis
 
 This is the read-only core. It runs in full on every invocation — there is no
 narrowed-axis mode. (The analysis is the heavy part of the skill; for a large
-spec it is a good candidate to delegate to a subagent — pass the spec path and
-impl root, let it return the structured findings while the main agent works.)
+spec it is a good candidate to delegate to a subagent — pass the spec path, let
+it return the structured findings while the main agent works.)
 
 ### Forward — spec → code coverage
 
@@ -154,21 +153,6 @@ blocking — early drafts may be intentionally informal.
 sequences, file paths, library names, hardcoded numbers, internal function
 names) instead of *what*. The contract is user-observable behavior; mechanism
 belongs in implementation notes. Suggest a higher-level rewrite for each.
-
-### Cross-implementation comparison
-
-When multiple implementations exist, classify each separately and present a
-matrix:
-
-```text
-| Requirement | impl-1 (Python) | impl-2 (JS) | impl-3 (hybrid) |
-|-------------|-----------------|-------------|-----------------|
-| CM-01       | Covered         | Covered     | Missing         |
-| OP-01       | Missing         | Missing     | Missing         |
-```
-
-A requirement missing from **all** implementations is a strong signal of a spec
-problem — the requirement may be unclear or impractical.
 
 ### When there is no implementation yet
 
@@ -309,5 +293,3 @@ the rows to Covered on the next ledger refresh.
   requirements through its create flow; also the place to look up or trace a
   single requirement. Its `init` mode is what to run first when there's no spec
   to reconcile against yet.
-- [`/sextant:impl-new`](../impl-new/SKILL.md) — scaffolds a candidate whose
-  seeded STATUS.md this skill's analysis reads against.

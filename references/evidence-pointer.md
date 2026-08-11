@@ -1,8 +1,8 @@
 # Evidence pointers
 
 The shared rule for what a Covered requirement's `Location` holds. **This file
-is the single source of truth** — `spec-sync`, `spec-status`, `impl-new`, and
-`spec-req` all defer here.
+is the single source of truth** — `spec-sync`, `spec-status`, and `spec-req`
+all defer here.
 
 An evidence pointer answers "where does the code satisfy this?". It is recorded
 once and read many times, across commits that have nothing to do with the
