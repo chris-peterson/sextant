@@ -24,6 +24,8 @@ the category it would land in. The layout is specified in
 - **Locate order** — the shared, ordered procedure every skill uses to find the active SPEC.md (STATUS.md pointer → `spec/` dir → justfile `spec` var → `CURRENT_SPEC_VERSION` → root `SPEC.md`/`docs/spec.md`).
 - **Drift** — behavior the code exhibits that no requirement captures (code → spec), or a requirement the code no longer satisfies (spec → code).
 - **Implementation** — the code that satisfies the spec, at the repo root.
+- **Version key** — the `v<n>` directory name identifying a spec version under `spec/`. Advancing to a new key leaves the prior one in place as the archive.
+- **Classification baseline** — the file whose requirement text a ledger's classifications were made against, named in STATUS.md when it is not the active spec. A bump sets it; the next refresh acts on it and clears it.
 
 ## Requirements
 
@@ -47,6 +49,9 @@ When counting coverage, the system shall treat each distinct requirement ID — 
 
 #### `LOCATE-06`
 When reading a spec, the system shall take each requirement-ID heading as one requirement whether or not the heading backticks the ID, and shall also recognize requirements written in the inline `- **[XX-NN]**` form a spec predating the heading layout uses.
+
+#### `LOCATE-07`
+If the `spec/` directory holds more than one version and no earlier discovery step resolved, then the system shall select the highest version key and name the selected version in its output.
 
 ### `LOOKUP`
 Requirement lookup & tracing
@@ -137,6 +142,12 @@ The system shall keep the coverage header count, the sum of per-category counts,
 #### `COVERAGE-09`
 When recording evidence for a Covered requirement, the system shall record a pointer at the granularity the ledger declares, defaulting to the file plus its enclosing symbol rather than a line number.
 
+#### `COVERAGE-10`
+While a STATUS.md names a classification baseline, the system shall compare each requirement's current text against that baseline and demote every requirement whose text differs.
+
+#### `COVERAGE-11`
+When a refresh has reclassified against the current spec, the system shall clear the classification baseline from STATUS.md.
+
 ### `RECONCILE`
 Spec/code reconciliation
 
@@ -162,6 +173,33 @@ When reconciling, the system shall flag non-EARS-conformant or over-specified re
 The system shall delegate every STATUS.md write to the coverage-ledger skill rather than writing the ledger directly.
 
 _No RECONCILE-08 — it required a per-implementation comparison matrix and retired with the candidate workflow._
+
+### `VERSION`
+Spec version advancement
+
+#### `VERSION-01`
+When advancing the spec version, the system shall ask what depends on the current version and shall recommend editing in place when nothing does.
+
+#### `VERSION-02`
+If the requested version key already exists, then the system shall refuse the bump and leave the tree unmodified.
+
+#### `VERSION-03`
+When advancing the spec version, the system shall create the new version's SPEC.md from the current version's text and shall leave the prior version unmodified.
+
+#### `VERSION-04`
+When advancing the spec version, the system shall carry the prior version's ledger forward and shall record the prior version's SPEC.md as the new ledger's classification baseline.
+
+#### `VERSION-05`
+When advancing the spec version, the system shall repoint the discovery inputs it can write — the STATUS.md spec-pointer and the justfile `spec` variable — to the new version.
+
+#### `VERSION-06`
+If `CURRENT_SPEC_VERSION` is set, then the system shall report that it still names the prior version rather than attempting to change it.
+
+#### `VERSION-07`
+When a bump completes, the system shall report the paths created, the inputs repointed, and the version left as the archive.
+
+#### `VERSION-08`
+If the active spec is an unversioned root SPEC.md and no versioned tree exists, then the system shall move it and its ledger into `spec/<version>/` without setting a classification baseline, and shall report that the bump adopted the versioned layout rather than archiving a prior version.
 
 _No IMPL category — IMPL-01..09 covered scaffolding candidate implementations under `implementations/<version>/<n>-<name>/` and graduating a winner to the repo root. That workflow is retired; the IDs are not reused._
 

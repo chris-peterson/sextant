@@ -111,6 +111,23 @@ undocumented behavior if it's obvious, but `spec-status` is about coverage
 accuracy, not exhaustive drift hunting. For a full drift sweep, the user runs
 `spec-sync`.
 
+### When the ledger names a classification baseline
+
+A STATUS.md carrying `**Classified against:** <path>` in its metadata block was
+inherited from another spec version by `spec-req bump`, and its rows were
+classified against *that* file's requirement text rather than the active spec's.
+
+Compare each requirement's current text against the same ID's text in the
+baseline file, and **demote the ones that differ** to needs-reclassification —
+the code may still satisfy them, but the reading behind the row was of different
+words. Leave the rest alone: unchanged text means the reading still stands. An
+ID absent from the baseline arrived after the bump and is simply unclassified.
+
+Then **clear the line** as part of this refresh, per
+[`references/classification-baseline.md`](../../references/classification-baseline.md)
+(the source of truth). Leaving it in place would re-demote the same rows on
+every later run, which is the idempotency this skill is graded on.
+
 ## Step 3: Refresh STATUS.md
 
 ### When STATUS.md already exists — refresh in place
@@ -123,7 +140,8 @@ the machine regions; leave everything else byte-for-byte.
 - The metadata block — `**Last audit:**` (today), `**Spec version:**`, any
   `**… version:**` / `**Plugin version:**` line, and the `**Coverage:**`
   count line (`N Covered, N Partial, N Missing/Contradicts` plus the deferred
-  count).
+  count). A `**Classified against:**` line is removed once this refresh has
+  acted on it (Step 2).
 - The `## Status by category` table — recompute each row's count and status
   column from the forward pass. Add a row for any category that appears in the
   spec but not the table; flag (don't delete) a table row whose category no
@@ -255,6 +273,15 @@ code never had. Name it for what it is:
 
 ```text
 STATUS.md updated: coverage unchanged; 38 Locations converted to file+symbol
+```
+
+**Name a baseline demotion for what it is, and say what survived.** The first
+refresh after a bump can move a lot of rows at once, and a bare count reads as
+the code having regressed when what changed is the requirement wording:
+
+```text
+STATUS.md updated: 4 reworded requirements demoted (baseline spec/v1/SPEC.md,
+now cleared); 40 unchanged rows kept their classification
 ```
 
 If nothing changed, print:

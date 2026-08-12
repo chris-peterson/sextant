@@ -30,7 +30,7 @@ suite:
   # >>> shipyard:describe — generated from source by `shipyard gen-describe`; do not edit >>>
   describe:
     skills:
-      spec-req: Look up, trace, and create spec requirements, and bootstrap a new SPEC.md.
+      spec-req: Look up, trace, and create spec requirements, bootstrap a new SPEC.md, and advance the spec to a new version.
       spec-status: Refresh STATUS.md to match current spec coverage — the lightweight, hook-safe ledger writer in the spec-sync family.
       spec-sync: Reconcile SPEC.md and the source — full-domain coverage + drift analysis, applied as one-way syncs.
   # <<< shipyard:describe <<<

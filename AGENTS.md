@@ -30,7 +30,7 @@ just docs        # serve the docsify site locally
 
 ```text
 plugin.yml               canonical descriptor — manifest, marketplace entry, docs previews
-skills/spec-req/         look up, trace, author requirements; bootstrap a spec (init)
+skills/spec-req/         look up, trace, author requirements; bootstrap a spec (init); advance a version (bump)
 skills/spec-status/      refresh STATUS.md — the lightweight, hook-safe ledger writer
 skills/spec-sync/        full-domain coverage + drift analysis; one-way reconciliation
 references/              shared procedures the skills read at runtime
@@ -46,11 +46,11 @@ generated file; edit its source and run `just generate`.
 
 - **A shared procedure lives in `references/` once.** `locate-spec.md`,
   `counting-rule.md`, `ears-patterns.md`, `evidence-pointer.md`,
-  `category-prefix.md`, and `spec-layout.md` are each the single source of truth
-  for their rule. A skill quotes a one-line summary for
-  the reader and defers to the reference for the authoritative version — so
-  changing a rule is one edit, not five. Adding the rule inline to a skill
-  instead is the drift this prevents.
+  `category-prefix.md`, `spec-layout.md`, and `classification-baseline.md` are
+  each the single source of truth for their rule. A skill quotes a one-line
+  summary for the reader and defers to the reference for the authoritative
+  version — so changing a rule is one edit, not five. Adding the rule inline to
+  a skill instead is the drift this prevents.
 - **Requirements are EARS, and IDs are stable.** `XX-NN`, with lettered
   decompositions (`XX-NNa`) counting as one apiece. A retired ID is never reused
   and never counted; it survives as numbering-gap prose.
@@ -93,3 +93,9 @@ generated file; edit its source and run `just generate`.
   SPEC.md; the authoritative version is `references/locate-spec.md`.
 - **Drift** — behavior the code exhibits that no requirement captures, or a
   requirement the code no longer satisfies.
+- **Version key** — the `v<n>` directory name identifying a spec version under
+  `spec/`. Advancing to a new key leaves the prior one as the archive.
+- **Classification baseline** — the file whose requirement text a ledger's
+  classifications were made against, named in STATUS.md when it is not the
+  active spec; the authoritative version is
+  `references/classification-baseline.md`.

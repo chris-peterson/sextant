@@ -1,7 +1,7 @@
 ---
 name: spec-req
-description: Look up, trace, and create spec requirements, and bootstrap a new SPEC.md.
-argument-hint: "<XX-NN | XX | new | init [from <doc>]>"
+description: Look up, trace, and create spec requirements, bootstrap a new SPEC.md, and advance the spec to a new version.
+argument-hint: "<XX-NN | XX | new | init [from <doc>] | bump <version>>"
 ---
 
 # Spec Req
@@ -17,6 +17,7 @@ flowchart TD
     Parse -->|"XX"| Category["Category lookup"]
     Parse -->|"new"| New["New requirement"]
     Parse -->|"init"| Init["Bootstrap new spec"]
+    Parse -->|"bump"| Bump["Advance spec version"]
 
     subgraph "Bootstrap"
         Init --> HasDoc{"from doc?"}
@@ -49,6 +50,19 @@ flowchart TD
         FindSpec2 --> Classify["Auto-assign category + number"]
         Classify --> Confirm["User confirms"]
         Confirm --> Write["Write to SPEC.md"]
+    end
+
+    subgraph "Version"
+        Bump --> Protect{"Anything depend on it?"}
+        Protect -->|"no"| InPlace(["Recommend editing in place"])
+        Protect -->|"yes"| KeyFree{"Version key free?"}
+        KeyFree -->|"no"| Refuse(["Refuse, leave tree unchanged"])
+        KeyFree -->|"yes"| Versioned{"Versioned tree?"}
+        Versioned -->|"no"| Adopt["Move root spec into spec/"]
+        Versioned -->|"yes"| Copy["Copy spec and ledger forward"]
+        Copy --> Baseline["Record classification baseline"]
+        Baseline --> Repoint["Repoint discovery inputs"]
+        Adopt --> Repoint
     end
 ```
 
@@ -393,4 +407,125 @@ Scaffolded from <doc>:
 
 Review the extracted requirements against the source, then refine with
 /sextant:spec-req new or start building against them.
+```
+
+## Mode: Advance the spec version (`sextant:spec-req bump <version>`)
+
+Move a project from one spec version to the next: `spec/v1/` becomes the
+archive and `spec/v2/` becomes what every skill resolves to. This is `init`'s
+Step 3 decision made a second time, so it keeps that layout and that justfile
+variable rather than inventing new ones.
+
+### Step 1: Ask what the bump protects
+
+Versioning costs a second spec directory to keep straight and a discovery order
+with more than one legal answer. It pays only when something would break if the
+current text changed underneath it — a shipped release measured against it, an
+audit trail that would stop resolving, or readers outside the repo.
+
+Put that question to the user before touching anything, and **recommend editing
+in place when the answer is nothing**. A spec with no consumers absorbs a
+breaking edit for free, and skipping the bump keeps the tree small.
+
+On an in-place answer, stop here and point at `new`.
+
+### Step 2: Refuse an occupied key
+
+If `spec/<version>/` already exists, say so and stop, leaving the tree
+untouched. Bumping onto an occupied key either clobbers an archive or merges
+two versions into one directory, and neither is undone by re-running.
+
+### Step 2b: When the spec is an unversioned root SPEC.md
+
+If the locate order resolved to a root `SPEC.md` (or `docs/spec.md`) and no
+`spec/` tree exists, the first bump has nothing to copy *from*. Adopt the
+versioned layout instead: move the root `SPEC.md` and its `STATUS.md` into
+`spec/<version>/`, then skip to Step 5.
+
+This is a migration, not an archive-creating bump, and the report says so —
+there is no prior version to leave behind, because no version key was ever
+occupied. Git holds the pre-move history.
+
+**Set no classification baseline.** The requirement text is byte-identical
+across the move, so every row's reading still stands; a baseline pointing at a
+file that no longer exists would demote the whole ledger for nothing
+([`references/classification-baseline.md`](../../references/classification-baseline.md)).
+
+A project that wants an archived copy of the current text bumps again once it
+has revised the new version.
+
+### Step 3: Copy the current version forward
+
+Copy `spec/<current>/SPEC.md` to `spec/<new>/SPEC.md` verbatim, and **leave the
+prior version unmodified** — its whole value is being exactly what shipped.
+
+Requirement IDs carry across unchanged; a bump is not a renumbering.
+
+### Step 4: Carry the ledger forward with a baseline
+
+Copy the prior version's STATUS.md to the new version, and record the prior
+version's SPEC.md as its **classification baseline** — one line in the metadata
+block:
+
+```markdown
+**Classified against:** spec/v1/SPEC.md
+```
+
+Carrying forward rather than reseeding is about what an empty ledger throws
+away: the audit history and the human-authored rationale, which is the part no
+template reconstructs and the part `spec-status` is otherwise careful to
+preserve on every refresh. A bump is a poor reason to lose it, since most
+requirements cross one unchanged.
+
+The baseline covers the gap that carrying forward opens. Every row in that
+copied ledger was classified by reading the code against v1's text; right after
+the bump the two versions are identical, so the rows are still honest, but the
+moment a requirement is reworded in v2 its row becomes a claim nobody checked.
+Naming the file makes that visible to a reader immediately, and tells the next
+`spec-status` run which rows to demote. The rules live in
+[`references/classification-baseline.md`](../../references/classification-baseline.md).
+
+The prior version keeps its own ledger untouched.
+
+### Step 5: Repoint discovery
+
+Repoint every input the locate order consults that this skill can write
+([`references/locate-spec.md`](../../references/locate-spec.md)):
+
+- the **STATUS.md spec-pointer** — step 1, and the one that wins
+- the **justfile `spec` variable**
+
+`CURRENT_SPEC_VERSION` is an environment variable, so it cannot be written from
+here. When it is set, report that it still names the prior version and that the
+user has to update it — a stale env var outranks the justfile silently.
+
+A half-repointed bump is worse than no bump: discovery lands on a spec nobody is
+building against, and the locate order raises nothing.
+
+### Step 6: Report what moved and what stayed
+
+```text
+Bumped v1 → v2:
+  → created   spec/v2/SPEC.md (N requirements, copied from v1)
+  → created   spec/v2/STATUS.md (carried from v1, classified against spec/v1/SPEC.md)
+  → repointed STATUS.md spec-pointer, justfile spec=v2
+  → archived  spec/v1/ (unmodified)
+
+CURRENT_SPEC_VERSION is set to v1 in your environment — update it to v2.
+
+Next: reword v2's requirements, then /sextant:spec-status — it demotes the ones
+whose text you changed and leaves the rest.
+```
+
+Drop the `CURRENT_SPEC_VERSION` line when the variable isn't set.
+
+On a Step 2b migration the report has no archive line and no baseline:
+
+```text
+Adopted the versioned layout at v1:
+  → moved     SPEC.md → spec/v1/SPEC.md (N requirements, unchanged)
+  → moved     STATUS.md → spec/v1/STATUS.md (classifications still stand)
+  → repointed justfile spec=v1
+
+Next: revise spec/v1/SPEC.md, or /sextant:spec-req bump v2 to archive it first.
 ```

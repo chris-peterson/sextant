@@ -3,10 +3,10 @@
 Tracking status of the requirements declared in [`SPEC.md`](SPEC.md).
 Maintained by `/sextant:spec-status`.
 
-**Last audit:** 2026-08-13
+**Last audit:** 2026-08-21
 **Spec version:** root SPEC.md (unversioned)
 **Plugin version:** 0.6.0
-**Coverage:** 39 Covered, 0 Partial, 0 Missing/Contradicts
+**Coverage:** 50 Covered, 0 Partial, 0 Missing/Contradicts
 **Evidence pointers:** file
 
 The implementation is the three skill prompts under `skills/`. These requirements
@@ -17,13 +17,53 @@ so each is Covered by the skill it was derived from.
 
 | Prefix | Count | Status | Notes |
 |--------|------:|--------|-------|
-| LOCATE-01..06 | 6 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06) — `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `references/spec-layout.md` |
+| LOCATE-01..07 | 7 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06), multi-version tiebreak (LOCATE-07) — `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `references/{locate-spec,spec-layout}.md` |
 | LOOKUP-01..05 | 5 | All Covered | Lookup/category/trace modes — `skills/spec-req/SKILL.md` |
 | AUTHORING-01..12 | 12 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md` |
-| COVERAGE-01..09 | 9 | All Covered | Ledger refresh, idempotency, counting invariant, evidence pointers — `skills/spec-status/SKILL.md`, `references/evidence-pointer.md` |
+| COVERAGE-01..11 | 11 | All Covered | Ledger refresh, idempotency, counting invariant, evidence pointers, baseline demotion — `skills/spec-status/SKILL.md`, `references/{evidence-pointer,classification-baseline}.md` |
 | RECONCILE-01..07 | 7 | All Covered | Full-domain analysis, one-way sync — `skills/spec-sync/SKILL.md` |
+| VERSION-01..08 | 8 | All Covered | `bump <version>` mode, incl. the unversioned-root migration (VERSION-08) — `skills/spec-req/SKILL.md`, `references/classification-baseline.md` |
 
 ## Audit history
+
+### 2026-08-21 — VERSION category added (spec bump)
+
+New `VERSION` category (VERSION-01..07) covering `spec-req bump <version>`: the
+protect question, the occupied-key refusal, the copy-forward, the carried
+ledger, the discovery repoint, and the report. LOCATE-07 added alongside it —
+with two versions now possible, the `spec/` discovery step needed a stated
+tiebreak (highest version key), because spec-status may not prompt its way out
+of an ambiguous tree. COVERAGE-10 and COVERAGE-11 added for the classification
+baseline the bump leaves behind. Coverage 39 → 50, all Covered.
+
+VERSION-04 carries the prior ledger forward and names the prior SPEC.md as its
+classification baseline, rather than reseeding an empty one. Reseeding was the
+first design, on the reasoning that a copied row claims coverage against text
+nobody read the code against. What that reasoning missed is COVERAGE-01: a
+refresh reclassifies from the code either way, so reseeding buys no correctness
+and costs the audit history and rationale COVERAGE-03 protects. The baseline
+covers the interim instead — the window between the bump and the next refresh,
+where a carried ledger would otherwise show green rows for reworded
+requirements. spec-status demotes those and clears the line (COVERAGE-10,
+COVERAGE-11).
+
+A stored per-requirement digest would also catch in-place rewording, which the
+baseline does not, and was rejected for now: it adds a permanent line per
+requirement to every ledger, and a per-category digest instead false-demotes a
+whole category whenever `spec-req new` adds one to it. A commit-sha baseline
+would break COVERAGE-05, rewriting the ledger on every commit.
+
+VERSION-06 exists because `CURRENT_SPEC_VERSION` is an environment variable the
+skill cannot write — it can only report that the variable still names the prior
+version.
+
+VERSION-08 covers the entry path the rest of the category assumed away: a
+project on an unversioned root SPEC.md, which is the default `init` offers and
+what sextant itself uses. There is nothing to copy from, so the first bump moves
+the spec and its ledger into `spec/<version>/` and sets no baseline — the text
+crosses byte-identical, so every classification still stands. Calling it a
+migration rather than a bump is what keeps the report honest: no version key was
+occupied, so nothing was archived.
 
 ### 2026-08-13 — Requirement IDs backticked in their headings
 
