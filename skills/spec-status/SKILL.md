@@ -69,8 +69,11 @@ every release — non-spec repos self-skip with one quiet line. (`spec-sync`
 asks the user when it can't find a spec; `spec-status` deliberately does not,
 because it runs unattended inside other workflows.)
 
-Once the spec is located, read it and extract every requirement ID
-(`[XX-NN]` format), the same inventory `spec-sync` Step 1 builds. Note the
+Once the spec is located, read it and extract every requirement ID — the same
+inventory `spec-sync` Step 1 builds. IDs come from the requirement headings
+described in [`references/spec-layout.md`](../../references/spec-layout.md) (the
+source of truth), or from the `- **[XX-NN]** …` bullets a spec predating that
+layout uses. Note the
 spec version (from the path `spec/<v>/`, the justfile `spec` var, or a version
 line in the spec itself).
 
@@ -128,7 +131,7 @@ the machine regions; leave everything else byte-for-byte.
 
 **Counting rule** (this is where STATUS.md files drift most — get it exact).
 Count per [`references/counting-rule.md`](../../references/counting-rule.md)
-(the source of truth): one distinct `[XX-NN]` ID = one requirement, lettered
+(the source of truth): one distinct `XX-NN` ID = one requirement, lettered
 decompositions each count as one, FUT/deferred and retired IDs excluded. Here
 the invariant is concrete: the `**Coverage:**` header count == the sum of the
 table's per-row counts == the spec's normative inventory. The drift found in

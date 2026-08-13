@@ -63,6 +63,18 @@ spec-pointer → `spec/` directory (incl. `vnext/`, `exploration/`, `migration/`
 
 If no SPEC.md is found, ask the user where it is.
 
+## Spec layout
+
+Requirements are laid out per
+[`references/spec-layout.md`](../../references/spec-layout.md) (the source of
+truth every sextant skill uses). In brief: a category is a heading whose text is
+its backticked prefix with the full name beneath it, and each requirement is a
+heading one level below whose text is the bare ID — so `SPEC.md#locate-01`
+links to one requirement. A spec predating that layout writes each requirement
+as a `- **[XX-NN]** …` bullet; read that form too, and match whichever form the
+file already uses when writing into it. Offer to convert such a spec to headings
+as its own whole-file edit — never as a side effect of adding a requirement.
+
 ## Mode: Single requirement (`sextant:spec-req XX-NN`)
 
 Look up one requirement by its full ID.
@@ -137,7 +149,7 @@ Present for confirmation:
 ```text
 Proposed requirement:
 
-  [XX-NN] <drafted requirement text>
+  XX-NN  <drafted requirement text>
   Category: <name> (existing|new)
 
 Does this look right?
@@ -153,18 +165,35 @@ After the user confirms:
 ### Step 3: Write
 
 **If implementing now:**
-1. Add to SPEC.md in the appropriate category section, sorted by ID
+1. Add to SPEC.md in the appropriate category section, sorted by ID, as its own
+   heading — the bare ID, one level below the category heading, with the EARS
+   statement beneath it:
+
+   ```markdown
+   #### CONFIG-04
+   When a config key is missing, the system shall exit non-zero naming the key.
+   ```
+
+   A new category gets its own heading first — the backticked prefix, its full
+   name on the next line. (Match the file instead if this spec still uses the
+   inline `- **[XX-NN]**` form; see Spec layout above.)
 2. Record it in STATUS.md as "Missing" (the shared Covered/Partial/Missing/Contradicts vocabulary)
 3. Flow to the code — make the change, update STATUS.md to "Covered"
 
 **If capturing as future:**
-1. Add to SPEC.md under "Future Requirements" as `[FUT-NN] (→ XX) <requirement text>`
+1. Add to SPEC.md under "Future Requirements" as a `FUT-NN` heading whose body
+   names the category it targets:
+
+   ```markdown
+   ### FUT-03
+   (→ CONFIG) Where a profile is selected, the system shall …
+   ```
 
 **Confirm:**
 
 ```text
-Captured [XX-NN]: <short description>
-  → SPEC.md updated
+Captured XX-NN: <short description>
+  → SPEC.md updated (SPEC.md#xx-nn)
   → STATUS.md updated (if applicable)
 ```
 
@@ -270,15 +299,24 @@ Requirements use [EARS syntax](https://alistairmavin.com/ears) — each is one o
 Ubiquitous (`The <system> shall …`), State-Driven (`While …`), Event-Driven
 (`When …`), Optional (`Where …`), or Unwanted Behaviour (`If … then …`).
 
+Each requirement is its own heading carrying a stable ID (`XX-NN`), one level
+below its category's heading, so every requirement has a linkable anchor
+(`SPEC.md#xx-nn`). Lettered decompositions (`XX-NNa`) each count as one.
+
 ## Concepts
 
 - **<term>** — <definition>
 
 ## Requirements
 
-### <PREFIX> — <category name>
+### `<PREFIX>`
+<category name>
 
 _(none yet — add with `/sextant:spec-req new`)_
+
+## Future Requirements
+
+_(none yet)_
 ```
 
 Then write a `STATUS.md` stub in the canonical shape that `spec-status`
@@ -313,22 +351,22 @@ extract the document's requirements into them:
 ```text
 Extracted N requirements from <doc>:
 
-### CONFIG — Configuration
-  [CONFIG-01] When the CLI starts, the system shall load config from <path>.
-  [CONFIG-02] If a required key is missing, then the system shall exit non-zero.
+CONFIG — Configuration
+  CONFIG-01  When the CLI starts, the system shall load config from <path>.
+  CONFIG-02  If a required key is missing, then the system shall exit non-zero.
 
-### RENDER — Rendering
-  [RENDER-01] The system shall render output as <format>.
+RENDER — Rendering
+  RENDER-01  The system shall render output as <format>.
 
 Confirm, edit, or drop any before I write them.
 ```
 
 5. **Bulk-write the confirmed set** into SPEC.md under their category sections,
-   sorted by ID, replacing the `_(none yet …)_` placeholders. Seed STATUS.md
-   accordingly (every requirement starts uncovered, since no implementation
-   exists yet). Note in your summary that these requirements are *derived from*
-   the document and should be reviewed against it — extraction is a draft, not
-   an authority.
+   one ID heading each (per Spec layout above), sorted by ID, replacing the
+   `_(none yet …)_` placeholders. Seed STATUS.md accordingly (every requirement
+   starts uncovered, since no implementation exists yet). Note in your summary
+   that these requirements are *derived from* the document and should be
+   reviewed against it — extraction is a draft, not an authority.
 
 ### Step 5: Hand off
 

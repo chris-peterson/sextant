@@ -3,10 +3,10 @@
 Tracking status of the requirements declared in [`SPEC.md`](SPEC.md).
 Maintained by `/sextant:spec-status`.
 
-**Last audit:** 2026-08-11
+**Last audit:** 2026-08-13
 **Spec version:** root SPEC.md (unversioned)
 **Plugin version:** 0.6.0
-**Coverage:** 36 Covered, 0 Partial, 0 Missing/Contradicts
+**Coverage:** 39 Covered, 0 Partial, 0 Missing/Contradicts
 **Evidence pointers:** file
 
 The implementation is the three skill prompts under `skills/`. These requirements
@@ -17,13 +17,23 @@ so each is Covered by the skill it was derived from.
 
 | Prefix | Count | Status | Notes |
 |--------|------:|--------|-------|
-| LOCATE-01..05 | 5 | All Covered | Shared locate order + no-op gates — `skills/{spec-req,spec-sync,spec-status}/SKILL.md` |
+| LOCATE-01..06 | 6 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06) — `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `references/spec-layout.md` |
 | LOOKUP-01..05 | 5 | All Covered | Lookup/category/trace modes — `skills/spec-req/SKILL.md` |
-| AUTHORING-01..10 | 10 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10) — `skills/spec-req/SKILL.md`, `references/category-prefix.md` |
+| AUTHORING-01..12 | 12 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md` |
 | COVERAGE-01..09 | 9 | All Covered | Ledger refresh, idempotency, counting invariant, evidence pointers — `skills/spec-status/SKILL.md`, `references/evidence-pointer.md` |
 | RECONCILE-01..07 | 7 | All Covered | Full-domain analysis, one-way sync — `skills/spec-sync/SKILL.md` |
 
 ## Audit history
+
+### 2026-08-13 — Requirements become headings
+
+Each requirement now heads its own section — the bare ID, one level below its
+category's backticked-prefix heading — so `SPEC.md#coverage-09` addresses one
+requirement and a reader arriving at any spec-driven repo meets the same shape.
+AUTHORING-11 and AUTHORING-12 specify the layout on the write side, LOCATE-06
+the read side, including the inline `- **[XX-NN]**` form earlier specs use.
+Coverage 36 → 39, all Covered. The form lives in `references/spec-layout.md`;
+this spec was rewritten into it in the same pass.
 
 ### 2026-08-11 — Candidate workflow retired
 

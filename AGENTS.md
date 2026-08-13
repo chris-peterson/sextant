@@ -45,14 +45,19 @@ generated file; edit its source and run `just generate`.
 ## Conventions
 
 - **A shared procedure lives in `references/` once.** `locate-spec.md`,
-  `counting-rule.md`, `ears-patterns.md`, `evidence-pointer.md`, and
-  `category-prefix.md` are each the single source of truth for their rule. A skill quotes a one-line summary for
+  `counting-rule.md`, `ears-patterns.md`, `evidence-pointer.md`,
+  `category-prefix.md`, and `spec-layout.md` are each the single source of truth
+  for their rule. A skill quotes a one-line summary for
   the reader and defers to the reference for the authoritative version — so
   changing a rule is one edit, not five. Adding the rule inline to a skill
   instead is the drift this prevents.
-- **Requirements are EARS, and IDs are stable.** `[XX-NN]`, with lettered
+- **Requirements are EARS, and IDs are stable.** `XX-NN`, with lettered
   decompositions (`XX-NNa`) counting as one apiece. A retired ID is never reused
   and never counted; it survives as numbering-gap prose.
+- **A requirement is a heading; nothing else is.** The ID heads its own section
+  one level below its category's backticked-prefix heading, so `SPEC.md#locate-01`
+  links to it and the normative inventory is mechanical to read off.
+  `references/spec-layout.md` is the authoritative form.
 - **The counting invariant holds or the ledger is wrong.** Header count == sum of
   per-category counts == the spec's normative inventory. Every real STATUS.md
   drift found so far was one of those three disagreeing.

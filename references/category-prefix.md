@@ -4,7 +4,8 @@ The shared rule for naming a requirement category. **This file is the single
 source of truth** — `spec-req` defers here from both `new` and `init`, and
 `spec-sync --to-spec` reaches it through `spec-req`'s create flow.
 
-A prefix is the `XX` in `[XX-NN]`. It is written once and read in every
+A prefix is the `XX` in `XX-NN`, and the text of the category's own heading
+(see [`spec-layout.md`](spec-layout.md)). It is written once and read in every
 requirement ID, every ledger row, and every code anchor that cites one — so it
 is named for the reader, not the typist.
 

@@ -73,8 +73,12 @@ No SPEC.md found. spec-sync reconciles a spec against code — there's no spec
 here yet. Run /sextant:spec-req init to scaffold one.
 ```
 
-Read the spec and extract **every** requirement ID (`[XX-NN]` format) into a
-full inventory:
+Read the spec and extract **every** requirement ID into a full inventory. IDs
+come from the requirement headings described in
+[`references/spec-layout.md`](../../references/spec-layout.md) (the source of
+truth) — a heading whose text is the bare ID, one level below its category's
+backticked-prefix heading — or, in a spec predating that layout, from the
+`- **[XX-NN]** …` bullets:
 
 ```text
 Found N requirements across M categories:
@@ -85,7 +89,7 @@ Found N requirements across M categories:
 ```
 
 **Counting rule.** Count per [`references/counting-rule.md`](../../references/counting-rule.md)
-(the source of truth): one distinct `[XX-NN]` ID = one requirement, lettered
+(the source of truth): one distinct `XX-NN` ID = one requirement, lettered
 decompositions (`CL-21a`, …) each count as one, FUT/deferred and retired IDs
 excluded. Getting this wrong is the most common STATUS.md drift, so the
 inventory count must be exact before anything downstream relies on it.
@@ -237,7 +241,9 @@ For each `--to-spec` drift item:
 2. Present it for confirmation — including the option to reject (the behavior
    might be a bug to *remove* rather than a feature to *document*).
 3. On confirmation, write it to SPEC.md via `spec-req`'s create flow
-   (auto-assigned category + number, sorted into the right section).
+   (auto-assigned category + number, sorted into the right section, written as
+   its own ID heading per
+   [`references/spec-layout.md`](../../references/spec-layout.md)).
 
 Never write a requirement the user hasn't confirmed. Capturing code wholesale
 would canonize whatever the code happens to do — the opposite of spec-leads
