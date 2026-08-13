@@ -54,10 +54,11 @@ generated file; edit its source and run `just generate`.
 - **Requirements are EARS, and IDs are stable.** `XX-NN`, with lettered
   decompositions (`XX-NNa`) counting as one apiece. A retired ID is never reused
   and never counted; it survives as numbering-gap prose.
-- **A requirement is a heading; nothing else is.** The ID heads its own section
-  one level below its category's backticked-prefix heading, so `SPEC.md#locate-01`
-  links to it and the normative inventory is mechanical to read off.
-  `references/spec-layout.md` is the authoritative form.
+- **A requirement is a heading; nothing else is.** The backticked ID heads its own
+  section one level below its category's backticked-prefix heading, so
+  `SPEC.md#locate-01` links to it and the normative inventory is mechanical to read
+  off. The read side accepts a bare-ID heading too, so a spec written before the
+  backticks still parses. `references/spec-layout.md` is the authoritative form.
 - **The counting invariant holds or the ledger is wrong.** Header count == sum of
   per-category counts == the spec's normative inventory. Every real STATUS.md
   drift found so far was one of those three disagreeing.

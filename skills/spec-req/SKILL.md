@@ -69,7 +69,7 @@ Requirements are laid out per
 [`references/spec-layout.md`](../../references/spec-layout.md) (the source of
 truth every sextant skill uses). In brief: a category is a heading whose text is
 its backticked prefix with the full name beneath it, and each requirement is a
-heading one level below whose text is the bare ID — so `SPEC.md#locate-01`
+heading one level below whose text is its backticked ID — so `SPEC.md#locate-01`
 links to one requirement. A spec predating that layout writes each requirement
 as a `- **[XX-NN]** …` bullet; read that form too, and match whichever form the
 file already uses when writing into it. Offer to convert such a spec to headings
@@ -166,11 +166,11 @@ After the user confirms:
 
 **If implementing now:**
 1. Add to SPEC.md in the appropriate category section, sorted by ID, as its own
-   heading — the bare ID, one level below the category heading, with the EARS
-   statement beneath it:
+   heading — the backticked ID, one level below the category heading, with the
+   EARS statement beneath it:
 
    ```markdown
-   #### CONFIG-04
+   #### `CONFIG-04`
    When a config key is missing, the system shall exit non-zero naming the key.
    ```
 
@@ -185,7 +185,7 @@ After the user confirms:
    names the category it targets:
 
    ```markdown
-   ### FUT-03
+   ### `FUT-03`
    (→ CONFIG) Where a profile is selected, the system shall …
    ```
 

@@ -76,9 +76,9 @@ here yet. Run /sextant:spec-req init to scaffold one.
 Read the spec and extract **every** requirement ID into a full inventory. IDs
 come from the requirement headings described in
 [`references/spec-layout.md`](../../references/spec-layout.md) (the source of
-truth) — a heading whose text is the bare ID, one level below its category's
-backticked-prefix heading — or, in a spec predating that layout, from the
-`- **[XX-NN]** …` bullets:
+truth) — a heading whose text is the ID, backticked or bare, one level below its
+category's backticked-prefix heading — or, in a spec predating that layout, from
+the `- **[XX-NN]** …` bullets:
 
 ```text
 Found N requirements across M categories:

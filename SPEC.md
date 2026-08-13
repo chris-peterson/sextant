@@ -30,40 +30,40 @@ the category it would land in. The layout is specified in
 ### `LOCATE`
 Spec & artifact discovery
 
-#### LOCATE-01
+#### `LOCATE-01`
 The system shall locate the active SPEC.md using a single shared, ordered discovery procedure across all skills.
 
-#### LOCATE-02
+#### `LOCATE-02`
 While a STATUS.md exists, the system shall consult its spec-pointer link before other discovery steps, so a non-standard spec location is honored.
 
-#### LOCATE-03
+#### `LOCATE-03`
 When spec-status runs where no SPEC.md is found, the system shall print one line and exit without prompting, scaffolding, or reporting.
 
-#### LOCATE-04
+#### `LOCATE-04`
 When spec-sync runs where no SPEC.md is found, the system shall report that no spec exists and direct the user to `spec-req init`.
 
-#### LOCATE-05
+#### `LOCATE-05`
 When counting coverage, the system shall treat each distinct requirement ID — including lettered decompositions — as one normative requirement, and shall exclude deferred (FUT) and retired IDs.
 
-#### LOCATE-06
-When reading a spec, the system shall take each requirement-ID heading as one requirement, and shall also recognize requirements written in the inline `- **[XX-NN]**` form a spec predating the heading layout uses.
+#### `LOCATE-06`
+When reading a spec, the system shall take each requirement-ID heading as one requirement whether or not the heading backticks the ID, and shall also recognize requirements written in the inline `- **[XX-NN]**` form a spec predating the heading layout uses.
 
 ### `LOOKUP`
 Requirement lookup & tracing
 
-#### LOOKUP-01
-When given a full requirement ID, the system shall present that requirement with its implementation status across all implementations.
+#### `LOOKUP-01`
+When given a full requirement ID, the system shall present that requirement with its implementation status.
 
-#### LOOKUP-02
+#### `LOOKUP-02`
 If a requested requirement ID does not exist, then the system shall say so and suggest nearby IDs in the same category.
 
-#### LOOKUP-03
+#### `LOOKUP-03`
 When given a category prefix, the system shall present every requirement in that category with per-requirement status and a category coverage summary.
 
-#### LOOKUP-04
+#### `LOOKUP-04`
 When tracing a requirement, the system shall report gaps in both directions — implementation gaps and spec gaps.
 
-#### LOOKUP-05
+#### `LOOKUP-05`
 When a trace finds no gaps, the system shall state the clean result explicitly rather than reporting nothing.
 
 _No LOOKUP-06 — it required per-implementation status columns and retired with the candidate workflow._
@@ -71,94 +71,94 @@ _No LOOKUP-06 — it required per-implementation status columns and retired with
 ### `AUTHORING`
 Requirement authoring
 
-#### AUTHORING-01
+#### `AUTHORING-01`
 The system shall draft new requirements in EARS syntax, choosing the pattern that matches the requirement's activation.
 
-#### AUTHORING-02
+#### `AUTHORING-02`
 When authoring a requirement, the system shall assign it to a fitting existing category or create a new one whose prefix is a non-colliding single all-caps word of more than one character, using the next available number.
 
-#### AUTHORING-03
+#### `AUTHORING-03`
 When a requirement has been drafted, the system shall present it for user confirmation before writing it to SPEC.md.
 
-#### AUTHORING-04
+#### `AUTHORING-04`
 When a confirmed requirement is non-trivial, the system shall ask whether to implement it now or capture it as deferred (FUT).
 
-#### AUTHORING-05
+#### `AUTHORING-05`
 When capturing a deferred requirement, the system shall record it under Future Requirements as a `FUT-NN` heading naming the category it targets.
 
-#### AUTHORING-06
+#### `AUTHORING-06`
 When writing a requirement to SPEC.md, the system shall insert it into its category section sorted by ID.
 
-#### AUTHORING-07
+#### `AUTHORING-07`
 When no spec exists, the system shall bootstrap a SPEC.md skeleton (EARS preamble, Concepts, empty category sections) and a STATUS.md stub, without inventing requirements.
 
-#### AUTHORING-08
+#### `AUTHORING-08`
 Where a requirements-source document is supplied to init, the system shall extract its requirements into SPEC.md as EARS statements instead of scaffolding an empty skeleton.
 
-#### AUTHORING-09
+#### `AUTHORING-09`
 If a spec already exists when init is invoked, then the system shall stop and direct the user to `new`.
 
-#### AUTHORING-10
+#### `AUTHORING-10`
 When bootstrapping a spec, the system shall walk the user through the proposed category set — each prefix, its name, and what it covers — and obtain sign-off before scaffolding any section.
 
-#### AUTHORING-11
-When writing a requirement to SPEC.md, the system shall give it its own heading whose text is the bare requirement ID, so the requirement carries a linkable anchor.
+#### `AUTHORING-11`
+When writing a requirement to SPEC.md, the system shall give it its own heading whose text is the backticked requirement ID, so the requirement carries a linkable anchor.
 
-#### AUTHORING-12
+#### `AUTHORING-12`
 When writing a category section to SPEC.md, the system shall head it with the backticked category prefix and carry the category's full name beneath that heading.
 
 ### `COVERAGE`
 Coverage ledger
 
-#### COVERAGE-01
+#### `COVERAGE-01`
 When refreshing coverage, the system shall classify each non-deferred requirement as Covered, Partial, Missing, or Contradicts by reading the current code rather than trusting the prior ledger.
 
-#### COVERAGE-02
+#### `COVERAGE-02`
 The spec-status skill shall write only STATUS.md and shall never edit code or SPEC.md.
 
-#### COVERAGE-03
+#### `COVERAGE-03`
 While a STATUS.md already exists, the system shall edit only its machine-derived regions and preserve human-authored prose and audit history.
 
-#### COVERAGE-04
+#### `COVERAGE-04`
 When no STATUS.md exists, the system shall generate one from the canonical template.
 
-#### COVERAGE-05
+#### `COVERAGE-05`
 The coverage refresh shall be idempotent across commits that change no coverage — such a run shall write nothing and report the ledger already accurate.
 
-#### COVERAGE-06
+#### `COVERAGE-06`
 When a refresh changes the ledger, the system shall append a dated audit-history entry and print a one-line change summary.
 
-#### COVERAGE-07
+#### `COVERAGE-07`
 If the code contradicts a requirement's spec text, then the system shall record a needs-decision row rather than reconciling it.
 
-#### COVERAGE-08
+#### `COVERAGE-08`
 The system shall keep the coverage header count, the sum of per-category counts, and the spec's normative inventory equal.
 
-#### COVERAGE-09
+#### `COVERAGE-09`
 When recording evidence for a Covered requirement, the system shall record a pointer at the granularity the ledger declares, defaulting to the file plus its enclosing symbol rather than a line number.
 
 ### `RECONCILE`
 Spec/code reconciliation
 
-#### RECONCILE-01
+#### `RECONCILE-01`
 When reconciling, the system shall analyze the full domain every run — coverage, bidirectional drift, and requirement quality.
 
-#### RECONCILE-02
+#### `RECONCILE-02`
 The system shall detect divergence in both directions but apply a resolution in only one user-named direction per run.
 
-#### RECONCILE-03
+#### `RECONCILE-03`
 While reconciling with `--to-spec`, the system shall draft an EARS requirement for each drift item and write it only after confirmation.
 
-#### RECONCILE-04
+#### `RECONCILE-04`
 While reconciling with `--to-source`, the system shall produce an implementation gap list and hand off to a development session without writing code.
 
-#### RECONCILE-05
+#### `RECONCILE-05`
 If a requirement and the code contradict, then the system shall surface both sides and shall not auto-resolve the contradiction either way.
 
-#### RECONCILE-06
+#### `RECONCILE-06`
 When reconciling, the system shall flag non-EARS-conformant or over-specified requirements with a suggested rewrite for each.
 
-#### RECONCILE-07
+#### `RECONCILE-07`
 The system shall delegate every STATUS.md write to the coverage-ledger skill rather than writing the ledger directly.
 
 _No RECONCILE-08 — it required a per-implementation comparison matrix and retired with the candidate workflow._

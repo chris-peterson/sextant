@@ -25,6 +25,17 @@ so each is Covered by the skill it was derived from.
 
 ## Audit history
 
+### 2026-08-13 — Requirement IDs backticked in their headings
+
+A requirement heading now carries its ID in backticks, matching the category
+heading above it: an ID is an identifier, and the spec already set it in code
+everywhere else it appears. AUTHORING-11 reworded on the write side, LOCATE-06
+on the read side — a bare-ID heading still counts, so a spec written before this
+parses unchanged and converting one stays a whole-file edit to offer. The
+backticks don't reach the anchor (GitHub and docsify both slug the heading text
+and drop the code markup), so `SPEC.md#authoring-11` still resolves. Coverage
+stays 39, all Covered.
+
 ### 2026-08-13 — Requirements become headings
 
 Each requirement now heads its own section — the bare ID, one level below its
@@ -34,6 +45,14 @@ AUTHORING-11 and AUTHORING-12 specify the layout on the write side, LOCATE-06
 the read side, including the inline `- **[XX-NN]**` form earlier specs use.
 Coverage 36 → 39, all Covered. The form lives in `references/spec-layout.md`;
 this spec was rewritten into it in the same pass.
+
+### 2026-08-11 — LOOKUP-01 reworded
+
+LOOKUP-01 said a requirement is presented "with its implementation status across
+all implementations" — residue the candidate retirement missed, contradicting
+both the Concepts entry (the implementation is at the repo root) and LOOKUP-06's
+retirement note. `spec-req`'s single-requirement mode always presented one row,
+so the spec was the stale side. Wording-only; coverage stays 36, all Covered.
 
 ### 2026-08-11 — Candidate workflow retired
 

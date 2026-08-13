@@ -9,18 +9,19 @@ layout or reading it.
 
 A category is a heading whose text is its backticked prefix, with the
 category's full name on the line beneath. Each requirement is a heading one
-level below, whose text is the bare requirement ID, with the EARS statement
-beneath it:
+level below, whose text is its backticked ID, with the EARS statement beneath
+it. The ID is backticked for the same reason the prefix is: it's an identifier,
+not prose.
 
 ```markdown
 ### `LOCATE`
 Spec & artifact discovery
 
-#### LOCATE-01
+#### `LOCATE-01`
 The system shall locate the active SPEC.md using a single shared, ordered
 discovery procedure across all skills.
 
-#### LOCATE-02
+#### `LOCATE-02`
 While a STATUS.md exists, the system shall consult its spec-pointer link before
 other discovery steps.
 ```
@@ -36,7 +37,9 @@ SPEC.md is the second). Match whatever the file already does.
 A heading gets an anchor, and an anchor is a link. `SPEC.md#locate-01` addresses
 one requirement — paste it into a review comment, an issue, or a commit message
 and the reader lands on the requirement rather than on a 500-line file to scroll.
-The anchor is the ID lowercased, so it is derivable without opening the file.
+The anchor is the ID lowercased, so it is derivable without opening the file —
+the backticks don't reach it, because GitHub and docsify both slug the heading's
+text and drop the code markup around it.
 
 The second payoff is across projects: every spec-driven repo puts its
 requirements in the same place in the same form, so a reader (or an agent)
@@ -49,6 +52,12 @@ first.
 makes the count in [`counting-rule.md`](counting-rule.md) mechanical: the
 normative inventory is the set of ID headings under `## Requirements`, minus
 retired and deferred IDs.
+
+On the read side an ID heading counts whether or not it carries backticks —
+`#### LOCATE-01` and ``#### `LOCATE-01` `` are the same requirement. Write the
+backticked form; a spec written before this rule keeps parsing and counting
+unchanged, and converting it is a whole-file edit to offer, not to fold into
+another change.
 
 Prose that is *about* the requirements — a numbering-gap note, a rationale
 paragraph, a retired-ID note — stays as body text under the category heading,
@@ -68,7 +77,7 @@ deferred ID, naming the category it would land in:
 ```markdown
 ## Future Requirements
 
-### FUT-01
+### `FUT-01`
 (→ RENDER) When the export completes, the system shall …
 ```
 
