@@ -3,10 +3,10 @@
 Tracking status of the requirements declared in [`SPEC.md`](SPEC.md).
 Maintained by `/sextant:spec-status`.
 
-**Last audit:** 2026-08-13
+**Last audit:** 2026-08-21
 **Spec version:** root SPEC.md (unversioned)
 **Plugin version:** 0.6.0
-**Coverage:** 39 Covered, 0 Partial, 0 Missing/Contradicts
+**Coverage:** 38 Covered, 0 Partial, 0 Missing/Contradicts
 **Evidence pointers:** file
 
 The implementation is the three skill prompts under `skills/`. These requirements
@@ -17,13 +17,44 @@ so each is Covered by the skill it was derived from.
 
 | Prefix | Count | Status | Notes |
 |--------|------:|--------|-------|
-| LOCATE-01..06 | 6 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06) — `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `references/spec-layout.md` |
+| LOCATE-01..06 | 6 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06) — `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `references/{locate-spec,spec-layout}.md` |
 | LOOKUP-01..05 | 5 | All Covered | Lookup/category/trace modes — `skills/spec-req/SKILL.md` |
-| AUTHORING-01..12 | 12 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md` |
+| AUTHORING-01..12 | 11 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md`. No AUTHORING-05 — retired with the deferred tier. |
 | COVERAGE-01..09 | 9 | All Covered | Ledger refresh, idempotency, counting invariant, evidence pointers — `skills/spec-status/SKILL.md`, `references/evidence-pointer.md` |
 | RECONCILE-01..07 | 7 | All Covered | Full-domain analysis, one-way sync — `skills/spec-sync/SKILL.md` |
 
 ## Audit history
+
+### 2026-08-21 — Surface narrowed to what the practice uses
+
+Two features removed and one framing corrected, off the back of auditing the
+nine spec-driven repos in this org (`anchor`, `beacon`, `ClaudeWatch`, `cleat`,
+`logbook`, `moor`, `sextant`, `shipshape`, `tack`) across 194 spec revisions.
+
+**No spec versioning.** `CURRENT_SPEC_VERSION` leaves the locate order: no repo
+has ever set it, and it carried 14 mentions across this codebase and its docs.
+The `spec/` directory and justfile `spec` steps stay — `tack` uses them — but as
+a layout sextant reads, not a workflow it advances. Zero version bumps exist
+across all nine repos in five months; `tack` has sat at `spec/v1/` through 49
+revisions of that file. What the history shows instead is in-place rewording on
+99 of 173 revisions with an ID delta, which no bump addresses. The archive a
+second spec directory would hold is the one git already keeps.
+
+**No deferred tier.** AUTHORING-05 retired and the Future Requirements section
+dropped, `FUT-NN` with them. A spec holds what the code is measured against, so
+an entry nobody is committed to reads as a coverage gap forever. Of the nine
+repos only `cleat` ever carried a single `FUT-` ID, and `tack` deleted its whole
+FUT set outright (`7f66c08`). AUTHORING-04 reworded to send a not-now answer to
+the project's issue tracker rather than into the spec; LOCATE-05 and COVERAGE-01
+lose deferred exclusions that no longer have anything to exclude.
+
+Coverage 39 → 38, all Covered.
+
+Two gaps this audit found and deliberately did not close: category renaming
+(seven wholesale prefix renames across the nine repos, up to +149/−149 IDs in a
+single commit, every one a hand sweep) is
+[#12](https://github.com/chris-peterson/sextant/issues/12), and skill naming is
+[#13](https://github.com/chris-peterson/sextant/issues/13).
 
 ### 2026-08-13 — Requirement IDs backticked in their headings
 

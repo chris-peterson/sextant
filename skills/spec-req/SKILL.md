@@ -58,8 +58,7 @@ Find the current SPEC.md using the shared discovery order in
 [`references/locate-spec.md`](../../references/locate-spec.md) (the source of
 truth every sextant skill uses). In brief, first hit wins: STATUS.md
 spec-pointer → `spec/` directory (incl. `vnext/`, `exploration/`, `migration/`)
-→ justfile `spec` variable → `CURRENT_SPEC_VERSION` → root `SPEC.md` (or
-`docs/spec.md`).
+→ justfile `spec` variable → root `SPEC.md` (or `docs/spec.md`).
 
 If no SPEC.md is found, ask the user where it is.
 
@@ -119,10 +118,9 @@ Look up all requirements in a category.
 | CONFIG-01 | Config file loading   | Covered | src/cfg.py (`load`)      |
 | CONFIG-02 | Env var overrides     | Partial | src/cfg.py (`apply_env`) |
 | CONFIG-03 | Validation on startup | Missing | —                        |
-| CONFIG-04 | Config hot-reload     | FUT     | (deferred)               |
 ```
 
-3. **Trace each non-FUT requirement** through the code, same as single-requirement mode but summarized. Only report gaps — don't repeat "no gaps" for every covered requirement.
+3. **Trace each requirement** through the code, same as single-requirement mode but summarized. Only report gaps — don't repeat "no gaps" for every covered requirement.
 
 4. **Category summary** at the bottom:
 
@@ -159,8 +157,13 @@ Does this look right?
 
 After the user confirms:
 
-- **Trivial/isolated** — ask: "This looks straightforward — implement now, or capture for later?"
-- **Non-trivial** — ask: "This touches [scope]. Implement now, or capture as `FUT-NN`?"
+- **Trivial/isolated** — ask: "This looks straightforward — implement now?"
+- **Non-trivial** — ask: "This touches [scope]. Implement now, or file it as an issue?"
+
+A requirement the project is not committing to does not go in SPEC.md. The spec
+is what the code is measured against, so an entry nobody is building against
+reads as a coverage gap forever. Point the user at their issue tracker instead
+and leave the spec alone.
 
 ### Step 3: Write
 
@@ -180,14 +183,9 @@ After the user confirms:
 2. Record it in STATUS.md as "Missing" (the shared Covered/Partial/Missing/Contradicts vocabulary)
 3. Flow to the code — make the change, update STATUS.md to "Covered"
 
-**If capturing as future:**
-1. Add to SPEC.md under "Future Requirements" as a `FUT-NN` heading whose body
-   names the category it targets:
-
-   ```markdown
-   ### `FUT-03`
-   (→ CONFIG) Where a profile is selected, the system shall …
-   ```
+**If not implementing now:** write nothing. Say which category it would have
+landed in and what the EARS statement would be, so the user can paste it into an
+issue, and stop there.
 
 **Confirm:**
 
@@ -313,10 +311,6 @@ below its category's heading, so every requirement has a linkable anchor
 <category name>
 
 _(none yet — add with `/sextant:spec-req new`)_
-
-## Future Requirements
-
-_(none yet)_
 ```
 
 Then write a `STATUS.md` stub in the canonical shape that `spec-status`

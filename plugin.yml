@@ -4,7 +4,7 @@
 
 name: sextant
 version: 0.6.0
-description: AI-assisted, best-effort SPEC-driven development — write requirements first, track how the code covers them, reconcile the two either direction.
+description: AI-assisted, best-effort SPEC-driven development — keep requirements in source control, track how the code covers them, reconcile the two either direction.
 author: Chris Peterson
 repository: https://github.com/chris-peterson/sextant
 license: MIT
@@ -20,7 +20,7 @@ suite:
   group: record
   gloss: Your position against a fixed reference — your spec.
   pitch: "Keeps requirements in source control, synced with the code either direction — so the spec, not the chat, is the source of truth."
-  what: "Keeps a plain-language spec — what the code must do — under source control, and reconciles it with the code in either direction. Durable enough to rebuild an implementation from, not just describe one."
+  what: "Keeps a plain-language spec — what the code must do — under source control, and reconciles it with the code in either direction. Written for specs that lag the code as often as they lead it."
   cmds:
     - ["/sextant:spec-sync", "Reconcile code and spec, either direction"]
     - ["/sextant:spec-req", "Look up, trace, or draft requirements, or bootstrap a spec"]

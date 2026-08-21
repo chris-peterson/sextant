@@ -51,7 +51,8 @@ first.
 **A requirement is a requirement-ID heading, and nothing else is.** That is what
 makes the count in [`counting-rule.md`](counting-rule.md) mechanical: the
 normative inventory is the set of ID headings under `## Requirements`, minus
-retired and deferred IDs.
+retired IDs. There is no deferred tier: a spec carries the requirements the code
+is measured against, and an idea that may not happen is an issue, not an entry.
 
 On the read side an ID heading counts whether or not it carries backticks —
 `#### LOCATE-01` and ``#### `LOCATE-01` `` are the same requirement. Write the
@@ -67,18 +68,6 @@ inventory:
 ```markdown
 _No LOOKUP-06 — it required per-implementation status columns and retired with
 the candidate workflow._
-```
-
-## Deferred requirements
-
-Future Requirements follow the same rule in their own section — one heading per
-deferred ID, naming the category it would land in:
-
-```markdown
-## Future Requirements
-
-### `FUT-01`
-(→ RENDER) When the export completes, the system shall …
 ```
 
 ## Referring to a requirement

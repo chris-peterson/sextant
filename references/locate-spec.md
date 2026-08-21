@@ -13,10 +13,14 @@ Check in order; the first hit wins:
    where its own spec lives, and that pointer catches non-standard locations
    (e.g. a lowercase `docs/spec.md`) the generic search below would miss.
 2. **`spec/` directory** at the repo root or in common subfolders (`vnext/`,
-   `exploration/`, `migration/`).
-3. **Justfile `spec` variable** pointing to the current version.
-4. **`CURRENT_SPEC_VERSION` environment variable.**
-5. **`SPEC.md` (or `docs/spec.md`) at the repo root.**
+   `exploration/`, `migration/`). Where it holds more than one, say which one you
+   read rather than resolving it silently.
+3. **Justfile `spec` variable** naming the directory inside `spec/` to read.
+4. **`SPEC.md` (or `docs/spec.md`) at the repo root.**
+
+Most projects resolve at step 1 or step 4: a root `SPEC.md` with a `STATUS.md`
+beside it. Steps 2 and 3 serve a project that keeps its spec under
+`spec/<version>/`, which is a layout choice, not a workflow sextant drives.
 
 ## On a miss, the response is skill-specific
 

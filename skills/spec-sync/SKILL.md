@@ -62,7 +62,7 @@ Find the current SPEC.md using the shared discovery order in
 [`references/locate-spec.md`](../../references/locate-spec.md) (that file is the
 source of truth). In brief, first hit wins: STATUS.md spec-pointer → `spec/`
 directory (incl. `vnext/`, `exploration/`, `migration/`) → justfile `spec`
-variable → `CURRENT_SPEC_VERSION` → root `SPEC.md` (or `docs/spec.md`).
+variable → root `SPEC.md` (or `docs/spec.md`).
 
 `spec-sync` is **always user-invoked and interactive** — it is not wired to
 hooks or called from a release workflow like `/ship-it`. So if no spec is found, say so and point the
@@ -85,13 +85,11 @@ Found N requirements across M categories:
   CM: CM-01, CM-02, CM-03
   OP: OP-01, OP-02
   ...
-  FUT: FUT-01, FUT-02 (deferred — excluded from coverage)
 ```
 
 **Counting rule.** Count per [`references/counting-rule.md`](../../references/counting-rule.md)
 (the source of truth): one distinct `XX-NN` ID = one requirement, lettered
-decompositions (`CL-21a`, …) each count as one, FUT/deferred and retired IDs
-excluded. Getting this wrong is the most common STATUS.md drift, so the
+decompositions (`CL-21a`, …) each count as one, retired IDs excluded. Getting this wrong is the most common STATUS.md drift, so the
 inventory count must be exact before anything downstream relies on it.
 
 Then locate the implementation at the repo root, along with any `STATUS.md`
@@ -107,7 +105,7 @@ it return the structured findings while the main agent works.)
 
 ### Forward — spec → code coverage
 
-For each non-FUT requirement ID:
+For each requirement ID:
 
 1. **Read the requirement text** to understand what it specifies.
 2. **Search the implementation** for evidence — grep the ID in comments/docs,
@@ -179,7 +177,6 @@ Present findings as a structured report:
 | Partial     | N     | OP-03, BR-01, …         |
 | Missing     | N     | LS-02, CM-04, …         |
 | Contradicts | N     | OP-02, …                |
-| Deferred    | N     | FUT-01, FUT-02, …       |
 
 ### Detailed findings
 (for each non-Covered requirement: status, evidence, gap)

@@ -1,7 +1,7 @@
 {
   "name": "sextant",
   "version": "0.6.0",
-  "description": "AI-assisted, best-effort SPEC-driven development \u2014 write requirements first, track how the code covers them, reconcile the two either direction.",
+  "description": "AI-assisted, best-effort SPEC-driven development \u2014 keep requirements in source control, track how the code covers them, reconcile the two either direction.",
   "author": {
     "name": "Chris Peterson"
   },

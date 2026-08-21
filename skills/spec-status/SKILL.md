@@ -30,7 +30,7 @@ flowchart TD
     end
 
     subgraph "Step 2: Forward pass (shared with spec-sync)"
-        FindStatus --> ForEach["For each non-FUT requirement"]
+        FindStatus --> ForEach["For each requirement"]
         ForEach --> Classify["Classify: Covered / Partial / Missing / Contradicts"]
     end
 
@@ -54,8 +54,8 @@ flowchart TD
 Find the current SPEC.md using the shared discovery order in
 [`references/locate-spec.md`](../../references/locate-spec.md) (the source of
 truth). In brief, first hit wins: STATUS.md spec-pointer → `spec/` directory
-(incl. `vnext/`, `exploration/`, `migration/`) → justfile `spec` variable →
-`CURRENT_SPEC_VERSION` → root `SPEC.md` (or `docs/spec.md`).
+(incl. `vnext/`, `exploration/`, `migration/`) → justfile `spec` variable → root
+`SPEC.md` (or `docs/spec.md`).
 
 **No-op gate.** If no spec is found, print exactly one line and exit:
 
@@ -86,7 +86,7 @@ Then find the STATUS.md to refresh:
 ## Step 2: Forward pass
 
 Run the forward pass `spec-sync` runs (its Step 2) — this is the shared engine,
-not a reimplementation. For each non-FUT requirement ID:
+not a reimplementation. For each requirement ID:
 
 1. Read the requirement text.
 2. Search the implementation for evidence (grep the ID, grep keywords, read
@@ -122,8 +122,7 @@ the machine regions; leave everything else byte-for-byte.
 
 - The metadata block — `**Last audit:**` (today), `**Spec version:**`, any
   `**… version:**` / `**Plugin version:**` line, and the `**Coverage:**`
-  count line (`N Covered, N Partial, N Missing/Contradicts` plus the deferred
-  count).
+  count line (`N Covered, N Partial, N Missing/Contradicts`).
 - The `## Status by category` table — recompute each row's count and status
   column from the forward pass. Add a row for any category that appears in the
   spec but not the table; flag (don't delete) a table row whose category no
@@ -132,7 +131,7 @@ the machine regions; leave everything else byte-for-byte.
 **Counting rule** (this is where STATUS.md files drift most — get it exact).
 Count per [`references/counting-rule.md`](../../references/counting-rule.md)
 (the source of truth): one distinct `XX-NN` ID = one requirement, lettered
-decompositions each count as one, FUT/deferred and retired IDs excluded. Here
+decompositions each count as one, retired IDs excluded. Here
 the invariant is concrete: the `**Coverage:**` header count == the sum of the
 table's per-row counts == the spec's normative inventory. The drift found in
 real repos was always one of these three disagreeing.
@@ -196,7 +195,7 @@ Maintained by `/sextant:spec-status`.
 
 **Last audit:** <today>
 **Spec version:** <version>
-**Coverage:** <N> Covered, <N> Partial, <N> Missing/Contradicts<, plus N deferred (FUT-…)>
+**Coverage:** <N> Covered, <N> Partial, <N> Missing/Contradicts
 
 ## Status by category
 
