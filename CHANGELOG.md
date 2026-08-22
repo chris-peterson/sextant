@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0
+
+## What's Changed
+* Narrow the surface to what the practice actually uses by @chris-peterson in https://github.com/chris-peterson/sextant/pull/15
+* Retire requirements by strikethrough, not deletion by @chris-peterson in https://github.com/chris-peterson/sextant/pull/16
+
+**Full Changelog**: https://github.com/chris-peterson/sextant/compare/v0.6.0...v0.7.0
+
 ## 0.6.0
 
 Coverage evidence stops rotting on unrelated commits, and the two lightweight skills become model-invocable.
