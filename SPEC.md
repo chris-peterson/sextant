@@ -1,6 +1,11 @@
 # sextant — Specification
 
-sextant is a Claude Code plugin for AI-assisted, "best-effort" spec-driven development: it writes requirements first, audits the code against them, and reconciles the two in whichever direction the user names.
+sextant is a Claude Code plugin for AI-assisted, "best-effort" spec-driven development: it keeps a plain-language spec under source control, tracks how the code covers it, and reconciles the two in whichever direction the user names.
+
+Requirements lead the code sometimes and lag it often, and both are normal entry
+points. A spec can be authored ahead of the work, recovered from an implementation
+that already shipped, or grown a requirement at a time as behavior lands. Nothing
+here assumes the spec came first.
 
 Requirements use [EARS syntax](https://alistairmavin.com/ears) — each is one of:
 Ubiquitous (`The <system> shall …`), State-Driven (`While …`), Event-Driven
@@ -9,9 +14,9 @@ Ubiquitous (`The <system> shall …`), State-Driven (`While …`), Event-Driven
 Each requirement is its own heading carrying a stable ID (`XX-NN`), one level
 below its category's heading, so every requirement has a linkable anchor
 (`SPEC.md#locate-01`). Lettered decompositions (`XX-NNa`) each count as one.
-Deferred requirements live under Future Requirements as `FUT-NN`, each naming
-the category it would land in. The layout is specified in
-`references/spec-layout.md`.
+Everything on the page is a requirement the code is measured against; ideas that
+may or may not happen belong in the issue tracker, not the spec. The layout is
+specified in `references/spec-layout.md`.
 
 ## Concepts
 
@@ -21,7 +26,7 @@ the category it would land in. The layout is specified in
 - **Category** — a prefix grouping related requirements (`LOCATE`, `LOOKUP`, `AUTHORING`, …): more than one character, all caps, a single word with no punctuation, spelling out the name people say for the thing rather than an ad-hoc contraction (an established initialism like `UX` or `CLI` is that name). Categories partition the requirement space.
 - **Coverage classification** — the status of a requirement against the code: **Covered**, **Partial**, **Missing**, or **Contradicts**.
 - **Evidence pointer** — where the code satisfies a requirement, recorded in the ledger's `Location`. Its granularity is the project's choice (line range → symbol → anchor → file → directory), defaulting to file plus enclosing symbol so it survives edits it isn't about.
-- **Locate order** — the shared, ordered procedure every skill uses to find the active SPEC.md (STATUS.md pointer → `spec/` dir → justfile `spec` var → `CURRENT_SPEC_VERSION` → root `SPEC.md`/`docs/spec.md`).
+- **Locate order** — the shared, ordered procedure every skill uses to find the active SPEC.md (STATUS.md pointer → `spec/` dir → justfile `spec` var → root `SPEC.md`/`docs/spec.md`).
 - **Drift** — behavior the code exhibits that no requirement captures (code → spec), or a requirement the code no longer satisfies (spec → code).
 - **Implementation** — the code that satisfies the spec, at the repo root.
 
@@ -43,7 +48,7 @@ When spec-status runs where no SPEC.md is found, the system shall print one line
 When spec-sync runs where no SPEC.md is found, the system shall report that no spec exists and direct the user to `spec-req init`.
 
 #### `LOCATE-05`
-When counting coverage, the system shall treat each distinct requirement ID — including lettered decompositions — as one normative requirement, and shall exclude deferred (FUT) and retired IDs.
+When counting coverage, the system shall treat each distinct requirement ID — including lettered decompositions — as one normative requirement, and shall exclude retired IDs.
 
 #### `LOCATE-06`
 When reading a spec, the system shall take each requirement-ID heading as one requirement whether or not the heading backticks the ID, and shall also recognize requirements written in the inline `- **[XX-NN]**` form a spec predating the heading layout uses.
@@ -81,10 +86,7 @@ When authoring a requirement, the system shall assign it to a fitting existing c
 When a requirement has been drafted, the system shall present it for user confirmation before writing it to SPEC.md.
 
 #### `AUTHORING-04`
-When a confirmed requirement is non-trivial, the system shall ask whether to implement it now or capture it as deferred (FUT).
-
-#### `AUTHORING-05`
-When capturing a deferred requirement, the system shall record it under Future Requirements as a `FUT-NN` heading naming the category it targets.
+When a confirmed requirement is non-trivial, the system shall ask whether to implement it now, and shall direct a not-now answer to the project's issue tracker rather than recording the requirement in SPEC.md.
 
 #### `AUTHORING-06`
 When writing a requirement to SPEC.md, the system shall insert it into its category section sorted by ID.
@@ -107,11 +109,13 @@ When writing a requirement to SPEC.md, the system shall give it its own heading 
 #### `AUTHORING-12`
 When writing a category section to SPEC.md, the system shall head it with the backticked category prefix and carry the category's full name beneath that heading.
 
+_No AUTHORING-05 — it captured requirements the project was not committing to as spec entries of their own. Those belong in the issue tracker; the ID is not reused._
+
 ### `COVERAGE`
 Coverage ledger
 
 #### `COVERAGE-01`
-When refreshing coverage, the system shall classify each non-deferred requirement as Covered, Partial, Missing, or Contradicts by reading the current code rather than trusting the prior ledger.
+When refreshing coverage, the system shall classify each requirement as Covered, Partial, Missing, or Contradicts by reading the current code rather than trusting the prior ledger.
 
 #### `COVERAGE-02`
 The spec-status skill shall write only STATUS.md and shall never edit code or SPEC.md.
@@ -164,7 +168,3 @@ The system shall delegate every STATUS.md write to the coverage-ledger skill rat
 _No RECONCILE-08 — it required a per-implementation comparison matrix and retired with the candidate workflow._
 
 _No IMPL category — IMPL-01..09 covered scaffolding candidate implementations under `implementations/<version>/<n>-<name>/` and graduating a winner to the repo root. That workflow is retired; the IDs are not reused._
-
-## Future Requirements
-
-_(none yet)_

@@ -1,10 +1,10 @@
 # sextant
 
 A Claude Code plugin for AI-assisted, best-effort spec-driven development: it
-writes requirements first, tracks how the code covers them, and reconciles the
-two in either direction. What each skill does for a *user* lives on the
-docs site (https://chris-peterson.github.io/sextant); this file is for working on
-the plugin itself.
+keeps a plain-language spec under source control, tracks how the code covers it,
+and reconciles the two in either direction. What each skill does for a *user*
+lives on the docs site (https://chris-peterson.github.io/sextant); this file is
+for working on the plugin itself.
 
 **The implementation is the skill prompts.** There is no runtime code here —
 `skills/*/SKILL.md` and the shared procedures under `references/` are what
@@ -16,6 +16,28 @@ sextant dogfoods itself. Its own `SPEC.md` is the requirement source of record
 and `STATUS.md` its coverage ledger, both maintained by its own skills. A change
 to behavior updates the requirement and the ledger in the same commit, not as a
 follow-up.
+
+## Scope
+
+**Pragmatic, not dogmatic.** Requirements lead the code sometimes and lag it
+often, and a spec is a living document: entries are added, reworded, and dropped
+in place. sextant is built for that, which means it reads a spec it did not
+author and reconciles one it did not keep current. A requirement backfilled
+after the behavior shipped is a first-class entry, not a repair.
+
+What it deliberately does **not** do, so no skill implies otherwise:
+
+- **Version a spec.** Git already holds every prior state, which is the archive a
+  second spec directory would duplicate. `spec/<version>/` is honored as a layout
+  a project may already use, not a workflow to advance; the locate order reads it
+  and stops there.
+- **Rename a category.** Renaming a prefix renumbers every requirement under it,
+  across SPEC.md, STATUS.md, and inbound references. That is a manual sweep today,
+  tracked in [#12](https://github.com/chris-peterson/sextant/issues/12).
+- **Carry a deferred tier.** There is no `FUT-NN`, no Future Requirements
+  section. A spec holds what the code is measured against, so an entry nobody is
+  building against reads as a coverage gap forever. Ideas that may or may not
+  happen go in the issue tracker.
 
 ## Commands
 
@@ -53,7 +75,9 @@ generated file; edit its source and run `just generate`.
   instead is the drift this prevents.
 - **Requirements are EARS, and IDs are stable.** `XX-NN`, with lettered
   decompositions (`XX-NNa`) counting as one apiece. A retired ID is never reused
-  and never counted; it survives as numbering-gap prose.
+  and never counted; it survives as numbering-gap prose. Stable means an ID is
+  not recycled onto different behavior — renaming a whole category is a separate
+  operation, and a manual one (see Scope).
 - **A requirement is a heading; nothing else is.** The backticked ID heads its own
   section one level below its category's backticked-prefix heading, so
   `SPEC.md#locate-01` links to it and the normative inventory is mechanical to read
