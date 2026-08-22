@@ -61,14 +61,53 @@ unchanged, and converting it is a whole-file edit to offer, not to fold into
 another change.
 
 Prose that is *about* the requirements — a numbering-gap note, a rationale
-paragraph, a retired-ID note — stays as body text under the category heading,
-never as a heading of its own. Keeping it headless is what keeps it out of the
-inventory:
+paragraph — stays as body text under the category heading, never as a heading
+of its own. Keeping it headless is what keeps it out of the inventory; a
+retired category's note (below) is the recurring example.
+
+A retired requirement's own heading survives, struck rather than removed — see
+Retired requirements below for that form and why it stays out of the count
+too.
+
+## Retired requirements
+
+A requirement that no longer holds is struck in place, never deleted, and its
+ID is never reused. Keep the heading and its statement, both struck, with a
+dated note on why:
 
 ```markdown
-_No LOOKUP-06 — it required per-implementation status columns and retired with
-the candidate workflow._
+#### ~~`LOOKUP-06`~~
+~~Where multiple implementations exist, the system shall present status per
+implementation rather than a single combined status.~~
+
+_Retired 2026-08-11 — the candidate-runoff workflow it belonged to was
+retired. The ID is not reused._
 ```
+
+The heading survives, so `SPEC.md#lookup-06` still resolves — GitHub and
+docsify both slug a heading from its text after stripping the markup around
+it, so the code span and the strikethrough leave the anchor unchanged. A
+reader who follows an old link lands on the requirement and the reason it
+retired, rather than a 404 or a file to scroll.
+
+Striking a line edits it, so `git blame` attributes it to the retirement
+commit rather than to whoever wrote the requirement — a real cost of keeping
+the requirement in place, not a reason to delete it instead.
+
+**A retired category is the exception.** `IMPL-01..09` retired together when
+the workflow they served was retired; nine struck headings under a category
+nobody will read again cost more than the sentence that replaces them:
+
+```markdown
+_No IMPL category — IMPL-01..09 covered scaffolding candidate implementations
+under `implementations/<version>/<n>-<name>/` and graduating a winner to the
+repo root. That workflow is retired; the IDs are not reused._
+```
+
+A spec that already carries a bare numbering-gap note (`_No LOOKUP-06 — …_`)
+for an individually retired ID keeps parsing and counting unchanged; converting
+it to a struck heading is a deliberate edit, not something a later
+reconciliation does on its own.
 
 ## Referring to a requirement
 

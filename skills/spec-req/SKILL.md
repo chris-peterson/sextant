@@ -74,6 +74,10 @@ as a `- **[XX-NN]** …` bullet; read that form too, and match whichever form th
 file already uses when writing into it. Offer to convert such a spec to headings
 as its own whole-file edit — never as a side effect of adding a requirement.
 
+When a requirement no longer holds, retire it: strike the heading and its
+statement in place per `references/spec-layout.md`'s Retired requirements
+section, never delete it, and never reuse the ID.
+
 ## Mode: Single requirement (`sextant:spec-req XX-NN`)
 
 Look up one requirement by its full ID.
