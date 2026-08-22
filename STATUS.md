@@ -25,6 +25,27 @@ so each is Covered by the skill it was derived from.
 
 ## Audit history
 
+### 2026-08-22 — Retired requirements struck in place, not deleted
+
+`references/spec-layout.md` gains a Retired requirements section: a
+requirement that no longer holds keeps its heading and statement, both struck,
+with a dated note on why — never deleted, and the ID never reused. `spec-req`
+and `spec-sync --to-spec` each carry a one-line pointer to it.
+
+`LOOKUP-06`, `AUTHORING-05`, and `RECONCILE-08` converted from bare
+numbering-gap prose to struck headings carrying their original EARS text,
+recovered from the commits that retired them. `IMPL-01..09` stays as prose —
+the reference's one exception, for a whole category retired together, where
+nine struck headings under a section nobody will read again cost more than
+the sentence that replaces them. Coverage stays 38, all Covered: the counting
+rule already excluded these IDs either way.
+
+This category table is a per-category rollup, not a per-requirement row, so
+there is no row to strike for an individually retired ID — its retirement
+already surfaces in the category's Notes column (the AUTHORING row's "No
+AUTHORING-05" note, unchanged by this pass). No ledger structure change
+follows from this.
+
 ### 2026-08-21 — Surface narrowed to what the practice uses
 
 Two features removed and one framing corrected, off the back of auditing the

@@ -248,6 +248,11 @@ development. The default *lean* is source → spec because code usually moves
 faster than the spec; the confirmation gate keeps that lean from becoming
 rubber-stamping. After writing, refresh the ledger via `spec-status`.
 
+When the resolution instead is that a requirement no longer holds — the
+behavior it described was intentionally removed — retire it per
+`references/spec-layout.md`'s Retired requirements section: strike it in
+place, never delete it, and never reuse the ID.
+
 ### `--to-source` — surface the implementation gap
 
 `spec-sync` does not write code. For each `--to-source` item (Missing or

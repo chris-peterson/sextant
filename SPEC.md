@@ -71,7 +71,10 @@ When tracing a requirement, the system shall report gaps in both directions — 
 #### `LOOKUP-05`
 When a trace finds no gaps, the system shall state the clean result explicitly rather than reporting nothing.
 
-_No LOOKUP-06 — it required per-implementation status columns and retired with the candidate workflow._
+#### ~~`LOOKUP-06`~~
+~~Where multiple implementations exist, the system shall present status per implementation rather than a single combined status.~~
+
+_Retired 2026-08-11 — the candidate-runoff workflow it belonged to was retired. The ID is not reused._
 
 ### `AUTHORING`
 Requirement authoring
@@ -87,6 +90,11 @@ When a requirement has been drafted, the system shall present it for user confir
 
 #### `AUTHORING-04`
 When a confirmed requirement is non-trivial, the system shall ask whether to implement it now, and shall direct a not-now answer to the project's issue tracker rather than recording the requirement in SPEC.md.
+
+#### ~~`AUTHORING-05`~~
+~~When capturing a deferred requirement, the system shall record it under Future Requirements as a `FUT-NN` heading naming the category it targets.~~
+
+_Retired 2026-08-21 — it captured requirements the project was not committing to as spec entries of their own. Those belong in the issue tracker; the ID is not reused._
 
 #### `AUTHORING-06`
 When writing a requirement to SPEC.md, the system shall insert it into its category section sorted by ID.
@@ -108,8 +116,6 @@ When writing a requirement to SPEC.md, the system shall give it its own heading 
 
 #### `AUTHORING-12`
 When writing a category section to SPEC.md, the system shall head it with the backticked category prefix and carry the category's full name beneath that heading.
-
-_No AUTHORING-05 — it captured requirements the project was not committing to as spec entries of their own. Those belong in the issue tracker; the ID is not reused._
 
 ### `COVERAGE`
 Coverage ledger
@@ -165,6 +171,9 @@ When reconciling, the system shall flag non-EARS-conformant or over-specified re
 #### `RECONCILE-07`
 The system shall delegate every STATUS.md write to the coverage-ledger skill rather than writing the ledger directly.
 
-_No RECONCILE-08 — it required a per-implementation comparison matrix and retired with the candidate workflow._
+#### ~~`RECONCILE-08`~~
+~~Where multiple implementations exist, the system shall classify each separately and present a comparison matrix.~~
+
+_Retired 2026-08-11 — the candidate-runoff workflow it belonged to was retired. The ID is not reused._
 
 _No IMPL category — IMPL-01..09 covered scaffolding candidate implementations under `implementations/<version>/<n>-<name>/` and graduating a winner to the repo root. That workflow is retired; the IDs are not reused._
