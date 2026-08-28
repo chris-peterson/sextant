@@ -1,2 +1,13 @@
-.DS_Store
+# docs/ is a docsify site shipyard renders from plugin.yml, the skills, and
+# references/; only the hand-authored pages negated below are source. Ignoring
+# the directory and allowlisting the exceptions keeps a page shipyard adds later
+# out of the tree without an enumerated list to chase.
 docs/*
+!docs/README.md
+!docs/_sidebar.md
+!docs/comparison.md
+!docs/meta.md
+!docs/skills.md
+!docs/favicon.svg
+!docs/hero.svg
+.DS_Store

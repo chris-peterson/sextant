@@ -1,5 +1,5 @@
 # Canonical descriptor for the sextant plugin — edit here, never plugin.json.
-# Projects into .claude-plugin/plugin.json (via scripts/gen-plugin-json.py) and
+# Projects into .claude-plugin/plugin.json (via `shipyard gen-plugin-json`) and
 # the marketplace SPA (the suite: block).
 
 name: sextant
@@ -9,6 +9,16 @@ author: Chris Peterson
 repository: https://github.com/chris-peterson/sextant
 license: MIT
 keywords: [spec-driven, ears, requirements, audit, ai, claude-code]
+
+# `claude plugin validate` runs in the projection job; a warning it reports fails
+# the build unless it is accepted here, by name and with a reason.
+validate:
+  accept:
+    - warning: root
+      path: CLAUDE.md
+      because: >-
+        CLAUDE.md at the root is this repo's own agent instructions, not context
+        the plugin ships. It points at AGENTS.md, which every agent reads.
 
 # → marketplace.json entry
 marketplace:
@@ -25,8 +35,6 @@ suite:
     - ["/sextant:spec-sync", "Reconcile code and spec, either direction"]
     - ["/sextant:spec-req", "Look up, trace, or draft requirements, or bootstrap a spec"]
     - ["/sextant:spec-status", "Refresh the coverage ledger"]
-  # Skill-anchored previews of the two flagship skills, shown live on the docs
-  # site; the session: below is the at-a-glance flow the hub also reads.
   # >>> shipyard:describe — generated from source by `shipyard gen-describe`; do not edit >>>
   describe:
     skills:
@@ -35,6 +43,8 @@ suite:
       spec-sync: Reconcile SPEC.md and the source — full-domain coverage + drift analysis, applied as one-way syncs.
   # <<< shipyard:describe <<<
   examples:
+    # Skill-anchored previews of the two flagship skills, shown live on the docs
+    # site; the session: below is the at-a-glance flow the hub also reads.
     - label: "/sextant:spec-sync"
       ac: "--build"
       frames:

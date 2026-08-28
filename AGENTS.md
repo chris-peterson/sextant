@@ -42,11 +42,15 @@ What it deliberately does **not** do, so no skill implies otherwise:
 ## Commands
 
 ```bash
-just check       # validate source and preview the pending projection (no write)
-just generate    # regenerate plugin.json and docs/ from plugin.yml and the skills
-just describe    # resync plugin.yml's suite.describe from the skills
-just docs        # serve the docsify site locally
+just generate         # regenerate plugin.json and docs/ from plugin.yml and the skills
+just peek-projection  # generate, then show what it wrote
+just describe         # resync plugin.yml's suite.describe from the skills
+just docs             # render the docsify site and serve it locally
 ```
+
+The recipes run shipyard straight from its git ref via `uvx`, so there is
+nothing to install. They are for seeing the projection before you push; CI is
+the writer for what lands.
 
 ## Layout
 
@@ -57,7 +61,7 @@ skills/spec-status/      refresh STATUS.md — the lightweight, hook-safe ledger
 skills/spec-sync/        full-domain coverage + drift analysis; one-way reconciliation
 references/              shared procedures the skills read at runtime
 SPEC.md / STATUS.md      sextant's own requirements and their coverage
-docs/                    docsify site (index.html, _sidebar.md, hero, favicon are source)
+docs/                    docsify site — the tracked pages, sidebar, hero, and favicon are source
 ```
 
 `.claude-plugin/plugin.json`, `plugin.yml`'s `suite.describe` block, and most of
