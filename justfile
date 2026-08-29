@@ -9,8 +9,8 @@ default:
 generate:
     {{shipyard}} generate
 
-# project, then show what it wrote — the read CI performs on every push
-peek-projection:
+# read what the projection job would commit, without keeping it; `git restore .` discards
+check:
     {{shipyard}} generate
     git --no-pager diff --stat
 

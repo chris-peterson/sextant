@@ -43,7 +43,7 @@ What it deliberately does **not** do, so no skill implies otherwise:
 
 ```bash
 just generate         # regenerate plugin.json and docs/ from plugin.yml and the skills
-just peek-projection  # generate, then show what it wrote
+just check            # generate, then show what it wrote
 just describe         # resync plugin.yml's suite.describe from the skills
 just docs             # render the docsify site and serve it locally
 ```
