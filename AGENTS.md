@@ -68,6 +68,12 @@ docs/                    docsify site — the tracked pages, sidebar, hero, and 
 `docs/` are **generated** by `shipyard` from the sources above. Never hand-edit a
 generated file; edit its source and run `just generate`.
 
+Releases are dispatched, not tagged by hand: run the **Release** workflow with a
+bump level, and shipyard derives the version from `plugin.yml`, retitles
+`CHANGELOG.md`'s `## Unreleased` section, commits, tags that commit, and
+publishes. Write the notes into `## Unreleased` first — reading what landed is
+what picks the level.
+
 ## Conventions
 
 - **A shared procedure lives in `references/` once.** `locate-spec.md`,
