@@ -3,9 +3,9 @@
 Tracking status of the requirements declared in [`SPEC.md`](SPEC.md).
 Maintained by `/sextant:spec-status`.
 
-**Last audit:** 2026-08-21
+**Last audit:** 2026-09-04
 **Spec version:** root SPEC.md (unversioned)
-**Plugin version:** 0.6.0
+**Plugin version:** 0.7.0
 **Coverage:** 38 Covered, 0 Partial, 0 Missing/Contradicts
 **Evidence pointers:** file
 
@@ -24,6 +24,14 @@ so each is Covered by the skill it was derived from.
 | RECONCILE-01..07 | 7 | All Covered | Full-domain analysis, one-way sync — `skills/spec-sync/SKILL.md` |
 
 ## Audit history
+
+### 2026-09-04 — Metadata caught up to 0.7.0
+
+Coverage unchanged at 38 Covered; no requirement changed classification, and
+the four commits since `v0.7.0` touched neither the skills nor the spec. The
+metadata block had lagged the release: version 0.6.0 and audit date
+2026-08-21, both predating 0.7.0. Nothing refreshes them on release —
+`release.yml` delegates wholly to shipyard's reusable workflow.
 
 ### 2026-08-22 — Retired requirements struck in place, not deleted
 
