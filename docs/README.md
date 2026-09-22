@@ -1,24 +1,13 @@
-<style>
-.hero{position:relative;aspect-ratio:1200/520;border-radius:14px;overflow:hidden;margin:0 0 2rem;background:#15161e url(hero.svg) center/cover no-repeat}
-.hero__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,14,19,.97) 0%,rgba(13,14,19,.9) 30%,rgba(13,14,19,.4) 52%,rgba(13,14,19,0) 70%),linear-gradient(0deg,rgba(13,14,19,.7),rgba(13,14,19,0) 38%)}
-.hero__body{position:absolute;left:0;bottom:0;padding:clamp(1.1rem,3.5vw,2.6rem);max-width:min(560px,74%)}
-.hero__title{font-family:Georgia,'Iowan Old Style','Times New Roman',serif;font-weight:600;font-size:clamp(2.2rem,6vw,3.8rem);line-height:.95;margin:0;color:#f8f8f2;text-shadow:0 2px 16px rgba(13,14,19,.95),0 1px 2px rgba(13,14,19,.9)}
-.hero__tag{font-size:clamp(1rem,2.4vw,1.4rem);color:#8be9fd;font-weight:600;margin:.55rem 0 .35rem;text-shadow:0 1px 10px rgba(13,14,19,.85)}
-.hero__sub{color:#c9ccd8;font-size:clamp(.82rem,1.5vw,1rem);line-height:1.5;margin:0 0 1.05rem}
-.hero__cta a{display:inline-block;margin:0 .55rem .4rem 0;padding:.5rem .95rem;border-radius:8px;font-size:.92rem;text-decoration:none;transition:transform .12s ease}
-.hero__cta a:hover{transform:translateY(-1px)}
-.hero__cta .primary{background:#8be9fd;color:#15161e;font-weight:700}
-.hero__cta .ghost{border:1px solid #6272a4;color:#f8f8f2}
-</style>
+<div class="ph-hero" style="--accent: color-mix(in srgb, var(--color-green) 54%, light-dark(black, white))">
 
-<div class="hero">
-  <div class="hero__scrim"></div>
-  <div class="hero__body">
-    <h1 class="hero__title">sextant</h1>
-    <p class="hero__tag">"Best-effort" SPEC-driven development</p>
-    <p class="hero__sub">Write requirements first, measure how well the code covers them, and keep the spec honest as both change.</p>
-    <p class="hero__cta"><a class="primary" href="#/?id=quickstart">Quickstart</a><a class="ghost" href="https://github.com/chris-peterson/sextant">GitHub</a></p>
-  </div>
+<h1 class="ph-lede"><span class="ph-name">sextant:</span> manages drift between spec and code.</h1>
+
+<div class="ph-badge"><img class="ph-mark" src="favicon.svg" alt="sextant" width="26" height="26">
+
+[](_tags.md ':include')
+
+</div>
+
 </div>
 
 A sextant is the precision nautical instrument for fixing your position against fixed references — it doesn't plot the voyage in advance, it tells you where you are right now. Here the reference is your `SPEC.md` and the position is your code's coverage of it: take a fix whenever you need to know how far you've drifted from course.
