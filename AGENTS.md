@@ -61,7 +61,7 @@ skills/spec-status/      refresh STATUS.md — the lightweight, hook-safe ledger
 skills/spec-sync/        full-domain coverage + drift analysis; one-way reconciliation
 references/              shared procedures the skills read at runtime
 SPEC.md / STATUS.md      sextant's own requirements and their coverage
-docs/                    docsify site — the tracked pages, sidebar, hero, and favicon are source
+docs/                    docsify site; the tracked pages, sidebar, and favicon are source
 ```
 
 `.claude-plugin/plugin.json`, `plugin.yml`'s `suite.describe` block, and most of

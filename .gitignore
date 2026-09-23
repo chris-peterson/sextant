@@ -9,5 +9,4 @@ docs/*
 !docs/meta.md
 !docs/skills.md
 !docs/favicon.svg
-!docs/hero.svg
 .DS_Store
