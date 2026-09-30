@@ -39,7 +39,7 @@ The skills you reach for most, reconciling code against the spec and giving a ne
    claude plugin install sextant@chris-peterson
    ```
 
-2. **Write or locate a `SPEC.md`** in your project, or scaffold one from scratch with `/sextant:spec-req init`. Sextant looks for a `STATUS.md` pointer first, then `spec/<version>/`, a justfile `spec` variable, and the repo root.
+2. **Write or locate a `SPEC.md`** in your project, or scaffold one from scratch with `/sextant:spec-req init`. Sextant looks for a `STATUS.md` pointer first, then `spec/<version>/`, then the repo root.
 
 3. **Analyze your implementation against the spec.**
 

@@ -6,11 +6,16 @@ and reconciles the two in either direction. What each skill does for a *user*
 lives on the docs site (https://chris-peterson.github.io/sextant); this file is
 for working on the plugin itself.
 
-**The implementation is the skill prompts.** There is no runtime code here —
-`skills/*/SKILL.md` and the shared procedures under `references/` are what
-executes. A behavior change is a prompt edit, and it is reviewed as prose: the
-question is whether an agent reading it does the right thing, not whether it
-parses.
+**The implementation is mostly the skill prompts.** `skills/*/SKILL.md` and the
+shared procedures under `references/` are what an agent executes, and a change
+to them is reviewed as prose: the question is whether an agent reading it does
+the right thing, not whether it parses.
+
+The rest is code, kept to the steps whose right answer doesn't depend on
+judgment: `scripts/locate-spec.sh` (the locate order, run by every skill and the
+hook) and `hooks/ledger-signal.sh` (the subscriber that flags a stale ledger when
+tack closes a session). A change there is reviewed as code and lands with its
+test under `tests/`. A step that needs judgment stays in a prompt.
 
 sextant dogfoods itself. Its own `SPEC.md` is the requirement source of record
 and `STATUS.md` its coverage ledger, both maintained by its own skills. A change
@@ -42,7 +47,8 @@ What it deliberately does **not** do, so no skill implies otherwise:
 ## Commands
 
 ```bash
-just generate         # regenerate plugin.json and docs/ from plugin.yml and the skills
+just test             # run the tests for the hook and the locate script
+just generate         # regenerate plugin.json, hooks.json, and docs/ from their sources
 just check            # generate, then show what it wrote
 just describe         # resync plugin.yml's suite.describe from the skills
 just docs             # render the docsify site and serve it locally
@@ -60,12 +66,15 @@ skills/spec-req/         look up, trace, author requirements; bootstrap a spec (
 skills/spec-status/      refresh STATUS.md — the lightweight, hook-safe ledger writer
 skills/spec-sync/        full-domain coverage + drift analysis; one-way reconciliation
 references/              shared procedures the skills read at runtime
+scripts/locate-spec.sh   the locate order, as the one executable every surface runs
+hooks/                   hooks.yml (source) and ledger-signal.sh, the tack subscriber
+tests/                   bash tests for scripts/ and hooks/; `just test` runs them
 SPEC.md / STATUS.md      sextant's own requirements and their coverage
 docs/                    docsify site; the tracked pages, sidebar, and favicon are source
 ```
 
-`.claude-plugin/plugin.json`, `plugin.yml`'s `suite.describe` block, and most of
-`docs/` are **generated** by `shipyard` from the sources above. Never hand-edit a
+`.claude-plugin/plugin.json`, `hooks/hooks.json`, `plugin.yml`'s
+`suite.describe` block, and most of `docs/` are **generated** by `shipyard` from the sources above. Never hand-edit a
 generated file; edit its source and run `just generate`.
 
 Releases are dispatched, not tagged by hand: run the **Release** workflow with a
