@@ -58,11 +58,10 @@ flowchart TD
 
 ## Step 1: Locate spec and implementations
 
-Find the current SPEC.md using the shared discovery order in
-[`references/locate-spec.md`](../../references/locate-spec.md) (that file is the
-source of truth). In brief, first hit wins: STATUS.md spec-pointer → `spec/`
-directory (incl. `vnext/`, `exploration/`, `migration/`) → justfile `spec`
-variable → root `SPEC.md` (or `docs/spec.md`).
+`bash "${CLAUDE_PLUGIN_ROOT}/scripts/locate-spec.sh"` finds the spec; its
+output and exit codes are in
+[`references/locate-spec.md`](../../references/locate-spec.md), the source of
+truth.
 
 `spec-sync` is **always user-invoked and interactive** — it is not wired to
 hooks or called from a release workflow like `/ship-it`. So if no spec is found, say so and point the

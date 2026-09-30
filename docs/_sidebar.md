@@ -4,4 +4,5 @@
   - [spec-req](/skills/spec-req)
   - [spec-status](/skills/spec-status)
   - [spec-sync](/skills/spec-sync)
+- [Hooks](/hooks)
 - [Sextant²](/meta)

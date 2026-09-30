@@ -14,6 +14,16 @@ check:
     {{shipyard}} generate
     git --no-pager diff --stat
 
+# run the tests for the hook and the locate script
+test:
+    #!/usr/bin/env bash
+    status=0
+    for t in tests/*.test.sh; do
+      printf '\n== %s\n' "$t"
+      bash "$t" || status=1
+    done
+    exit $status
+
 # render the docsify docs site and serve it locally
 docs:
     {{shipyard}} build-docs

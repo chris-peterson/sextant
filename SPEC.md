@@ -26,7 +26,7 @@ specified in `references/spec-layout.md`.
 - **Category** — a prefix grouping related requirements (`LOCATE`, `LOOKUP`, `AUTHORING`, …): more than one character, all caps, a single word with no punctuation, spelling out the name people say for the thing rather than an ad-hoc contraction (an established initialism like `UX` or `CLI` is that name). Categories partition the requirement space.
 - **Coverage classification** — the status of a requirement against the code: **Covered**, **Partial**, **Missing**, or **Contradicts**.
 - **Evidence pointer** — where the code satisfies a requirement, recorded in the ledger's `Location`. Its granularity is the project's choice (line range → symbol → anchor → file → directory), defaulting to file plus enclosing symbol so it survives edits it isn't about.
-- **Locate order** — the shared, ordered procedure every skill uses to find the active SPEC.md (STATUS.md pointer → `spec/` dir → justfile `spec` var → root `SPEC.md`/`docs/spec.md`).
+- **Locate order** — the shared, ordered procedure every skill and hook uses to find the active SPEC.md (STATUS.md pointer → `spec/` dir → root `SPEC.md`/`docs/spec.md`).
 - **Drift** — behavior the code exhibits that no requirement captures (code → spec), or a requirement the code no longer satisfies (spec → code).
 - **Implementation** — the code that satisfies the spec, at the repo root.
 
@@ -36,7 +36,7 @@ specified in `references/spec-layout.md`.
 Spec & artifact discovery
 
 #### `LOCATE-01`
-The system shall locate the active SPEC.md using a single shared, ordered discovery procedure across all skills.
+The system shall locate the active SPEC.md using a single shared, ordered discovery procedure across all skills and hooks.
 
 #### `LOCATE-02`
 While a STATUS.md exists, the system shall consult its spec-pointer link before other discovery steps, so a non-standard spec location is honored.
@@ -52,6 +52,12 @@ When counting coverage, the system shall treat each distinct requirement ID — 
 
 #### `LOCATE-06`
 When reading a spec, the system shall take each requirement-ID heading as one requirement whether or not the heading backticks the ID, and shall also recognize requirements written in the inline `- **[XX-NN]**` form a spec predating the heading layout uses.
+
+#### `LOCATE-07`
+If more than one spec exists under `spec/` and STATUS.md names none of them, then the system shall list them rather than choosing one.
+
+#### `LOCATE-08`
+If STATUS.md's spec-pointer names a file that does not exist, then the system shall report the missing path rather than searching past it.
 
 ### `LOOKUP`
 Requirement lookup & tracing
@@ -175,5 +181,29 @@ The system shall delegate every STATUS.md write to the coverage-ledger skill rat
 ~~Where multiple implementations exist, the system shall classify each separately and present a comparison matrix.~~
 
 _Retired 2026-08-11 — the candidate-runoff workflow it belonged to was retired. The ID is not reused._
+
+### `REACT`
+Reactions to suite announcements
+
+#### `REACT-01`
+When tack announces that a session's work closed out, the system shall classify the changes since the default branch — committed, uncommitted, and untracked — as source, spec, or ledger changes.
+
+#### `REACT-02`
+When the source or the spec changed and the ledger did not, the system shall name which of them moved and the skill that addresses it.
+
+#### `REACT-03`
+When the ledger changed, or nothing changed, the system shall stay silent.
+
+#### `REACT-04`
+The ledger-signal hook shall write no file, make no model call, and exit successfully on every path.
+
+#### `REACT-05`
+The ledger-signal hook shall match only the whole announcement key at the start of a line, and shall stay silent on a body that is not a JSON object.
+
+#### `REACT-06`
+The ledger-signal hook shall strip control characters from every value it decodes from an announcement before printing it.
+
+#### `REACT-07`
+Where git config sets `sextant.subscribe.tack` or `sextant.subscribe.tack.session-ended` to false, the system shall not signal.
 
 _No IMPL category — IMPL-01..09 covered scaffolding candidate implementations under `implementations/<version>/<n>-<name>/` and graduating a winner to the repo root. That workflow is retired; the IDs are not reused._

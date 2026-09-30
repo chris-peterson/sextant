@@ -54,13 +54,12 @@ flowchart TD
 
 ## Locate the spec
 
-Find the current SPEC.md using the shared discovery order in
-[`references/locate-spec.md`](../../references/locate-spec.md) (the source of
-truth every sextant skill uses). In brief, first hit wins: STATUS.md
-spec-pointer → `spec/` directory (incl. `vnext/`, `exploration/`, `migration/`)
-→ justfile `spec` variable → root `SPEC.md` (or `docs/spec.md`).
+`bash "${CLAUDE_PLUGIN_ROOT}/scripts/locate-spec.sh"` runs the shared locate
+order; its output and exit codes are in
+[`references/locate-spec.md`](../../references/locate-spec.md), the source of
+truth every sextant skill uses.
 
-If no SPEC.md is found, ask the user where it is.
+If no spec is found, ask the user where it is.
 
 ## Spec layout
 
@@ -281,9 +280,9 @@ Per the standard locate order:
 - **Root `SPEC.md`** — simplest, and the default; for a new project or an
   existing one adopting spec-driven in place.
 - **`spec/<version>/SPEC.md`** (e.g. `spec/v1/SPEC.md`) — the versioned layout,
-  for a spec expected to go through revisions worth keeping side by side.
-  Record the version in the justfile `spec` variable so the other skills
-  resolve it.
+  for a spec expected to go through revisions worth keeping side by side. The
+  STATUS.md stub's spec-pointer is what names it as the active spec, so the
+  other skills resolve it.
 
 Ask which; default to root `SPEC.md`.
 
@@ -376,7 +375,7 @@ Report what was scaffolded.
 Scaffolded:
   → SPEC.md (EARS preamble, Concepts, N empty category sections)
   → STATUS.md stub
-  → spec location: <root SPEC.md | spec/v1/SPEC.md, justfile spec=v1>
+  → spec location: <root SPEC.md | spec/v1/SPEC.md>
 
 Next: add your first requirement — /sextant:spec-req new
 ```
@@ -387,7 +386,7 @@ Next: add your first requirement — /sextant:spec-req new
 Scaffolded from <doc>:
   → SPEC.md (EARS preamble, Concepts, N requirements across M categories)
   → STATUS.md (N requirements, all uncovered)
-  → spec location: <root SPEC.md | spec/v1/SPEC.md, justfile spec=v1>
+  → spec location: <root SPEC.md | spec/v1/SPEC.md>
 
 Review the extracted requirements against the source, then refine with
 /sextant:spec-req new or start building against them.

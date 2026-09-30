@@ -3,27 +3,35 @@
 Tracking status of the requirements declared in [`SPEC.md`](SPEC.md).
 Maintained by `/sextant:spec-status`.
 
-**Last audit:** 2026-09-04
+**Last audit:** 2026-09-30
 **Spec version:** root SPEC.md (unversioned)
 **Plugin version:** 0.7.0
-**Coverage:** 38 Covered, 0 Partial, 0 Missing/Contradicts
+**Coverage:** 47 Covered, 0 Partial, 0 Missing/Contradicts
 **Evidence pointers:** file
 
-The implementation is the three skill prompts under `skills/`. These requirements
-were extracted from their documented behavior via `/sextant:spec-sync --to-spec`,
-so each is Covered by the skill it was derived from.
+The implementation is the three skill prompts under `skills/`, plus the locate
+script (`scripts/locate-spec.sh`) and the tack subscriber
+(`hooks/ledger-signal.sh`), each with its test under `tests/`. The prompt
+requirements were extracted from their documented behavior via
+`/sextant:spec-sync --to-spec`, so each is Covered by the skill it was derived
+from; REACT and LOCATE-07..08 were written alongside the code that covers them.
 
 ## Status by category
 
 | Prefix | Count | Status | Notes |
 |--------|------:|--------|-------|
-| LOCATE-01..06 | 6 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06) — `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `references/{locate-spec,spec-layout}.md` |
+| LOCATE-01..08 | 8 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06), several-spec and broken-pointer reporting (LOCATE-07..08) — `scripts/locate-spec.sh`, `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `hooks/ledger-signal.sh`, `references/{locate-spec,spec-layout}.md` |
 | LOOKUP-01..05 | 5 | All Covered | Lookup/category/trace modes — `skills/spec-req/SKILL.md` |
 | AUTHORING-01..12 | 11 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md`. No AUTHORING-05 — retired with the deferred tier. |
 | COVERAGE-01..09 | 9 | All Covered | Ledger refresh, idempotency, counting invariant, evidence pointers — `skills/spec-status/SKILL.md`, `references/evidence-pointer.md` |
 | RECONCILE-01..07 | 7 | All Covered | Full-domain analysis, one-way sync — `skills/spec-sync/SKILL.md` |
+| REACT-01..07 | 7 | All Covered | tack `session.ended` subscriber: diff classification, silence rules, anchored match, sanitizing, git-config opt-out — `hooks/ledger-signal.sh`, `tests/ledger-signal.test.sh` |
 
 ## Audit history
+
+### 2026-09-30 — Coverage refresh (spec-status)
+
+STATUS.md updated: +9 IDs (LOCATE-07..08, REACT-01..07), all Covered; 38 → 47 Covered.
 
 ### 2026-09-04 — Metadata caught up to 0.7.0
 
