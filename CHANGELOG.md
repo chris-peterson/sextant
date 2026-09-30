@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased
+
+sextant notices when a session's changes have outrun the coverage ledger, at the moment tack closes the work out.
+
+### Added
+
+- **A stale ledger gets pointed out when you close a session with tack.** When `/tack:end` reports the work finished, sextant looks at what changed since the branch left the default branch (committed, uncommitted, and untracked). If the source or the spec moved and `STATUS.md` didn't, the agent is told which one moved and which skill reconciles it: `/sextant:spec-sync` when only the code moved, `/sextant:spec-status` when the spec did, or when the repo has no `STATUS.md` yet. Whether a change actually affects the spec is left to you and the agent; the hook writes nothing. It needs tack to be installed, and reacts to tack's `session.ended` announcement.
+
+  Turn it off with `git config --global sextant.subscribe.tack.session-ended false`, or every tack subscription with `sextant.subscribe.tack`. Leave off `--global` only for a repo where the signal doesn't fit. The switch names follow the suite's [subscription off-switch convention](https://github.com/chris-peterson/claude-marketplace/blob/main/authoring/plugin-contract.md#turning-a-subscription-off).
+
+### Changed
+
+- **The locate order no longer reads a justfile `spec` variable.** With more than one spec under `spec/`, the `STATUS.md` spec-pointer is what names the active one; with no pointer, the skills list the specs and ask. `/sextant:spec-req init` already writes that pointer, so only a repo that relied on the justfile variable to choose among several specs needs to add one.
+- **A `STATUS.md` spec-pointer to a missing file is reported** rather than searched past.
+- **Every skill runs the locate order from one script**, `scripts/locate-spec.sh`, so the skills and the hook can't disagree about which spec is active.
+- **Spec and pointer names match case exactly on macOS too.** A root `spec.md` is not taken for `SPEC.md`, and a spec-pointer spelled in another case is reported as broken, the same as on Linux.
+
+### Spec
+
+- **`REACT-01`..`REACT-08`**: the new category for reactions to suite announcements.
+- **`LOCATE-07`**, **`LOCATE-08`**, **`LOCATE-09`**: several specs with no pointer, a broken pointer, and exact-case matching.
+- **`LOCATE-01`** reworded to cover hooks as well as skills.
+
 ## 0.7.0
 
 ## What's Changed

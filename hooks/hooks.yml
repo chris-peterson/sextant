@@ -1,0 +1,12 @@
+# Source of record for sextant's hooks — shipyard generates hooks.json.
+hooks:
+  - event: PostToolUse
+    matcher: Bash
+    command: 'bash "${CLAUDE_PLUGIN_ROOT}/hooks/ledger-signal.sh"'
+    description: >-
+      When tack closes out a session's work, points out a coverage ledger the
+      session's source or spec changes have moved past, and names the skill that
+      reconciles it. It writes nothing. Turn it off with `git config --global
+      sextant.subscribe.tack.session-ended false`, or every tack subscription
+      with `sextant.subscribe.tack`. Leave off `--global` only for a repo
+      where the signal doesn't fit.

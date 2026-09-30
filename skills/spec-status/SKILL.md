@@ -51,11 +51,11 @@ flowchart TD
 
 ## Step 1: Locate the spec — and the no-op gate
 
-Find the current SPEC.md using the shared discovery order in
-[`references/locate-spec.md`](../../references/locate-spec.md) (the source of
-truth). In brief, first hit wins: STATUS.md spec-pointer → `spec/` directory
-(incl. `vnext/`, `exploration/`, `migration/`) → justfile `spec` variable → root
-`SPEC.md` (or `docs/spec.md`).
+`bash "${CLAUDE_PLUGIN_ROOT}/scripts/locate-spec.sh"` runs the shared locate
+order: STATUS.md spec-pointer → `spec/` directory → root `SPEC.md` (or
+`docs/spec.md`), first hit wins. Its output and exit codes are in
+[`references/locate-spec.md`](../../references/locate-spec.md), the source of
+truth.
 
 **No-op gate.** If no spec is found, print exactly one line and exit:
 
@@ -74,7 +74,7 @@ inventory `spec-sync` Step 1 builds. IDs come from the requirement headings
 described in [`references/spec-layout.md`](../../references/spec-layout.md) (the
 source of truth), or from the `- **[XX-NN]** …` bullets a spec predating that
 layout uses. Note the
-spec version (from the path `spec/<v>/`, the justfile `spec` var, or a version
+spec version (from the path `spec/<v>/`, or a version
 line in the spec itself).
 
 Then find the STATUS.md to refresh:
