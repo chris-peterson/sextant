@@ -15,5 +15,6 @@
     "ai",
     "claude-code"
   ],
-  "homepage": "https://chris-peterson.github.io/sextant/#/"
+  "homepage": "https://chris-peterson.github.io/sextant/#/",
+  "documentationUrl": "https://chris-peterson.github.io/sextant/#/"
 }
