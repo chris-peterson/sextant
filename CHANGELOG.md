@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- **A requirement that refines an existing one is numbered and placed with it.** `/sextant:spec-req new` gives a case, step, or condition of an existing requirement that requirement's ID plus the next free letter (`COMMIT-10a`) and inserts it right after it, so a reviewer reads the two together. A rewording that keeps the behavior stays under its ID, and a behavior change retires the old ID. The rule and its table are in `references/spec-layout.md`.
+
 ## 0.7.0
 
 ## What's Changed
