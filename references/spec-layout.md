@@ -69,6 +69,36 @@ A retired requirement's own heading survives, struck rather than removed — see
 Retired requirements below for that form and why it stays out of the count
 too.
 
+## Adding to an existing requirement
+
+A change to the spec relates to what is already there in one of three ways,
+and each has its own ID:
+
+| The change | ID | Where it goes |
+| --- | --- | --- |
+| Rewords a requirement without changing what it asks of the code | the requirement's own | edited in place |
+| Refines a requirement: a case, a step, or a condition the parent's behavior depends on | the parent's ID plus the next free letter (`COMMIT-10a`, then `COMMIT-10b`) | directly after the parent and its earlier letters |
+| Stands on its own | the next free number in the category | after the category's last requirement |
+
+**A refinement is read with its parent.** A reviewer checking `COMMIT-10`
+wants `COMMIT-10a` beside it, and a ledger row that cites `COMMIT-10` is read
+alongside the refinements that sit under it. The test is whether the new
+requirement would make sense to someone who had never read the parent: if it
+would, it stands on its own and takes a number.
+
+**Sort by number, then letter:** `COMMIT-10`, `COMMIT-10a`, `COMMIT-10b`,
+`COMMIT-11`. A lettered ID sorted among later numbers reads as unrelated to its
+parent and is the usual sign of an append made without reading the section.
+
+**An ID is `XX-NN` with at most one letter.** That is the form
+[`counting-rule.md`](counting-rule.md) counts and the form an anchor slugs to
+predictably (`SPEC.md#commit-10a`). A refinement of a refinement takes the next
+letter on the same parent.
+
+**A change to what a requirement asks of the code retires it.** The old
+requirement is struck (below) and the new behavior takes a fresh ID, so a
+ledger row or a commit citing the old ID still points at what it meant.
+
 ## Retired requirements
 
 A requirement that no longer holds is struck in place, never deleted, and its
