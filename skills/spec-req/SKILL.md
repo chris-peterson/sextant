@@ -74,6 +74,11 @@ as a `- **[XX-NN]** …` bullet; read that form too, and match whichever form th
 file already uses when writing into it. Offer to convert such a spec to headings
 as its own whole-file edit — never as a side effect of adding a requirement.
 
+A requirement that refines an existing one takes the parent's ID plus the next
+free letter (`XX-NNa`) and sits directly after it; a rewording that keeps the
+behavior edits the requirement in place. The table is
+`references/spec-layout.md`'s Adding to an existing requirement section.
+
 When a requirement no longer holds, retire it: strike the heading and its
 statement in place per `references/spec-layout.md`'s Retired requirements
 section, never delete it, and never reuse the ID.
@@ -142,7 +147,7 @@ Guide the user through creating a new requirement. This replaces the standalone 
 Read existing categories and their highest requirement numbers from the spec.
 
 Based on the user's description:
-- **Match to an existing category** if it fits. Use the next available number.
+- **Match to an existing category** if it fits. Use the next available number, unless the new requirement refines an existing one: then it takes that requirement's ID plus the next free letter, per [`references/spec-layout.md`](../../references/spec-layout.md)'s Adding to an existing requirement section.
 - **Create a new category** if none fits. A prefix is more than one character, all caps, and a single word with no punctuation — the name people already say for the thing, usually the whole word (`RENDER`, not `RN`) but the initialism where that's what they say (`UX`, `CI`, `CLI`). The authoritative form and the naming trade-offs are in [`references/category-prefix.md`](../../references/category-prefix.md).
 - **Draft the requirement text in EARS syntax** — choose the pattern that fits the requirement's activation. The five patterns (Ubiquitous, State-Driven, Event-Driven, Optional, Unwanted Behaviour) and how they combine live in [`references/ears-patterns.md`](../../references/ears-patterns.md).
 

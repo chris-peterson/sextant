@@ -117,6 +117,12 @@ When writing a requirement to SPEC.md, the system shall give it its own heading 
 #### `AUTHORING-12`
 When writing a category section to SPEC.md, the system shall head it with the backticked category prefix and carry the category's full name beneath that heading.
 
+#### `AUTHORING-13`
+When a new requirement refines an existing one, the system shall give it the existing requirement's ID plus the next free letter and insert it directly after that requirement and its earlier refinements.
+
+#### `AUTHORING-14`
+When a change rewords a requirement without changing what it asks of the code, the system shall edit the requirement in place under its existing ID.
+
 ### `COVERAGE`
 Coverage ledger
 
