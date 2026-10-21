@@ -83,7 +83,7 @@ Requirement authoring
 The system shall draft new requirements in EARS syntax, choosing the pattern that matches the requirement's activation.
 
 #### `AUTHORING-02`
-When authoring a requirement, the system shall assign it to a fitting existing category or create a new one whose prefix is a non-colliding single all-caps word of more than one character, using the next available number.
+When authoring a requirement, the system shall assign it to a fitting existing category or create a new one whose prefix is a non-colliding single all-caps word of more than one character, using the next available number unless it refines an existing requirement.
 
 #### `AUTHORING-03`
 When a requirement has been drafted, the system shall present it for user confirmation before writing it to SPEC.md.
@@ -122,6 +122,9 @@ When a new requirement refines an existing one, the system shall give it the exi
 
 #### `AUTHORING-14`
 When a change rewords a requirement without changing what it asks of the code, the system shall edit the requirement in place under its existing ID.
+
+#### `AUTHORING-15`
+When a change alters what a requirement asks of the code, the system shall retire the requirement and give the new behavior a fresh ID.
 
 ### `COVERAGE`
 Coverage ledger

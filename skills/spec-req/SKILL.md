@@ -75,7 +75,7 @@ file already uses when writing into it. Offer to convert such a spec to headings
 as its own whole-file edit — never as a side effect of adding a requirement.
 
 A requirement that refines an existing one takes the parent's ID plus the next
-free letter (`XX-NNa`) and sits directly after it; a rewording that keeps the
+free letter (`XX-NNa`) and sits directly after it and its earlier letters; a rewording that keeps the
 behavior edits the requirement in place. The table is
 `references/spec-layout.md`'s Adding to an existing requirement section.
 
