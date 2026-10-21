@@ -14,7 +14,7 @@ script (`scripts/locate-spec.sh`) and the tack subscriber
 (`hooks/ledger-signal.sh`), each with its test under `tests/`. The prompt
 requirements were extracted from their documented behavior via
 `/sextant:spec-sync --to-spec`, so each is Covered by the skill it was derived
-from; REACT and LOCATE-07..08 were written alongside the code that covers them.
+from; REACT and LOCATE-07..09 were written alongside the code that covers them.
 
 ## Status by category
 

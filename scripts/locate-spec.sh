@@ -10,11 +10,12 @@
 #   STATUS=<path>        the root STATUS.md, empty when there is none
 #   VIA=<step>           status-pointer | spec-dir | root
 #   CANDIDATE=<path>     one per spec, on exit 2 only
-#   POINTER=<path>       the missing target, on exit 3 only
+#   POINTER=<path>       the broken target, control characters stripped, on
+#                        exit 3 only
 #
 # Exit: 0 found · 1 no spec · 2 more than one spec under spec/ and no STATUS.md
-# pointer naming one · 3 STATUS.md points at a file that does not exist · 64
-# usage.
+# pointer naming one · 3 STATUS.md points at a file that does not exist, or at
+# a path containing control characters · 64 usage.
 
 set -uo pipefail
 
@@ -53,10 +54,17 @@ found() {
   exit 0
 }
 
-# 1. The spec-pointer link on STATUS.md's `Tracking ...` header line.
+# 1. The spec-pointer: the first link on STATUS.md's `Tracking ...` header line
+# that names a file rather than a URL. A link title is dropped, and a leading
+# `/` means the repo root, as it does on GitHub.
 if [ -n "$status" ]; then
-  pointer=$(grep -m1 '^Tracking ' STATUS.md | grep -oE '\]\([^)]+\)' | head -n1 | sed -E 's/^\]\(//; s/\)$//; s/#.*//; s|^\./||')
+  pointer=$(grep -m1 '^Tracking ' STATUS.md | grep -oE '\]\([^)]+\)' |
+    sed -E 's/^\]\(//; s/\)$//; s/[[:space:]]+"[^"]*"$//; s/#.*//; s|^\./||; s|^/||' |
+    grep -vE '^[A-Za-z][A-Za-z0-9+.-]*:' | head -n1)
   if [ -n "$pointer" ]; then
+    case $pointer in
+      *[[:cntrl:]]*) printf 'POINTER=%s\n' "$(printf '%s' "$pointer" | tr -d '[:cntrl:]')"; exit 3 ;;
+    esac
     is_file "$pointer" || { printf 'POINTER=%s\n' "$pointer"; exit 3; }
     found "$pointer" status-pointer
   fi
