@@ -12,7 +12,9 @@ code below.
 Check in order; the first hit wins:
 
 1. **STATUS.md spec-pointer.** If a root `STATUS.md` exists, read its
-   spec-pointer link first — the first link on its `Tracking ...` header line,
+   spec-pointer link first — the first link to a file (not a URL) on its
+   `Tracking ...` header line, with any link title dropped and a leading `/`
+   read as the repo root,
    e.g. ``Tracking ... declared in [`docs/spec.md`](docs/spec.md)``. STATUS.md
    names where its own spec lives, and that pointer catches non-standard
    locations (e.g. a lowercase `docs/spec.md`) the generic search below would
@@ -20,9 +22,9 @@ Check in order; the first hit wins:
    miss to search past.
 2. **`spec/` directory**: `spec/SPEC.md`, or `spec/<name>/SPEC.md` for a named
    subfolder (`spec/v1/`, `spec/vnext/`, `spec/exploration/`, `spec/migration/`).
-   One spec there is the hit. With more than one, list them and ask rather than
-   choosing silently; a STATUS.md pointer (step 1) is how a repo names which one
-   is active.
+   One spec there is the hit. With more than one, none is chosen: the skill
+   responds as below, and a STATUS.md pointer (step 1) is how a repo names
+   which one is active.
 3. **`SPEC.md` (or `docs/spec.md`) at the repo root.**
 
 Every name matches exactly, case included, so a repo resolves the same on a
@@ -49,3 +51,11 @@ behavior (this file only defines the search order):
   `spec-req init`. It is always user-invoked and interactive.
 - **spec-req** — ask the user where the spec is (except `init`, which *expects*
   no spec and scaffolds one).
+
+Several specs (exit `2`) and a broken pointer (exit `3`) are not a miss: the
+repo is spec-driven, but which spec is active is unsettled.
+
+- **spec-status** — print one line naming the candidates, or the missing
+  pointer target, and exit without refreshing. It still never prompts.
+- **spec-sync** and **spec-req** — show the candidates or the broken pointer
+  and ask which spec to use, suggesting the STATUS.md pointer as the fix.

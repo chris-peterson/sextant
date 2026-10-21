@@ -36,6 +36,32 @@ locate "$repo"
 assert_eq "the STATUS.md pointer wins over every other step" "$out" $'SPEC=docs/spec.md\nSTATUS=STATUS.md\nVIA=status-pointer'
 
 repo=$(new_repo)
+touch "$repo/SPEC.md"
+printf 'Tracking [acme](https://example.com/acme) requirements declared in [`SPEC.md`](SPEC.md).\n' >"$repo/STATUS.md"
+locate "$repo"
+assert_eq "a URL link ahead of the pointer is skipped" "$out" $'SPEC=SPEC.md\nSTATUS=STATUS.md\nVIA=status-pointer'
+
+repo=$(new_repo)
+touch "$repo/SPEC.md"
+printf 'Tracking the requirements declared in [`SPEC.md`](SPEC.md "the spec").\n' >"$repo/STATUS.md"
+locate "$repo"
+assert_eq "a link title is dropped from the pointer" "$out" $'SPEC=SPEC.md\nSTATUS=STATUS.md\nVIA=status-pointer'
+
+repo=$(new_repo)
+touch "$repo/SPEC.md"
+printf 'Tracking the requirements declared in [`SPEC.md`](/SPEC.md).\n' >"$repo/STATUS.md"
+locate "$repo"
+assert_eq "a leading slash is the repo root" "$out" $'SPEC=SPEC.md\nSTATUS=STATUS.md\nVIA=status-pointer'
+
+repo=$(new_repo)
+name=$'run this\033[2J.md'
+touch "$repo/$name"
+printf 'Tracking the requirements declared in [x](%s).\n' "$name" >"$repo/STATUS.md"
+locate "$repo"
+assert_eq "a pointer with control characters is broken, even when the file exists" "$code" 3
+assert_eq "a broken pointer's name is printed without its control characters" "$out" "POINTER=run this[2J.md"
+
+repo=$(new_repo)
 printf 'Tracking the requirements declared in [`gone.md`](./gone.md).\n' >"$repo/STATUS.md"
 touch "$repo/SPEC.md"
 locate "$repo"

@@ -67,7 +67,9 @@ Do not ask where the spec is, do not scaffold anything, do not emit a report.
 The silent no-op is what lets `/ship-it` call this skill unconditionally on
 every release — non-spec repos self-skip with one quiet line. (`spec-sync`
 asks the user when it can't find a spec; `spec-status` deliberately does not,
-because it runs unattended inside other workflows.)
+because it runs unattended inside other workflows.) Several specs (exit `2`) or
+a broken pointer (exit `3`) get the same one-line treatment, naming the
+candidates or the missing target, per `references/locate-spec.md`.
 
 Once the spec is located, read it and extract every requirement ID — the same
 inventory `spec-sync` Step 1 builds. IDs come from the requirement headings
