@@ -30,8 +30,10 @@ so each is Covered by the skill it was derived from.
 `references/spec-layout.md` gains an Adding to an existing requirement
 section: a refinement takes its parent's ID plus the next free letter and sits
 directly after it, a rewording keeps the ID, and a behavior change retires the
-old ID. `spec-req` points at it from its Spec layout section and from `new`
-Step 1, and `spec-sync` from its Step 3 resolution table. AUTHORING-13..15 added, all Covered; coverage 38 → 41.
+old ID along with its refinements. `spec-req` points at it from its Spec layout
+section and from `new` Step 1, and `spec-sync` from its Step 3 resolution table.
+AUTHORING-13..15 added, all Covered; coverage 38 → 41. AUTHORING-02 reworded to
+except refinements, which AUTHORING-13 already did, so the ID stays.
 
 ### 2026-09-04 — Metadata caught up to 0.7.0
 
