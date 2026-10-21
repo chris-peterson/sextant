@@ -71,13 +71,14 @@ too.
 
 ## Adding to an existing requirement
 
-A change to the spec relates to what is already there in one of three ways,
+A change to the spec relates to what is already there in one of four ways,
 and each has its own ID:
 
 | The change | ID | Where it goes |
 | --- | --- | --- |
 | Rewords a requirement without changing what it asks of the code | the requirement's own | edited in place |
 | Refines a requirement: a case, a step, or a condition the parent's behavior depends on | the parent's ID plus the next free letter (`COMMIT-10a`, then `COMMIT-10b`) | directly after the parent and its earlier letters |
+| Changes what a requirement asks of the code | a fresh ID; the old requirement and its refinements retire | the old struck in place; the new placed by the other rows |
 | Stands on its own | the next free number in the category | after the category's last requirement |
 
 **A refinement is read with its parent.** A reviewer checking `COMMIT-10`
