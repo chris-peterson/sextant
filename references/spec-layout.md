@@ -98,6 +98,8 @@ letter on the same parent.
 **A change to what a requirement asks of the code retires it.** The old
 requirement is struck (below) and the new behavior takes a fresh ID, so a
 ledger row or a commit citing the old ID still points at what it meant.
+Its refinements retire with it; one that still holds is added again as a
+refinement of the new ID.
 
 ## Retired requirements
 

@@ -6,7 +6,7 @@ Maintained by `/sextant:spec-status`.
 **Last audit:** 2026-10-12
 **Spec version:** root SPEC.md (unversioned)
 **Plugin version:** 0.7.0
-**Coverage:** 51 Covered, 0 Partial, 0 Missing/Contradicts
+**Coverage:** 52 Covered, 0 Partial, 0 Missing/Contradicts
 **Evidence pointers:** file
 
 The implementation is the three skill prompts under `skills/`, plus the locate
@@ -22,7 +22,7 @@ from; REACT and LOCATE-07..09 were written alongside the code that covers them.
 |--------|------:|--------|-------|
 | LOCATE-01..09 | 9 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06), several-spec and broken-pointer reporting (LOCATE-07..08), exact-case matching (LOCATE-09) — `scripts/locate-spec.sh`, `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `hooks/ledger-signal.sh`, `references/{locate-spec,spec-layout}.md` |
 | LOOKUP-01..05 | 5 | All Covered | Lookup/category/trace modes — `skills/spec-req/SKILL.md` |
-| AUTHORING-01..14 | 13 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12; lettered refinements and in-place rewording, AUTHORING-13..14) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md`. No AUTHORING-05 — retired with the deferred tier. |
+| AUTHORING-01..15 | 14 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12; lettered refinements, in-place rewording, and retiring on a behavior change, AUTHORING-13..15) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md`. No AUTHORING-05 — retired with the deferred tier. |
 | COVERAGE-01..09 | 9 | All Covered | Ledger refresh, idempotency, counting invariant, evidence pointers — `skills/spec-status/SKILL.md`, `references/evidence-pointer.md` |
 | RECONCILE-01..07 | 7 | All Covered | Full-domain analysis, one-way sync — `skills/spec-sync/SKILL.md` |
 | REACT-01..08 | 8 | All Covered | tack `session.ended` subscriber: diff classification, silence rules, anchored match, sanitizing, git-config opt-out, no-ledger signal — `hooks/ledger-signal.sh`, `tests/ledger-signal.test.sh` |
@@ -35,7 +35,8 @@ from; REACT and LOCATE-07..09 were written alongside the code that covers them.
 section: a refinement takes its parent's ID plus the next free letter and sits
 directly after it, a rewording keeps the ID, and a behavior change retires the
 old ID. `spec-req` points at it from its Spec layout section and from `new`
-Step 1. AUTHORING-13 and AUTHORING-14 added, both Covered; coverage 49 → 51.
+Step 1, and `spec-sync` from its Step 3 resolution table. AUTHORING-13..15 added, all Covered; coverage 49 → 52.
+
 
 ### 2026-10-12 — Coverage refresh (spec-status)
 
