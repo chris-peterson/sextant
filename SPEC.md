@@ -124,7 +124,7 @@ When a new requirement refines an existing one, the system shall give it the exi
 When a change rewords a requirement without changing what it asks of the code, the system shall edit the requirement in place under its existing ID.
 
 #### `AUTHORING-15`
-When a change alters what a requirement asks of the code, the system shall retire the requirement and give the new behavior a fresh ID.
+When a change alters what a requirement asks of the code, the system shall retire the requirement and its refinements and give the new behavior a fresh ID.
 
 ### `COVERAGE`
 Coverage ledger

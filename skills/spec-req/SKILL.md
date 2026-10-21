@@ -74,9 +74,10 @@ as a `- **[XX-NN]** …` bullet; read that form too, and match whichever form th
 file already uses when writing into it. Offer to convert such a spec to headings
 as its own whole-file edit — never as a side effect of adding a requirement.
 
-A requirement that refines an existing one takes the parent's ID plus the next
-free letter (`XX-NNa`) and sits directly after it and its earlier letters; a rewording that keeps the
-behavior edits the requirement in place. The table is
+A change to an existing requirement takes one of three IDs: a rewording keeps
+its own, a refinement takes the parent's ID plus the next free letter
+(`XX-NNa`) and sits after the parent and its earlier letters, and a change to
+what it asks of the code retires it and takes a fresh ID. The rules are
 `references/spec-layout.md`'s Adding to an existing requirement section.
 
 When a requirement no longer holds, retire it: strike the heading and its
