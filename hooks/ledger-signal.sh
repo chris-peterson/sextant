@@ -40,7 +40,7 @@ main() {
   # under pipefail the writer's SIGPIPE on a large stdout would fail the match.
   line=$(grep -m1 -E '^codes\.bridgeai\.tack/session\.ended[[:space:]]' <<<"$output") || return 0
   route=$(printf '%s' "${line#"$KEY"}" | jq -er \
-    'if type == "object" then (.route // "" | tostring | gsub("[[:cntrl:]]"; "")) else error("body is not an object") end' \
+    'if type == "object" then (.route // "" | tostring | if test("^[A-Za-z0-9._/#:-]{1,128}$") then . else "" end) else error("body is not an object") end' \
     2>/dev/null) || return 0
 
   cwd=$(printf '%s' "$input" | jq -r '.cwd // empty' 2>/dev/null)
@@ -59,8 +59,8 @@ main() {
   base_ref=$(git symbolic-ref -q --short refs/remotes/origin/HEAD) || return 0
   base=$(git merge-base HEAD "$base_ref" 2>/dev/null) || return 0
   changed=$({
-    git diff --no-renames --name-only "$base" --
-    git ls-files --others --exclude-standard
+    git -c core.quotePath=false diff --no-renames --name-only "$base" --
+    git -c core.quotePath=false ls-files --others --exclude-standard
   } 2>/dev/null | sort -u)
 
   while IFS= read -r path; do

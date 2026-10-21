@@ -5,7 +5,7 @@ shipyard := "uvx --from 'git+https://github.com/chris-peterson/shipyard@v2' ship
 default:
     @just --list
 
-# project source into the generated artifacts (describe, plugin.json, docs)
+# project source into the generated artifacts (describe, plugin.json, hooks.json, docs)
 generate:
     {{shipyard}} generate
 

@@ -57,7 +57,7 @@ When reading a spec, the system shall take each requirement-ID heading as one re
 If more than one spec exists under `spec/` and STATUS.md names none of them, then the system shall list them rather than choosing one.
 
 #### `LOCATE-08`
-If STATUS.md's spec-pointer names a file that does not exist, then the system shall report the missing path rather than searching past it.
+If STATUS.md's spec-pointer names a file that does not exist, or a path containing control characters, then the system shall report it as broken rather than searching past it.
 
 #### `LOCATE-09`
 The system shall match each spec, ledger, and spec-pointer path by its exact spelling, case included, whatever the filesystem's case rules.
@@ -204,7 +204,7 @@ The ledger-signal hook shall write no file, make no model call, and exit success
 The ledger-signal hook shall match only the whole announcement key at the start of a line, and shall stay silent on a body that is not a JSON object.
 
 #### `REACT-06`
-The ledger-signal hook shall strip control characters from every value it decodes from an announcement before printing it.
+The ledger-signal hook shall print a route name from an announcement only when it is at most 128 path-safe characters (letters, digits, and `._/#:-`), and shall omit it otherwise.
 
 #### `REACT-07`
 Where git config sets `sextant.subscribe.tack` or `sextant.subscribe.tack.session-ended` to false, the system shall not signal.
