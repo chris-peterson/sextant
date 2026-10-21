@@ -195,7 +195,7 @@ Map every non-aligned item to the direction that should fix it:
 | Divergence | Resolution direction | What applying it means |
 |------------|----------------------|------------------------|
 | Spec requires X, code is **Missing** it | `--to-source` | implement X (dev work) |
-| Spec requires X, code **Contradicts** (does Y) | needs a decision | reword the spec *or* fix the code — surface, don't pick |
+| Spec requires X, code **Contradicts** (does Y) | needs a decision | change the spec *or* fix the code — surface, don't pick |
 | Code does Z, spec is **silent** (drift) | `--to-spec` | add a requirement for Z (or decide Z should be removed) |
 | Spec is ambiguous and impls disagree | `--to-spec` | tighten the requirement text |
 
