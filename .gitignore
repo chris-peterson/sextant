@@ -8,5 +8,4 @@ docs/*
 !docs/comparison.md
 !docs/meta.md
 !docs/skills.md
-!docs/favicon.svg
 .DS_Store

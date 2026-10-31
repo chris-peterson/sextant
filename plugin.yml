@@ -7,6 +7,7 @@ version: 0.7.0
 description: "AI-assisted, best-effort spec-driven development: keep requirements in source control, track how the code covers them, reconcile the two either direction."
 author: Chris Peterson
 repository: https://github.com/chris-peterson/sextant
+icon: .claude-plugin/icon.svg
 license: MIT
 keywords: [spec-driven, ears, requirements, audit, ai, claude-code]
 
