@@ -3,10 +3,10 @@
 Tracking status of the requirements declared in [`SPEC.md`](SPEC.md).
 Maintained by `/sextant:spec-status`.
 
-**Last audit:** 2026-09-04
+**Last audit:** 2026-10-12
 **Spec version:** root SPEC.md (unversioned)
 **Plugin version:** 0.7.0
-**Coverage:** 38 Covered, 0 Partial, 0 Missing/Contradicts
+**Coverage:** 41 Covered, 0 Partial, 0 Missing/Contradicts
 **Evidence pointers:** file
 
 The implementation is the three skill prompts under `skills/`. These requirements
@@ -19,11 +19,21 @@ so each is Covered by the skill it was derived from.
 |--------|------:|--------|-------|
 | LOCATE-01..06 | 6 | All Covered | Shared locate order, no-op gates, requirement-heading extraction (LOCATE-06) — `skills/{spec-req,spec-sync,spec-status}/SKILL.md`, `references/{locate-spec,spec-layout}.md` |
 | LOOKUP-01..05 | 5 | All Covered | Lookup/category/trace modes — `skills/spec-req/SKILL.md` |
-| AUTHORING-01..12 | 11 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md`. No AUTHORING-05 — retired with the deferred tier. |
+| AUTHORING-01..16 | 14 | All Covered | Authoring + init (incl. `init from <doc>` extraction, AUTHORING-08; category walkthrough, AUTHORING-10; heading layout, AUTHORING-11..12; lettered refinements, in-place rewording, and retiring on a behavior change, AUTHORING-13..15; category and number assignment, AUTHORING-16) — `skills/spec-req/SKILL.md`, `references/{category-prefix,spec-layout}.md`. No AUTHORING-05 — retired with the deferred tier. No AUTHORING-02 — retired for AUTHORING-16. |
 | COVERAGE-01..09 | 9 | All Covered | Ledger refresh, idempotency, counting invariant, evidence pointers — `skills/spec-status/SKILL.md`, `references/evidence-pointer.md` |
 | RECONCILE-01..07 | 7 | All Covered | Full-domain analysis, one-way sync — `skills/spec-sync/SKILL.md` |
 
 ## Audit history
+
+### 2026-10-12 — Numbering a requirement added to an existing one
+
+`references/spec-layout.md` gains an Adding to an existing requirement
+section: a refinement takes its parent's ID plus the next free letter and sits
+directly after it, a rewording keeps the ID, and a behavior change retires the
+old ID along with its refinements. `spec-req` and `spec-sync` point at it rather
+than restating it. AUTHORING-13..15 added, all Covered. AUTHORING-02 gave every
+new requirement the next number; excepting refinements changes what it asks, so
+it is retired and AUTHORING-16 carries the revised text. Coverage 38 → 41.
 
 ### 2026-09-04 — Metadata caught up to 0.7.0
 

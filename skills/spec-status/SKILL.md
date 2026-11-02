@@ -228,7 +228,7 @@ never edits code or the spec to make them agree. Instead:
   one-line note stating the conflict.
 - If there are any such items, add or update an `## Open / Needs Decision`
   section listing each: the requirement ID, what the spec says, what the code
-  does, and that resolution (reword the spec, or change the code) is pending a
+  does, and that resolution (change the spec, or change the code) is pending a
   human decision.
 
 This keeps the contradiction visible and owned, rather than papered over.
@@ -288,7 +288,7 @@ coordinate that unrelated edits move.
 
 - [`/sextant:spec-req`](../spec-req/SKILL.md) — when the refresh surfaces a
   Missing requirement that should be captured, or a Contradiction that should
-  be resolved by rewording the spec.
+  be resolved by changing the spec.
 - [`/sextant:spec-sync`](../spec-sync/SKILL.md) — the reconciler. Where
   `spec-status` records spec↔code divergence in the ledger, `spec-sync` acts on
   it: drafting requirements from drift (`--to-spec`) or surfacing the
