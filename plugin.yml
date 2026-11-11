@@ -28,7 +28,7 @@ marketplace:
 
 # → marketplace SPA; keys mirror the SPA's PLUGINS object.
 suite:
-  group: record
+  group: orders
   gloss: "sextant: manages drift between spec and code."
   pitch: "Forget to update the spec as requirements evolved? Reconcile the drift, either direction."
   what: "Keeps a plain-language spec (what the code must do) under source control, and reconciles the drift in either direction. Written for specs that lag the code as often as they lead it."
