@@ -18,8 +18,9 @@ Check in order; the first hit wins:
    e.g. ``Tracking ... declared in [`docs/spec.md`](docs/spec.md)``. STATUS.md
    names where its own spec lives, and that pointer catches non-standard
    locations (e.g. a lowercase `docs/spec.md`) the generic search below would
-   miss. A pointer to a file that does not exist is an error to report, not a
-   miss to search past.
+   miss. A pointer to a file that does not exist, or to one outside the repo
+   (through `..`, or a `//` path), is an error to report, not a miss to search
+   past.
 2. **`spec/` directory**: `spec/SPEC.md`, or `spec/<name>/SPEC.md` for a named
    subfolder (`spec/v1/`, `spec/vnext/`, `spec/exploration/`, `spec/migration/`).
    One spec there is the hit. With more than one, none is chosen: the skill

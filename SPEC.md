@@ -57,7 +57,7 @@ When reading a spec, the system shall take each requirement-ID heading as one re
 If more than one spec exists under `spec/` and STATUS.md names none of them, then the system shall list them rather than choosing one.
 
 #### `LOCATE-08`
-If STATUS.md's spec-pointer names a file that does not exist, or a path containing control characters, then the system shall report it as broken rather than searching past it.
+If STATUS.md's spec-pointer names a file that does not exist, a path outside the repository, or a path containing control characters, then the system shall report it as broken rather than searching past it.
 
 #### `LOCATE-09`
 The system shall match each spec, ledger, and spec-pointer path by its exact spelling, case included, whatever the filesystem's case rules.

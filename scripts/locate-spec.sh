@@ -36,11 +36,10 @@ cd "$root" 2>/dev/null || { echo "locate-spec.sh: no such directory: $root" >&2;
 # git reports. Each component has to match a directory entry exactly.
 is_file() {
   local dir=. part parts
-  case $1 in /*) dir= ;; esac
   IFS=/ read -ra parts <<<"$1"
   for part in "${parts[@]}"; do
     [ -n "$part" ] || continue
-    grep -qxF -- "$part" <<<"$(ls -1a "${dir:-/}" 2>/dev/null)" || return 1
+    grep -qxF -- "$part" <<<"$(ls -1a "$dir" 2>/dev/null)" || return 1
     dir=$dir/$part
   done
   [ -f "$1" ]
@@ -56,14 +55,16 @@ found() {
 
 # 1. The spec-pointer: the first link on STATUS.md's `Tracking ...` header line
 # that names a file rather than a URL. A link title is dropped, and a leading
-# `/` means the repo root, as it does on GitHub.
+# `/` means the repo root, as it does on GitHub. A pointer that would leave the
+# repo (`..`, or `//` once that `/` is dropped) is broken.
 if [ -n "$status" ]; then
   pointer=$(grep -m1 '^Tracking ' STATUS.md | grep -oE '\]\([^)]+\)' |
     sed -E 's/^\]\(//; s/\)$//; s/[[:space:]]+"[^"]*"$//; s/#.*//; s|^\./||; s|^/||' |
-    grep -vE '^[A-Za-z][A-Za-z0-9+.-]*:' | head -n1)
+    grep -vE '^$|^[A-Za-z][A-Za-z0-9+.-]*:' | head -n1)
   if [ -n "$pointer" ]; then
     case $pointer in
       *[[:cntrl:]]*) printf 'POINTER=%s\n' "$(printf '%s' "$pointer" | tr -d '[:cntrl:]')"; exit 3 ;;
+      /*|..|../*|*/..|*/../*) printf 'POINTER=%s\n' "$pointer"; exit 3 ;;
     esac
     is_file "$pointer" || { printf 'POINTER=%s\n' "$pointer"; exit 3; }
     found "$pointer" status-pointer

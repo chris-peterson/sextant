@@ -42,6 +42,13 @@ locate "$repo"
 assert_eq "a URL link ahead of the pointer is skipped" "$out" $'SPEC=SPEC.md\nSTATUS=STATUS.md\nVIA=status-pointer'
 
 repo=$(new_repo)
+mkdir -p "$repo/spec/a" "$repo/spec/b"
+touch "$repo/spec/a/SPEC.md" "$repo/spec/b/SPEC.md"
+printf 'Tracking the requirements ([see below](#rows)) declared in [`spec/b/SPEC.md`](spec/b/SPEC.md).\n' >"$repo/STATUS.md"
+locate "$repo"
+assert_eq "an in-page anchor ahead of the pointer is skipped" "$out" $'SPEC=spec/b/SPEC.md\nSTATUS=STATUS.md\nVIA=status-pointer'
+
+repo=$(new_repo)
 touch "$repo/SPEC.md"
 printf 'Tracking the requirements declared in [`SPEC.md`](SPEC.md "the spec").\n' >"$repo/STATUS.md"
 locate "$repo"
@@ -60,6 +67,16 @@ printf 'Tracking the requirements declared in [x](%s).\n' "$name" >"$repo/STATUS
 locate "$repo"
 assert_eq "a pointer with control characters is broken, even when the file exists" "$code" 3
 assert_eq "a broken pointer's name is printed without its control characters" "$out" "POINTER=run this[2J.md"
+
+for ptr in ../outside/SPEC.md "/$SCRATCH/outside/SPEC.md"; do
+  case $ptr in ..*) via=.. ;; *) via=// ;; esac
+  repo=$(new_repo)
+  mkdir -p "$repo/../outside"
+  touch "$repo/../outside/SPEC.md" "$repo/SPEC.md"
+  printf 'Tracking the requirements declared in [x](%s).\n' "$ptr" >"$repo/STATUS.md"
+  locate "$repo"
+  assert_eq "a pointer that leaves the repo through $via is broken" "$code" 3
+done
 
 repo=$(new_repo)
 printf 'Tracking the requirements declared in [`gone.md`](./gone.md).\n' >"$repo/STATUS.md"
