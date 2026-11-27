@@ -23,6 +23,8 @@ sextant notices when a session's changes have outrun the coverage ledger, at the
 - **`REACT-01`..`REACT-08`**: the new category for reactions to suite announcements.
 - **`LOCATE-07`**, **`LOCATE-08`**, **`LOCATE-09`**: several specs with no pointer, a broken pointer, and exact-case matching.
 - **`LOCATE-01`** reworded to cover hooks as well as skills.
+- **`AUTHORING-13`**, **`AUTHORING-14`**, **`AUTHORING-15`**: a refinement's lettered ID and placement, rewording in place, and retiring on a behavior change.
+- **`AUTHORING-02`** retired; **`AUTHORING-16`** carries its text, with refinements excepted from the next number.
 
 ## 0.7.0
 

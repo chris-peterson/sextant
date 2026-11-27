@@ -3,7 +3,7 @@
 Tracking status of the requirements declared in [`SPEC.md`](SPEC.md).
 Maintained by `/sextant:spec-status`.
 
-**Last audit:** 2026-10-12
+**Last audit:** 2026-10-21
 **Spec version:** root SPEC.md (unversioned)
 **Plugin version:** 0.7.0
 **Coverage:** 52 Covered, 0 Partial, 0 Missing/Contradicts
@@ -29,7 +29,7 @@ from; REACT and LOCATE-07..09 were written alongside the code that covers them.
 
 ## Audit history
 
-### 2026-10-12 — Numbering a requirement added to an existing one
+### 2026-10-21 — Numbering a requirement added to an existing one
 
 `references/spec-layout.md` gains an Adding to an existing requirement
 section: a refinement takes its parent's ID plus the next free letter and sits
