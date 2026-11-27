@@ -9,6 +9,7 @@ sextant notices when a session's changes have outrun the coverage ledger, at the
 - **A stale ledger gets pointed out when you close a session with tack.** When `/tack:end` reports the work finished, sextant looks at what changed since the branch left the default branch (committed, uncommitted, and untracked). If the source or the spec moved and `STATUS.md` didn't, the agent is told which one moved and which skill reconciles it: `/sextant:spec-sync` when only the code moved, `/sextant:spec-status` when the spec did, or when the repo has no `STATUS.md` yet. Whether a change actually affects the spec is left to you and the agent; the hook writes nothing. It needs tack to be installed, and reacts to tack's `session.ended` announcement. It finds the default branch through `origin/HEAD`, which a clone sets and a `git init` repo gets on its first `git fetch` after pushing; until then the hook stays silent, and `git remote set-head origin --auto` sets it directly.
 
   Turn it off with `git config --global sextant.subscribe.tack.session-ended false`, or every tack subscription with `sextant.subscribe.tack`. Leave off `--global` only for a repo where the signal doesn't fit. The switch names follow the suite's [subscription off-switch convention](https://github.com/chris-peterson/claude-marketplace/blob/main/authoring/plugin-contract.md#turning-a-subscription-off).
+- **A requirement that refines an existing one is numbered and placed with it.** `/sextant:spec-req new` gives a case, step, or condition of an existing requirement that requirement's ID plus the next free letter (`COMMIT-10a`) and inserts it right after it, so a reviewer reads the two together. A rewording that keeps the behavior stays under its ID, and a behavior change retires the old ID. The rule and its table are in `references/spec-layout.md`.
 
 ### Changed
 
@@ -22,6 +23,8 @@ sextant notices when a session's changes have outrun the coverage ledger, at the
 - **`REACT-01`..`REACT-08`**: the new category for reactions to suite announcements.
 - **`LOCATE-07`**, **`LOCATE-08`**, **`LOCATE-09`**: several specs with no pointer, a broken pointer, and exact-case matching.
 - **`LOCATE-01`** reworded to cover hooks as well as skills.
+- **`AUTHORING-13`**, **`AUTHORING-14`**, **`AUTHORING-15`**: a refinement's lettered ID and placement, rewording in place, and retiring on a behavior change.
+- **`AUTHORING-02`** retired; **`AUTHORING-16`** carries its text, with refinements excepted from the next number.
 
 ## 0.7.0
 
