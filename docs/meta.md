@@ -14,9 +14,9 @@ It also keeps sextant honest. If the skills change but the spec doesn't, the nex
 2. **[`/sextant:spec-sync --to-spec`](/skills/spec-sync)** read the skills as the source and drafted an EARS requirement for each documented behavior, presenting them for confirmation before writing — capturing existing behavior into the contract rather than inventing it.
 3. **[`/sextant:spec-status`](/skills/spec-status)** keeps the ledger honest as the skills evolve, classifying each requirement against the current skill prompts.
 
-The implementation here is unusual — it's the skill prompts under `skills/`, not application code — but the loop is identical: write requirements, measure coverage, reconcile drift.
+The implementation here is unusual — it's mostly the skill prompts under `skills/`, plus a locate script and one hook, rather than application code — but the loop is identical: write requirements, measure coverage, reconcile drift.
 
 ## The artifacts
 
-- **[SPEC.md](/spec)** — the contract: sextant's behavior as EARS requirements, grouped into behavior-oriented categories (discovery, lookup, authoring, ledger, reconciliation).
+- **[SPEC.md](/spec)** — the contract: sextant's behavior as EARS requirements, grouped into behavior-oriented categories (discovery, lookup, authoring, ledger, reconciliation, reactions).
 - **[STATUS.md](/status)** — the coverage ledger: how each requirement classifies against the skills that implement it.

@@ -5,7 +5,7 @@ shipyard := "uvx --from 'git+https://github.com/chris-peterson/shipyard@v2' ship
 default:
     @just --list
 
-# project source into the generated artifacts (describe, plugin.json, docs)
+# project source into the generated artifacts (describe, plugin.json, hooks.json, docs)
 generate:
     {{shipyard}} generate
 
@@ -13,6 +13,16 @@ generate:
 check-generated:
     {{shipyard}} generate
     git --no-pager diff --stat
+
+# run the tests for the hook and the locate script
+test:
+    #!/usr/bin/env bash
+    status=0
+    for t in tests/*.test.sh; do
+      printf '\n== %s\n' "$t"
+      bash "$t" || status=1
+    done
+    exit $status
 
 # render the docsify docs site and serve it locally
 docs:
